@@ -11,7 +11,7 @@
 ################################################################################
 
 # Libraries and seed
-library(dplyr,warn.conflicts = FALSE, quietly=TRUE)
+library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
 library(ggplot2)
 library(xtable)
 set.seed(1337)
@@ -120,107 +120,139 @@ NormalProbEst <- function(z.values, mean, se, n, lower.tail = FALSE) {
 ################################################################################
 
 ########################
-# Problems 1-4
+# Scripts for problems 1-4
 
-# Set the problem here
-problem = 1
-samp.size <- 6 # Sample size
-
-if (problem == 1) {
-  tickets <- c(rep(0, 7), rep(1, 5))
-} else if (problem == 2) {
-  tickets <- c(rep(0, 98), rep(1, 2))
-} else if (problem == 3) {
-  tickets <- 1:12
-} else if (problem == 4) {
-  tickets <- c(1:11, 30)
-} else {
-  tickets <- 'a load of rubbish'
+ProblemTickets <- function(problem) {
+  if (problem == 1) {
+    tickets <- c(rep(0, 7), rep(1, 5))
+  } else if (problem == 2) {
+    tickets <- c(rep(0, 98), rep(1, 2))
+  } else if (problem == 3) {
+    tickets <- 1:12
+  } else if (problem == 4) {
+    tickets <- c(1:11, 30)
+  } else {
+    tickets <- 'a load of rubbish'
+  }
 }
 
-one.count <- sum(tickets == 1) # Number of 1's
-zero.count <- sum(tickets == 0) # Number of 0's
-prob1 <- one.count/(one.count + zero.count)
 
-# With replacement
-mean.wr <- mean(tickets)
-se.wr <- StandardError(tickets, samp.size , replace = TRUE)
-
-sample.wr <- SampleFromBox(x = tickets, size = samp.size , 
-                           replace = TRUE, iter = 100000)
-
-hist.wr <- data.frame(Mean = sample.wr) %>%
-  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15, col = "white") +
-  stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
-                fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
-
-# Table for with replacement
-prob.wr <- data.frame(z = c(-4:-1, 1:4))
-
-if(problem<=2) {
-  tmp1 <- ExactProb(1:4, mean = mean.wr, se = se.wr, 
-            cdf = pbinom, sample.size = samp.size, 
-            size = samp.size , prob = prob1, lower.tail = FALSE)
-  tmp2 <- ExactProb(-4:-1, mean = mean.wr, se = se.wr, 
-            cdf = pbinom, sample.size = samp.size, 
-            size = samp.size , prob = prob1, lower.tail = TRUE)
-  prob.wr <- mutate(prob.wr, Exact = c(tmp2, tmp1))
+Analysis <- function(tickets, samp.size = 6, iter = 100000) {
+  # All the analysis for problems 1-4 wrapped up in a function
+  # Arguments:
+  #   tickets - a vector of ticket values
+  #   samp.size - sample size, defaults to 6
+  #   iter - number of iterations for the simulation
+  # Returns:
+  #   mean.wr and mean.nr - expected value of sample mean
+  #   se.wr and se.nr - standard error of sample mean
+  #   hist.wr and hist.nr - histogram of the sample means
+  #   prob.wr and prob.nr - probability table as specified in the assignment
+  # Example usage:
+  #   q <- Analysis(c(0,0,0,1,1), samp.size = 10)
+  #   q$mean.wr
+  #   q$se.nr
+  
+  # With replacement
+  mean.wr <- mean(tickets)
+  se.wr <- StandardError(tickets, samp.size , replace = TRUE)
+  
+  sample.wr <- SampleFromBox(x = tickets, size = samp.size , 
+                             replace = TRUE, iter = iter)
+  
+  hist.wr <- data.frame(Mean = sample.wr) %>%
+    ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                         binwidth = .15, col = "white") +
+    stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                  fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
+  
+  # Table for with replacement
+  prob.wr <- data.frame(z = c(-4:-1, 1:4))
+  
+  if(sum(!duplicated(tickets)) == 2) {
+    
+    one.count <- sum(tickets == 1) # Number of 1's
+    zero.count <- sum(tickets == 0) # Number of 0's
+    prob1 <- one.count/(one.count + zero.count)
+    
+    tmp1 <- ExactProb(1:4, mean = mean.wr, se = se.wr, 
+              cdf = pbinom, sample.size = samp.size, 
+              size = samp.size , prob = prob1, lower.tail = FALSE)
+    tmp2 <- ExactProb(-4:-1, mean = mean.wr, se = se.wr, 
+              cdf = pbinom, sample.size = samp.size, 
+              size = samp.size , prob = prob1, lower.tail = TRUE)
+    prob.wr <- mutate(prob.wr, Exact = c(tmp2, tmp1))
+  }
+  
+  tmp3 <- EmpiricalProbEst(1:4, sample = sample.wr, 
+                           mean = mean.wr, se = se.wr, lower.tail = FALSE)
+  tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.wr, 
+                           mean = mean.wr, se = se.wr, lower.tail = TRUE)
+  tmp5 <- NormalProbEst(1:4, mean = mean.wr, se = se.wr, 
+                        n = samp.size , lower.tail = FALSE)
+  tmp6 <- NormalProbEst(-4:-1, mean = mean.wr, se = se.wr,
+                        n = samp.size, lower.tail = TRUE)
+  
+  prob.wr <- mutate(prob.wr, 
+                    EmpiricalEst = c(tmp4, tmp3),
+                    NormalApprox = c(tmp6, tmp5)) %>%
+    round(4)
+  
+  # No replacement
+  mean.nr <- mean(tickets)
+  se.nr <- StandardError(tickets, samp.size , replace = FALSE)
+  
+  sample.nr <- SampleFromBox(x = tickets, size = samp.size, 
+                             replace = FALSE, iter = iter)
+  
+  hist.nr <- data.frame(Mean = sample.nr) %>%
+    ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                         binwidth = .15, col = "white") + 
+    stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                  fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
+  
+  # Table for without replacement
+  prob.nr <- data.frame(z = c(-4:-1, 1:4))
+  
+  if(sum(!duplicated(tickets)) == 2) {
+    tmp1 <- ExactProb(1:4, mean = mean.nr, se = se.nr, 
+              cdf = phyper, sample.size = samp.size, 
+              m = one.count, n = zero.count, 
+              k = samp.size, lower.tail = FALSE)
+    tmp2 <- ExactProb(-4:-1, mean = mean.nr, se = se.nr, 
+              cdf = phyper, sample.size = samp.size , 
+              m = one.count, n = zero.count, 
+              k = samp.size , lower.tail = TRUE)
+    prob.nr <- mutate(prob.nr, Exact = c(tmp2, tmp1))
+  }
+  
+  tmp3 <- EmpiricalProbEst(1:4, sample = sample.nr, mean = mean.nr, 
+                           se = se.nr, lower.tail = FALSE)
+  tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.nr, 
+                           mean = mean.nr, se = se.nr, lower.tail = TRUE)
+  
+  tmp5 <- NormalProbEst(1:4, mean = mean.nr, se = se.nr, 
+                        n = samp.size , lower.tail = FALSE)
+  tmp6 <- NormalProbEst(-4:-1, mean = mean.nr, se = se.nr, 
+                        n = samp.size, lower.tail = TRUE)
+  
+  prob.nr <- mutate(prob.nr, 
+                    EmpiricalEst = c(tmp4, tmp3),
+                    NormalApprox = c(tmp6, tmp5)) %>%
+    round(4)
+  
+  return(list(mean.wr = mean.wr,
+              mean.nr = mean.nr,
+              se.wr = se.wr,
+              se.nr = se.nr,
+              prob.wr = prob.wr,
+              prob.nr = prob.nr,
+              hist.wr = hist.wr,
+              hist.nr = hist.nr))
 }
 
-tmp3 <- EmpiricalProbEst(1:4, sample = sample.wr, 
-                         mean = mean.wr, se = se.wr, lower.tail = FALSE)
-tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.wr, 
-                         mean = mean.wr, se = se.wr, lower.tail = TRUE)
-tmp5 <- NormalProbEst(1:4, mean = mean.wr, se = se.wr, 
-                      n = samp.size , lower.tail = FALSE)
-tmp6 <- NormalProbEst(-4:-1, mean = mean.wr, se = se.wr,
-                      n = samp.size, lower.tail = TRUE)
 
-prob.wr <- mutate(prob.wr, 
-                  EmpiricalEst = c(tmp4, tmp3),
-                  NormalApprox = c(tmp6, tmp5)) %>%
-  round(4)
-
-# No replacement
-mean.nr <- mean(tickets)
-se.nr <- StandardError(tickets, samp.size , replace = FALSE)
-
-sample.nr <- SampleFromBox(x = tickets, size = samp.size, 
-                           replace = FALSE, iter = 100000)
-
-hist.nr <- data.frame(Mean = sample.nr) %>%
-  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15, col = "white") + 
-  stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
-                fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
-
-# Table for without replacement
-prob.nr <- data.frame(z = c(-4:-1, 1:4))
-
-if(problem <= 2) {
-  tmp1 <- ExactProb(1:4, mean = mean.nr, se = se.nr, 
-            cdf = phyper, sample.size = samp.size, 
-            m = one.count, n = zero.count, 
-            k = samp.size, lower.tail = FALSE)
-  tmp2 <- ExactProb(-4:-1, mean = mean.nr, se = se.nr, 
-            cdf = phyper, sample.size = samp.size , 
-            m = one.count, n = zero.count, 
-            k = samp.size , lower.tail = TRUE)
-  prob.nr <- mutate(prob.nr, Exact = c(tmp2, tmp1))
-}
-
-tmp3 <- EmpiricalProbEst(1:4, sample = sample.nr, mean = mean.nr, 
-                         se = se.nr, lower.tail = FALSE)
-tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.nr, 
-                         mean = mean.nr, se = se.nr, lower.tail = TRUE)
-
-tmp5 <- NormalProbEst(1:4, mean = mean.nr, se = se.nr, 
-                      n = samp.size , lower.tail = FALSE)
-tmp6 <- NormalProbEst(-4:-1, mean = mean.nr, se = se.nr, 
-                      n = samp.size, lower.tail = TRUE)
-
-prob.nr <- mutate(prob.nr, 
-                  EmpiricalEst = c(tmp4, tmp3),
-                  NormalApprox = c(tmp6, tmp5)) %>%
-  round(4)
-
-remove('tmp1', 'tmp2', 'tmp3', 'tmp4', 'tmp5', 'tmp6')
+q1 <- Analysis(ProblemTickets(1), samp.size = 6, iter = 100000)
+q2 <- Analysis(ProblemTickets(2), samp.size = 6, iter = 100000)
+q3 <- Analysis(ProblemTickets(3), samp.size = 6, iter = 100000)
+q4 <- Analysis(ProblemTickets(4), samp.size = 6, iter = 100000)
