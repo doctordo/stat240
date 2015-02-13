@@ -11,8 +11,9 @@
 ################################################################################
 
 # Libraries and seed
-library(dplyr)
+library(dplyr,warn.conflicts = FALSE, quietly=TRUE)
 library(ggplot2)
+library(xtable)
 set.seed(1337)
 
 ################################################################################
@@ -149,7 +150,7 @@ sample.wr <- SampleFromBox(x = tickets, size = samp.size ,
                            replace = TRUE, iter = 100000)
 
 hist.wr <- data.frame(Mean = sample.wr) %>%
-  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15) +
+  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15, col = "white") +
   stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
                 fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
 
@@ -176,7 +177,7 @@ tmp6 <- NormalProbEst(-4:-1, mean = mean.wr, se = se.wr,
                       n = samp.size, lower.tail = TRUE)
 
 prob.wr <- mutate(prob.wr, 
-                  EmpericalEst = c(tmp4, tmp3),
+                  EmpiricalEst = c(tmp4, tmp3),
                   NormalApprox = c(tmp6, tmp5)) %>%
   round(4)
 
@@ -216,7 +217,7 @@ tmp6 <- NormalProbEst(-4:-1, mean = mean.nr, se = se.nr,
                       n = samp.size, lower.tail = TRUE)
 
 prob.nr <- mutate(prob.nr, 
-                  EmpericalEst = c(tmp4, tmp3),
+                  EmpiricalEst = c(tmp4, tmp3),
                   NormalApprox = c(tmp6, tmp5)) %>%
   round(4)
 
