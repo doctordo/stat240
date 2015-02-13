@@ -1,0 +1,10 @@
+.RData
+.aux
+*.log
+.synctex.gz
+.rdb
+.rds
+.txt
+.DX_Store
+cache
+figure
