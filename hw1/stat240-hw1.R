@@ -123,6 +123,12 @@ NormalProbEst <- function(z.values, mean, se, n, lower.tail = FALSE) {
 # Scripts for problems 1-4
 
 ProblemTickets <- function(problem) {
+  # Only relevant for problems 1-4
+  # Just a readable code thing
+  # Arguments:
+  #   problem - problem number
+  # Returns:
+  #   Vector of ticket values as specified in the assignment
   if (problem == 1) {
     tickets <- c(rep(0, 7), rep(1, 5))
   } else if (problem == 2) {
