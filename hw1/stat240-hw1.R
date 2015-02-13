@@ -175,6 +175,8 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
   # Table for with replacement
   prob.wr <- data.frame(z = c(-4:-1, 1:4))
   
+  # Does the exact probabilities if tickets are distributed
+  # as Bernoulli
   if(sum(!duplicated(tickets)) == 2) {
     
     one.count <- sum(tickets == 1) # Number of 1's
@@ -190,15 +192,19 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
     prob.wr <- mutate(prob.wr, Exact = c(tmp2, tmp1))
   }
   
+  # Empirical estimates from simulation
   tmp3 <- EmpiricalProbEst(1:4, sample = sample.wr, 
                            mean = mean.wr, se = se.wr, lower.tail = FALSE)
   tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.wr, 
                            mean = mean.wr, se = se.wr, lower.tail = TRUE)
+  
+  # Normal approximation
   tmp5 <- NormalProbEst(1:4, mean = mean.wr, se = se.wr, 
                         n = samp.size , lower.tail = FALSE)
   tmp6 <- NormalProbEst(-4:-1, mean = mean.wr, se = se.wr,
                         n = samp.size, lower.tail = TRUE)
   
+  # Put everything into a nice data frame
   prob.wr <- mutate(prob.wr, 
                     EmpiricalEst = c(tmp4, tmp3),
                     NormalApprox = c(tmp6, tmp5)) %>%
@@ -220,6 +226,8 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
   # Table for without replacement
   prob.nr <- data.frame(z = c(-4:-1, 1:4))
   
+  # Does the exact probabilities if tickets are distributed
+  # as Bernoulli
   if(sum(!duplicated(tickets)) == 2) {
     tmp1 <- ExactProb(1:4, mean = mean.nr, se = se.nr, 
               cdf = phyper, sample.size = samp.size, 
@@ -232,11 +240,13 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
     prob.nr <- mutate(prob.nr, Exact = c(tmp2, tmp1))
   }
   
+  # Empirical estimates from simulation without replacement
   tmp3 <- EmpiricalProbEst(1:4, sample = sample.nr, mean = mean.nr, 
                            se = se.nr, lower.tail = FALSE)
   tmp4 <- EmpiricalProbEst(-4:-1, sample = sample.nr, 
                            mean = mean.nr, se = se.nr, lower.tail = TRUE)
   
+  # Normal approximation
   tmp5 <- NormalProbEst(1:4, mean = mean.nr, se = se.nr, 
                         n = samp.size , lower.tail = FALSE)
   tmp6 <- NormalProbEst(-4:-1, mean = mean.nr, se = se.nr, 
