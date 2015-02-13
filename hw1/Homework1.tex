@@ -86,7 +86,8 @@ E(\bar{X})= \frac{5}{12}
  
  
  \vspace{5mm}
- \subsection*{b) What is $SE[\bar{X}]$? (R hint: Be careful whether the function ``sd'' divides by the square root of $n$ or $n - 1$)}
+ \subsection*{b) What is $SE[\bar{X}]$? 
+ (R hint: Be careful whether the function ``sd'' divides by the square root of $n$ or $n - 1$)}
   \vspace{5mm}
  \noindent Note that since this example corresponds to a simple box model with replacement, we have that
  $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac1n Var(t)}$$
@@ -97,7 +98,9 @@ E(\bar{X})= \frac{5}{12}
  
 
   \vspace{5mm}
- \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
+ \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. 
+ Produce a histogram of these values. 
+ (R hint: Use the function sample).}
  
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[H]
@@ -114,14 +117,18 @@ E(\bar{X})= \frac{5}{12}
  
  \subsection*{d) Let $z_1 = E[\bar{X}] + SE[\bar{X}], ~ z_2 = E[\bar{X}] + 2 \times SE[\bar{X}]$, etc. For $z_1, ..., z_4$ calculate $P(\bar{X} > z_i)$ in three ways:
  \begin{itemize}
- \item Exactly, using the binomial distribution. (Hint: It will be easier to work with the sample sum than the sample average. R hint: Use function pbinom)
+ \item Exactly, using the binomial distribution. 
+ (Hint: It will be easier to work with the sample sum than the sample average. 
+ R hint: Use function pbinom)
  \item Estimated using the values from part (c)
- \item Using the normal approximation. Use the continuity correction. (R hint: pnorm)
+ \item Using the normal approximation. 
+ Use the continuity correction. (R hint: pnorm)
  \end{itemize}
- Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. Make a table of your results and comment briefly}
+ Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. 
+ Make a table of your results and comment briefly}
 
 % latex table generated in R 3.1.2 by xtable 1.7-4 package
-% Fri Feb 13 13:09:20 2015
+% Fri Feb 13 14:05:48 2015
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|ccc|}
@@ -142,11 +149,14 @@ z & Exact & EmpiricalEst & NormalApprox \\
 \end{table}
 
 
-\noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. On the other hand, the normal approximation is not nearly as accurate. This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
+\noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. 
+On the other hand, the normal approximation is not nearly as accurate. 
+This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
 
 
 
-\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
+\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. 
+Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
 
 
 \noindent Note that since we are now sampling without replacement, we have that
@@ -170,7 +180,7 @@ $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n
 \end{knitrout}
 
 % latex table generated in R 3.1.2 by xtable 1.7-4 package
-% Fri Feb 13 13:09:21 2015
+% Fri Feb 13 14:05:48 2015
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|ccc|}
@@ -191,4 +201,15 @@ z & Exact & EmpiricalEst & NormalApprox \\
 \end{table}
 
 
+\section*{Small Extra Credit: In class we considered the model $$ Y = a + X $$ where X is standard normal, and ask the question of whether $ a^2 $ is estimable. Is it? Justify your answer.}
+
+\noindent We claim that $ Y^2 - 1 $ is an unbiased estimator of $ a^2 $.  The proof is as follows:
+\begin{align*}
+E(Y^2 -1) &= E(Y^2 - 1) && \\
+&= E(a^2 + 2aX + X^2) - E(1) && \\
+&= E(a^2) + 2aE(X) + E(X^2) - 1 && \\
+&= a^2 + 0 + 1 - 1 && \text{since $ E(X) = 0 $ and $ X^2 $ is distributed as $\chi ^2 (1)$, so $ E(X^2)=1 $} \\
+&= a^2 &&
+\end{align*}
+Hence $ a^2 $ is estimable.
 \end{document}

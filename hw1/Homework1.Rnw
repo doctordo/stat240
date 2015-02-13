@@ -104,4 +104,15 @@ $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n
 print(xtable(q1$prob.nr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
  @
 
+\section*{Small Extra Credit: In class we considered the model $$ Y = a + X $$ where X is standard normal, and ask the question of whether $ a^2 $ is estimable. Is it? Justify your answer.}
+
+\noindent We claim that $ Y^2 - 1 $ is an unbiased estimator of $ a^2 $.  The proof is as follows:
+\begin{align*}
+E(Y^2 -1) &= E(Y^2 - 1) && \\
+&= E(a^2 + 2aX + X^2) - E(1) && \\
+&= E(a^2) + 2aE(X) + E(X^2) - 1 && \\
+&= a^2 + 0 + 1 - 1 && \text{since $ E(X) = 0 $ and $ X^2 $ is distributed as $\chi ^2 (1)$, so $ E(X^2)=1 $} \\
+&= a^2 &&
+\end{align*}
+Hence $ a^2 $ is estimable.
 \end{document}
