@@ -21,7 +21,10 @@
  source("stat240-hw1.R")  
  @
  
- \section*{Question 1. Consider a box that contains 5 ``1'' tickets and 7 ``0'' tickets. Consider drawing 6 tickets from this box at random with replacement. Let $X_1, X_2, ..., X_6$ denote the 6 numbers you observe. Let $\bar{X}$ denote the average of the draws.}
+ \section*{Question 1. Consider a box that contains 5 ``1'' tickets and 7 ``0'' tickets. 
+ Consider drawing 6 tickets from this box at random with replacement. 
+ Let $X_1, X_2, ..., X_6$ denote the 6 numbers you observe. 
+ Let $\bar{X}$ denote the average of the draws.}
  
  \subsection*{a) What is $E[\bar{X}]$?}
  \vspace{5mm}
@@ -38,57 +41,67 @@ E(\bar{X})= \frac{5}{12}
  
  
  \vspace{5mm}
- \subsection*{b) What is $SE[\bar{X}]$? (R hint: Be careful whether the function ``sd'' divides by the square root of $n$ or $n - 1$)}
+ \subsection*{b) What is $SE[\bar{X}]$? 
+ (R hint: Be careful whether the function ``sd'' divides by the square root of $n$ or $n - 1$)}
   \vspace{5mm}
  \noindent Note that since this example corresponds to a simple box model with replacement, we have that
  $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac1n Var(t)}$$
  
  
  \noindent Using R and noting that the \texttt{sd()} function in R divides by $N-1$ rather than $N$, we found that (to 3dp)
- $$SE(\bar{X}) = \Sexpr{round(se.wr,3)}$$
+ $$SE(\bar{X}) = \Sexpr{round(q1$se.wr,3)}$$
  
 
   \vspace{5mm}
- \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
+ \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. 
+ Produce a histogram of these values. 
+ (R hint: Use the function sample).}
  
  <<histogram_1c, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement">>=
- hist.wr
+ q1$hist.wr
  @
  
  \subsection*{d) Let $z_1 = E[\bar{X}] + SE[\bar{X}], ~ z_2 = E[\bar{X}] + 2 \times SE[\bar{X}]$, etc. For $z_1, ..., z_4$ calculate $P(\bar{X} > z_i)$ in three ways:
  \begin{itemize}
- \item Exactly, using the binomial distribution. (Hint: It will be easier to work with the sample sum than the sample average. R hint: Use function pbinom)
+ \item Exactly, using the binomial distribution. 
+ (Hint: It will be easier to work with the sample sum than the sample average. 
+ R hint: Use function pbinom)
  \item Estimated using the values from part (c)
- \item Using the normal approximation. Use the continuity correction. (R hint: pnorm)
+ \item Using the normal approximation. 
+ Use the continuity correction. (R hint: pnorm)
  \end{itemize}
- Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. Make a table of your results and comment briefly}
+ Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. 
+ Make a table of your results and comment briefly}
 
 <<with_rep_table, results='asis', echo=FALSE>>=
 
-print(xtable(prob.wr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
+print(xtable(q1$prob.wr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
  @
 
-\noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. On the other hand, the normal approximation is not nearly as accurate. This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
+\noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. 
+On the other hand, the normal approximation is not nearly as accurate. 
+This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
 
 
 
-\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
+\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. 
+Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
 
 
 \noindent Note that since we are now sampling without replacement, we have that
 $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 
 \noindent and
-$$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = \Sexpr{round(se.nr,3)}$$
+$$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = \Sexpr{round(q1$se.nr,3)}$$
 
 
  <<histogram_1e, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement">>=
- hist.nr
+ q1$hist.nr
  @
 
 <<no_rep_table, results='asis', echo=FALSE>>=
 
-print(xtable(prob.nr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
+print(xtable(q1$prob.nr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
  @
 
 \end{document}
