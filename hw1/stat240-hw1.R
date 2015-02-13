@@ -189,7 +189,9 @@ sample.nr <- SampleFromBox(x = tickets, size = samp.size,
                            replace = FALSE, iter = 100000)
 
 hist.nr <- data.frame(Mean = sample.nr) %>%
-  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15)
+  ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), binwidth = .15, col = "white") + 
+  stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
 
 # Table for without replacement
 prob.nr <- data.frame(z = c(-4:-1, 1:4))

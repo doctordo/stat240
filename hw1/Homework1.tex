@@ -64,6 +64,7 @@
 
 \maketitle
 
+
  
  \section*{Question 1. Consider a box that contains 5 ``1'' tickets and 7 ``0'' tickets. Consider drawing 6 tickets from this box at random with replacement. Let $X_1, X_2, ..., X_6$ denote the 6 numbers you observe. Let $\bar{X}$ denote the average of the draws.}
  
@@ -85,11 +86,11 @@ E(\bar{X})= \frac{5}{12}
  \subsection*{b) What is $SE[\bar{X}]$? (R hint: Be careful whether the function ``sd'' divides by the square root of $n$ or $n - 1$)}
   \vspace{5mm}
  \noindent Note that since this example corresponds to a simple box model with replacement, we have that
- $$Var(\bar{X}) = \frac1n Var(t)$$
+ $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac1n Var(t)}$$
  
  
  \noindent Using R and noting that the \texttt{sd()} function in R divides by $N-1$ rather than $N$, we found that (to 3dp)
- $$Var(\bar{X}) = 0.201$$
+ $$SE(\bar{X}) = 0.201$$
  
 
   \vspace{5mm}
@@ -102,7 +103,7 @@ E(\bar{X})= \frac{5}{12}
 
 }
 
-\caption[Histogram of 100,000 simulated values of the sample mean]{Histogram of 100,000 simulated values of the sample mean}\label{fig:histogram_1c}
+\caption[Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement]{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement}\label{fig:histogram_1c}
 \end{figure}
 
 
@@ -117,7 +118,7 @@ E(\bar{X})= \frac{5}{12}
  Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. Make a table of your results and comment briefly}
 
 % latex table generated in R 3.1.2 by xtable 1.7-4 package
-% Fri Feb 13 10:47:10 2015
+% Fri Feb 13 11:01:37 2015
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|ccc|}
@@ -143,7 +144,48 @@ z & Exact & EmpiricalEst & NormalApprox \\
 
 
 \subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
+
+
+\noindent Note that since we are now sampling without replacement, we have that
+$$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
+
+\noindent and
+$$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = 0.149$$
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}[H]
+
+{\centering \includegraphics[width=\maxwidth]{figure/histogram_1e-1} 
+
+}
+
+\caption[Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement]{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement}\label{fig:histogram_1e}
+\end{figure}
+
+
+\end{knitrout}
+
+% latex table generated in R 3.1.2 by xtable 1.7-4 package
+% Fri Feb 13 11:01:37 2015
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|ccc|}
+  \hline
+z & Exact & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 & 0.00 \\ 
+  -3.00 & 0.00 & 0.00 & 0.01 \\ 
+  -2.00 & 0.01 & 0.01 & 0.07 \\ 
+  -1.00 & 0.12 & 0.12 & 0.33 \\ 
+  1.00 & 0.12 & 0.12 & 0.33 \\ 
+  2.00 & 0.01 & 0.01 & 0.07 \\ 
+  3.00 & 0.00 & 0.00 & 0.01 \\ 
+  4.00 & 0.00 & 0.00 & 0.00 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability.} 
+\end{table}
+
+
 \end{document}
-
-
-
