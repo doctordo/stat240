@@ -51,7 +51,7 @@ E(\bar{X})= \frac{5}{12}
   \vspace{5mm}
  \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
  
- <<histogram_1c, echo=FALSE, cache=TRUE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement">>=
+ <<histogram_1c, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement">>=
  hist.wr
  @
  
@@ -82,7 +82,7 @@ $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = \Sexpr{round(se.nr,3)}$$
 
 
- <<histogram_1e, echo=FALSE, cache=TRUE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement">>=
+ <<histogram_1e, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement">>=
  hist.nr
  @
 
