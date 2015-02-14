@@ -2,6 +2,7 @@
 
 \usepackage{fancyhdr}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \usepackage{float}
 \usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
 %\usepackage[font=small,labelfont=bf]{caption}
@@ -92,12 +93,12 @@ z & Exact & EmpiricalEst & NormalApprox \\
 $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 
 \noindent and
-$$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = \Sexpr{round(se.nr,3)}$$
+$$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = 0.149$$
 
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{histogram_1e-1.pdf}
+\includegraphics[scale=1]{histogram_1e-1.pdf}
 \caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement}
 \end{figure}
 
