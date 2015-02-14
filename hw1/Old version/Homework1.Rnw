@@ -17,6 +17,9 @@
 
 \maketitle
 
+ <<setup, echo=FALSE>>=
+ source("stat240-hw1.R")  
+ @
  
  \section*{Question 1. Consider a box that contains 5 ``1'' tickets and 7 ``0'' tickets. Consider drawing 6 tickets from this box at random with replacement. Let $X_1, X_2, ..., X_6$ denote the 6 numbers you observe. Let $\bar{X}$ denote the average of the draws.}
  
@@ -42,17 +45,15 @@ E(\bar{X})= \frac{5}{12}
  
  
  \noindent Using R and noting that the \texttt{sd()} function in R divides by $N-1$ rather than $N$, we found that (to 3dp)
- $$SE(\bar{X}) = 0.201$$
+ $$SE(\bar{X}) = \Sexpr{round(se.wr,3)}$$
  
 
   \vspace{5mm}
  \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
  
-\begin{figure}
-\centering
-\includegraphics{histogram_1c-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement}
-\end{figure}
+ <<histogram_1c, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement">>=
+ hist.wr
+ @
  
  \subsection*{d) Let $z_1 = E[\bar{X}] + SE[\bar{X}], ~ z_2 = E[\bar{X}] + 2 \times SE[\bar{X}]$, etc. For $z_1, ..., z_4$ calculate $P(\bar{X} > z_i)$ in three ways:
  \begin{itemize}
@@ -62,24 +63,10 @@ E(\bar{X})= \frac{5}{12}
  \end{itemize}
  Do the same for $z_{-4},...,z_{-1}$ but calcualte $P(\bar{X} < z_i)$ instead of $P(\bar{X} > z_i)$. Make a table of your results and comment briefly}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|ccc|}
-  \hline
-z & Exact & EmpiricalEst & NormalApprox \\ 
-  \hline
--4.00 & 0.00 & 0.00 & 0.00 \\ 
-  -3.00 & 0.00 & 0.00 & 0.00 \\ 
-  -2.00 & 0.04 & 0.04 & 0.06 \\ 
-  -1.00 & 0.21 & 0.21 & 0.28 \\ 
-  1.00 & 0.20 & 0.20 & 0.28 \\ 
-  2.00 & 0.05 & 0.05 & 0.06 \\ 
-  3.00 & 0.00 & 0.00 & 0.00 \\ 
-  4.00 & 0.00 & 0.00 & 0.00 \\ 
-   \hline
-\end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.} 
-\end{table}
+<<with_rep_table, results='asis', echo=FALSE>>=
+
+print(xtable(prob.wr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
+ @
 
 \noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. On the other hand, the normal approximation is not nearly as accurate. This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
 
@@ -95,29 +82,13 @@ $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = \Sexpr{round(se.nr,3)}$$
 
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.5]{histogram_1e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement}
-\end{figure}
+ <<histogram_1e, echo=FALSE, fig.align='center',fig.pos="H", fig.height = 3,  fig.width = 3, fig.cap="Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement">>=
+ hist.nr
+ @
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|ccc|}
-  \hline
-z & Exact & EmpiricalEst & NormalApprox \\ 
-  \hline
--4.00 & 0.00 & 0.00 & 0.00 \\ 
-  -3.00 & 0.00 & 0.00 & 0.01 \\ 
-  -2.00 & 0.01 & 0.01 & 0.07 \\ 
-  -1.00 & 0.12 & 0.12 & 0.33 \\ 
-  1.00 & 0.12 & 0.12 & 0.33 \\ 
-  2.00 & 0.01 & 0.01 & 0.07 \\ 
-  3.00 & 0.00 & 0.00 & 0.01 \\ 
-  4.00 & 0.00 & 0.00 & 0.00 \\ 
-   \hline
-\end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.} 
-\end{table}
+<<no_rep_table, results='asis', echo=FALSE>>=
+
+print(xtable(prob.nr, caption="The exact value, empirical estimation and normal approximation of the probability.", align = "c|c|ccc|"), include.rownames=FALSE, table.placement="H")
+ @
 
 \end{document}
