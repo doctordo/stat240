@@ -79,14 +79,14 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.} 
+\caption{The exact value, empirical estimation and normal approximation of the probability. (question 1, with replacement)} 
 \end{table}
 
 \noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. On the other hand, the normal approximation is not nearly as accurate. This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
 
 
 
-\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead fo the binomial distribuion (R hint: phyper)}
+\subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead of the binomial distribuion (R hint: phyper)}
 
 
 \noindent Note that since we are now sampling without replacement, we have that
@@ -99,7 +99,7 @@ $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n
 \begin{figure}
 \centering
 \includegraphics[scale=1]{histogram_1e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(question 1, without replacement)}
 \end{figure}
 
 \begin{table}[H]
@@ -118,7 +118,250 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.} 
+\caption{The exact value, empirical estimation and normal approximation of the probability. (question 1, without replacement)} 
 \end{table}
+
+
+
+
+
+
+\newpage
+
+ \section*{Question 2. Repeat (1) but with a box that contains 2 ``1" tickets and 98 ``0" tickets.}
+ 
+ \subsection*{a) - d) with replacement}
+Using the formulae we discussed in question 1,
+
+$$E(\bar{X})= \frac{2}{100}$$ 
+ 
+ $$SE(\bar{X}) = 0.057$$
+ 
+
+
+ 
+\begin{figure}
+\centering
+\includegraphics{histogram_2c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q2, with replacement)}\label{q2}
+\end{figure}
+ 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|ccc|}
+  \hline
+z & Exact & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 & 0.01 \\ 
+  -3.00 & 0.00 & 0.00 & 0.06 \\ 
+  -2.00 & 0.00 & 0.00 & 0.29 \\ 
+  -1.00 & 0.00 & 0.00 & 0.68 \\ 
+  1.00 & 0.11 & 0.12 & 0.68 \\ 
+  2.00 & 0.11 & 0.12 & 0.29 \\ 
+  3.00 & 0.01 & 0.01 & 0.06 \\ 
+  4.00 & 0.01 & 0.01 & 0.01 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability. (q2, with replacement)} 
+\end{table}
+
+\noindent As in question 1, the empirical estimation using the results of our simulated values nearly matches the probabilities. This time, the normal approximation is particularly bad. This is occurs because we only have two ``1" tickets in the box.  Figure~\ref{q2} shows that the empirical distribution of the sample mean is not even close to normal, as it is skewed right.  
+
+
+\subsection*{e) without replacement}
+
+
+\noindent Note that since we are now sampling without replacement, we have that
+$$E(\bar{X})= \frac{2}{100}$$ 
+$$SE(\bar{X}) = 1.041$$
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{histogram_1e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement (q2, without replacement)}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|ccc|}
+  \hline
+z & Exact & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 & 0.01 \\ 
+  -3.00 & 0.00 & 0.00 & 0.07 \\ 
+  -2.00 & 0.00 & 0.00 & 0.31 \\ 
+  -1.00 & 0.00 & 0.00 & 0.69 \\ 
+  1.00 & 0.12 & 0.12 & 0.69 \\ 
+  2.00 & 0.12 & 0.12 & 0.31 \\ 
+  3.00 & 0.00 & 0.00 & 0.07 \\ 
+  4.00 & 0.00 & 0.00 & 0.01 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability.(q2 without replacement)} 
+\end{table}
+
+
+The same pattern appears as in the case of sampling with replacement: the normal approximation performs very poorly.
+
+
+\newpage
+
+ \section*{Question 3. Repeat (1) but with a box that contains tickets numbered ``1" to ``12".}
+ 
+ \subsection*{a) - d) with replacement}
+Using the formulae we discussed in question 1,
+
+$$E(\bar{X})= 6.5$$ 
+ 
+ $$SE(\bar{X}) = 1.409$$
+
+ 
+\begin{figure}
+\centering
+\includegraphics{histogram_3c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q3, with replacement)}\label{fig:q3c}
+\end{figure}
+ 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|cc|}
+  \hline
+z & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 \\ 
+  -3.00 & 0.00 & 0.00 \\ 
+  -2.00 & 0.02 & 0.03 \\ 
+  -1.00 & 0.16 & 0.17 \\ 
+  1.00 & 0.16 & 0.17 \\ 
+  2.00 & 0.03 & 0.03 \\ 
+  3.00 & 0.00 & 0.00 \\ 
+  4.00 & 0.00 & 0.00 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability.(q3, with replacement)} \label{tab:q3c}
+\end{table}
+
+\noindent In this case, the values in the box have a discrete uniform distribution.  There are no ``outliers", so the normal approximation performs quite well (Figure~\ref{fig:q3c}, Table~\ref{tab:q3c}), even with the small sample size of $n=6$.
+
+
+
+\subsection*{e) without replacement}
+
+
+\noindent Note that since we are now sampling without replacement, we have that
+$$E(\bar{X})= 6.5$$ 
+$$SE(\bar{X}) = 0.056$$
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{histogram_3e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(q3, without replacement)}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|cc|}
+  \hline
+z & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 \\ 
+  -3.00 & 0.00 & 0.00 \\ 
+  -2.00 & 0.02 & 0.03 \\ 
+  -1.00 & 0.15 & 0.18 \\ 
+  1.00 & 0.16 & 0.18 \\ 
+  2.00 & 0.02 & 0.03 \\ 
+  3.00 & 0.00 & 0.00 \\ 
+  4.00 & 0.00 & 0.00 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability.(q3, without replacement)} 
+\end{table}
+
+
+\noindent Similar to the previous part with replacement, the normal approximation performs quite well on uniform data sampled without replacement.
+
+
+
+\newpage
+
+ \section*{Question 3. Repeat (1) but with a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".}
+ 
+ \subsection*{a) - d) with replacement}
+Using the formulae we discussed in question 1,
+
+$$E(\bar{X})= 8$$ 
+ 
+ $$SE(\bar{X}) = 2.977$$
+
+ 
+\begin{figure}
+\centering
+\includegraphics[width = .5\textwidth]{histogram_4c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q4, with replacement)}\label{fig:q4c}
+\end{figure}
+ 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|cc|}
+  \hline
+z & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 \\ 
+  -3.00 & 0.00 & 0.00 \\ 
+  -2.00 & 0.00 & 0.02 \\ 
+  -1.00 & 0.14 & 0.17 \\ 
+  1.00 & 0.16 & 0.17 \\ 
+  2.00 & 0.05 & 0.02 \\ 
+  3.00 & 0.01 & 0.00 \\ 
+  4.00 & 0.00 & 0.00 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability.(q4 with replacement)} \label{tab:q4c}
+\end{table}
+
+\noindent The outlier at $30$ makes the distribution of the sample mean skewed right and bimodal (Figure~\ref{fig:q4c}.  Thus, it makes little sense to use the normal approximation.  Table~\ref{tab:q4c} confirms this, as the normal approximation is bad at points not near the center of the distribution.
+
+
+
+\subsection*{e) without replacement}
+
+
+\noindent Note that since we are now sampling without replacement, we have that
+$$E(\bar{X})= 8$$ 
+$$SE(\bar{X}) = 2.918$$
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{histogram_4e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(q4, without replacement)}\label{fig:q4e}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|cc|}
+  \hline
+z & EmpiricalEst & NormalApprox \\ 
+  \hline
+-4.00 & 0.00 & 0.00 \\ 
+  -3.00 & 0.00 & 0.00 \\ 
+  -2.00 & 0.00 & 0.02 \\ 
+  -1.00 & 0.20 & 0.17 \\ 
+  1.00 & 0.20 & 0.17 \\ 
+  2.00 & 0.00 & 0.02 \\ 
+  3.00 & 0.00 & 0.00 \\ 
+  4.00 & 0.00 & 0.00 \\ 
+   \hline
+\end{tabular}
+\caption{The exact value, empirical estimation and normal approximation of the probability. (q4, without replacement)} \label{tab:q4e}
+\end{table}
+
+
+\noindent When sampling without replacement, the distribution of the sample mean becomes bimodal and appears roughly symmetric (Figure~\ref{fig:q4e}).  The normal approximation is a poor estimate here.
 
 \end{document}

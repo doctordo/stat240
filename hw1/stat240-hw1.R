@@ -6,7 +6,7 @@
 
 # Rebecca Barter
 # Andrew Do
-# Kellie Ottobonni
+# Kellie Ottoboni
 
 ################################################################################
 
