@@ -144,7 +144,7 @@ ProblemTickets <- function(problem) {
 }
 
 
-Analysis <- function(tickets, samp.size = 6, iter = 100000) {
+Analysis <- function(tickets, samp.size = 6, iter = 100000, problem) {
   # All the analysis for problems 1-4 wrapped up in a function
   # Arguments:
   #   tickets - a vector of ticket values
@@ -167,12 +167,31 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
   sample.wr <- SampleFromBox(x = tickets, size = samp.size , 
                              replace = TRUE, iter = iter)
   
-  hist.wr <- data.frame(Mean = sample.wr) %>%
-    ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+  if(problem %in% c(1)){
+    hist.wr <- data.frame(Mean = sample.wr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
                                          binwidth = .15, col = "white") +
-    stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
                   fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
-  
+   } else  if(problem %in% c(2)){
+      hist.wr <- data.frame(Mean = sample.wr) %>%
+        ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                             binwidth = .1, col = "white") +
+        stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                      fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
+  } else if (problem %in% c(3)) {
+    hist.wr <- data.frame(Mean = sample.wr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = .5, col = "white") +
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
+  } else if (problem %in% c(4)) {
+    hist.wr <- data.frame(Mean = sample.wr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = 0.6, col = "white") +
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.wr, sd=se.wr))
+  }
   # Table for with replacement
   prob.wr <- data.frame(z = c(-4:-1, 1:4))
   
@@ -217,13 +236,34 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
   
   sample.nr <- SampleFromBox(x = tickets, size = samp.size, 
                              replace = FALSE, iter = iter)
-  
-  hist.nr <- data.frame(Mean = sample.nr) %>%
-    ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
-                                         binwidth = .15, col = "white") + 
-    stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
-                  fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
-  
+  if(problem %in% c(1)) {
+    hist.nr <- data.frame(Mean = sample.nr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = .15, col = "white") + 
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
+  } else if(problem %in% c(2)) {
+    hist.nr <- data.frame(Mean = sample.nr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = .1, col = "white") + 
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.nr, sd=se.nr))
+  } else if(problem %in% c(3)) {
+    hist.nr <- data.frame(Mean = sample.nr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = .5, col = "white") + 
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.nr, sd=se.nr)) + 
+      scale_x_continuous(limits = c(0,13))
+  } else if(problem %in% c(4)) {
+    hist.nr <- data.frame(Mean = sample.nr) %>%
+      ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
+                                           binwidth = 0.5, col = "white") + 
+      stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
+                    fun=dnorm, arg=list(mean=mean.nr, sd=se.nr)) 
+  }
+    
+    
   # Table for without replacement
   prob.nr <- data.frame(z = c(-4:-1, 1:4))
   
@@ -269,12 +309,55 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000) {
 }
 
 
-q1 <- Analysis(ProblemTickets(1), samp.size = 6, iter = 100000)
-q2 <- Analysis(ProblemTickets(2), samp.size = 6, iter = 100000)
-q3 <- Analysis(ProblemTickets(3), samp.size = 6, iter = 100000)
-q4 <- Analysis(ProblemTickets(4), samp.size = 6, iter = 100000)
-qec <- Analysis(ProblemTickets(4), samp.size = 8, iter = 100000)
-qec2 <- Analysis(ProblemTickets(4), samp.size = 10, iter = 100000)
+q1 <- Analysis(ProblemTickets(1), samp.size = 6, iter = 100000, problem = 1)
 
+pdf("histogram_1c-1.pdf")
+q1$hist.wr
+dev.off()
+
+pdf("histogram_1e-1.pdf")
+q1$hist.nr
+dev.off()
+
+q2 <- Analysis(ProblemTickets(2), samp.size = 6, iter = 100000, problem = 2)
+
+pdf("histogram_2c-1.pdf")
+q2$hist.wr
+dev.off()
+
+pdf("histogram_2e-1.pdf")
+q2$hist.nr
+dev.off()
+
+q3 <- Analysis(ProblemTickets(3), samp.size = 6, iter = 100000, problem = 3)
+
+pdf("histogram_3c-1.pdf")
+q3$hist.wr
+dev.off()
+
+pdf("histogram_3e-1.pdf")
+q3$hist.nr
+dev.off()
+
+
+q4 <- Analysis(ProblemTickets(4), samp.size = 6, iter = 100000, problem = 4)
+
+pdf("histogram_4c-1.pdf")
+q4$hist.wr
+dev.off()
+
+pdf("histogram_4e-1.pdf")
+q4$hist.nr
+dev.off()
+
+
+qec <- Analysis(ProblemTickets(4), samp.size = 8, iter = 100000, problem = 4)
+qec2 <- Analysis(ProblemTickets(4), samp.size = 10, iter = 100000, problem = 4)
+
+pdf("histogram_ec_wr.pdf")
 grid.arrange(q4$hist.wr + labs(title = "Sampling With Replacement"), qec$hist.wr, qec2$hist.wr)
+dev.off()
+
+pdf("histogram_ec_nr.pdf")
 grid.arrange(q4$hist.nr + labs(title = "Sampling Without Replacement"), qec$hist.nr, qec2$hist.nr)
+dev.off()

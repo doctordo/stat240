@@ -49,6 +49,8 @@ E(\bar{X})= \frac{5}{12}
   \vspace{5mm}
  \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
  
+ 
+ 
 \begin{figure}[H]
 \centering
 \includegraphics[width = .5\textwidth]{histogram_1c-1.pdf}
@@ -89,18 +91,23 @@ z & Exact & EmpiricalEst & NormalApprox \\
 \subsection*{e) Repeat (a)-(d), this time sampling without replacement instead of with replacement. Use the hypergeometric distirbution instead of the binomial distribuion (R hint: phyper)}
 
 
-\noindent Note that since we are now sampling without replacement, we have that
+\noindent Note that since we are now sampling without replacement, we still have that
 $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 
-\noindent and
+\noindent but now the SE is given by
 $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = 0.149$$
 
+\noindent which is smaller than the SE when sampling with replacement.\\
+
+\noindent Next, sampling 100,000 values of $\bar{X}$, we obtain the following histogram.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width = .5\textwidth]{histogram_1e-1.pdf}
 \caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from a box that contains 5 ``1'' tickets and 7 ``0'' tickets.}
 \end{figure}
+
+\noindent And the exact, empirical and approximated probabilities are given in the following table. Again we see that the Empirical estimation is extremely similar to the exact values, whereas the normal approximation is not nearly as accurate.
 
 \begin{table}[H]
 \centering
@@ -137,8 +144,9 @@ $$E(\bar{X})= \frac{2}{100}$$
  
  $$SE(\bar{X}) = 0.057$$
  
+ \noindent Both of which are significantly smaller than the values obtained in the previous question.\\ 
 
-
+\noindent Next, we plot a histogram of 100,000 simulated $\bar{X}$ values as follows:
  
 \begin{figure}[H]
 \centering
@@ -146,7 +154,7 @@ $$E(\bar{X})= \frac{2}{100}$$
 \caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement from a box that contains 2 ``1" tickets and 98 ``0" tickets.}\label{q2}
 \end{figure}
  
-
+\noindent Finally, we calculate the exact, empirical and normal approximated probabilities:
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|ccc|}
@@ -174,12 +182,12 @@ z & Exact & EmpiricalEst & NormalApprox \\
 
 \noindent Note that since we are now sampling without replacement, we have that
 $$E(\bar{X})= \frac{2}{100}$$ 
-$$SE(\bar{X}) = 1.041$$
+$$SE(\bar{X}) = 0.056$$
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width = .5\textwidth]{histogram_1e-1.pdf}
+\includegraphics[width = .5\textwidth]{histogram_2e-1.pdf}
 \caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from  a box that contains 2 ``1" tickets and 98 ``0" tickets.}
 \end{figure}
 
@@ -203,7 +211,7 @@ z & Exact & EmpiricalEst & NormalApprox \\
 \end{table}
 
 
-The same pattern appears as in the case of sampling with replacement: the normal approximation performs very poorly.
+\noindent Note that for this example, the results are extremely similar when the samples are taken both with and without replacement. Again we see that the normal approximation performs very poorly.
 
 
 \pagebreak
@@ -253,7 +261,7 @@ z & EmpiricalEst & NormalApprox \\
 
 \noindent Note that since we are now sampling without replacement, we have that
 $$E(\bar{X})= 6.5$$ 
-$$SE(\bar{X}) = 0.056$$
+$$SE(\bar{X}) = 1.041$$
 
 
 \begin{figure}[H]
@@ -282,8 +290,7 @@ z & EmpiricalEst & NormalApprox \\
 \end{table}
 
 
-\noindent Similar to the previous part with replacement, the normal approximation performs quite well on uniform data sampled without replacement.
-
+\noindent When sampling without replacement in this instance, the normal approximation to the probabilities is not performing as well as when sampling with replacement, however the distribution of the $\bar{X}$'s does appear to be fairly normal.
 
 
 \pagebreak
@@ -333,7 +340,7 @@ z & EmpiricalEst & NormalApprox \\
 
 \noindent Note that since we are now sampling without replacement, we have that
 $$E(\bar{X})= 8$$ 
-$$SE(\bar{X}) = 2.918$$
+$$SE(\bar{X}) = 2.198$$
 
 
 \begin{figure}[H]
