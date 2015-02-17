@@ -49,10 +49,10 @@ E(\bar{X})= \frac{5}{12}
   \vspace{5mm}
  \subsection*{c) Use R to simulate 100,000 values of $\bar{X}$. Produce a histogram of these values. (R hint: Use the function sample).}
  
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics{histogram_1c-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement}
+\includegraphics[width = .5\textwidth]{histogram_1c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement from a box that contains 5 ``1'' tickets and 7 ``0'' tickets.}
 \end{figure}
  
  \subsection*{d) Let $z_1 = E[\bar{X}] + SE[\bar{X}], ~ z_2 = E[\bar{X}] + 2 \times SE[\bar{X}]$, etc. For $z_1, ..., z_4$ calculate $P(\bar{X} > z_i)$ in three ways:
@@ -79,7 +79,7 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability. (question 1, with replacement)} 
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains 5 ``1'' tickets and 7 ``0'' tickets.} 
 \end{table}
 
 \noindent We notice that the Empirical estimation using the results of our simulated value is extremely close the the exact value of the probabilities. On the other hand, the normal approximation is not nearly as accurate. This is likely because our sample size of 6 is very small and the asymptotic assumptions which underly the normal approximation are not yet accurate.
@@ -96,10 +96,10 @@ $$E(\bar{X}) = \bar{t} = \frac{5}{12}$$
 $$SE(\bar{X}) = \sqrt{Var(\bar{X})} = \sqrt{\frac{1}{n} Var(t) \left[\frac{N - n}{N - 1}\right]} = 0.149$$
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=1]{histogram_1e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(question 1, without replacement)}
+\includegraphics[width = .5\textwidth]{histogram_1e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from a box that contains 5 ``1'' tickets and 7 ``0'' tickets.}
 \end{figure}
 
 \begin{table}[H]
@@ -118,7 +118,7 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability. (question 1, without replacement)} 
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains 5 ``1'' tickets and 7 ``0'' tickets.} 
 \end{table}
 
 
@@ -126,7 +126,7 @@ z & Exact & EmpiricalEst & NormalApprox \\
 
 
 
-\newpage
+\pagebreak
 
  \section*{Question 2. Repeat (1) but with a box that contains 2 ``1" tickets and 98 ``0" tickets.}
  
@@ -140,10 +140,10 @@ $$E(\bar{X})= \frac{2}{100}$$
 
 
  
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics{histogram_2c-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q2, with replacement)}\label{q2}
+\includegraphics[width = .5\textwidth]{histogram_2c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement from a box that contains 2 ``1" tickets and 98 ``0" tickets.}\label{q2}
 \end{figure}
  
 
@@ -163,7 +163,7 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.01 & 0.01 & 0.01 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability. (q2, with replacement)} 
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains 2 ``1" tickets and 98 ``0" tickets.} 
 \end{table}
 
 \noindent As in question 1, the empirical estimation using the results of our simulated values nearly matches the probabilities. This time, the normal approximation is particularly bad. This is occurs because we only have two ``1" tickets in the box.  Figure~\ref{q2} shows that the empirical distribution of the sample mean is not even close to normal, as it is skewed right.  
@@ -177,10 +177,10 @@ $$E(\bar{X})= \frac{2}{100}$$
 $$SE(\bar{X}) = 1.041$$
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=1]{histogram_1e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement (q2, without replacement)}
+\includegraphics[width = .5\textwidth]{histogram_1e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from  a box that contains 2 ``1" tickets and 98 ``0" tickets.}
 \end{figure}
 
 \begin{table}[H]
@@ -199,14 +199,14 @@ z & Exact & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 & 0.01 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.(q2 without replacement)} 
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains 2 ``1" tickets and 98 ``0" tickets.} 
 \end{table}
 
 
 The same pattern appears as in the case of sampling with replacement: the normal approximation performs very poorly.
 
 
-\newpage
+\pagebreak
 
  \section*{Question 3. Repeat (1) but with a box that contains tickets numbered ``1" to ``12".}
  
@@ -218,10 +218,10 @@ $$E(\bar{X})= 6.5$$
  $$SE(\bar{X}) = 1.409$$
 
  
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics{histogram_3c-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q3, with replacement)}\label{fig:q3c}
+\includegraphics[width = .5\textwidth]{histogram_3c-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement from a box that contains tickets numbered ``1" to ``12".}\label{fig:q3c}
 \end{figure}
  
 
@@ -241,7 +241,7 @@ z & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.(q3, with replacement)} \label{tab:q3c}
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains tickets numbered ``1" to ``12".} \label{tab:q3c}
 \end{table}
 
 \noindent In this case, the values in the box have a discrete uniform distribution.  There are no ``outliers", so the normal approximation performs quite well (Figure~\ref{fig:q3c}, Table~\ref{tab:q3c}), even with the small sample size of $n=6$.
@@ -256,10 +256,10 @@ $$E(\bar{X})= 6.5$$
 $$SE(\bar{X}) = 0.056$$
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=1]{histogram_3e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(q3, without replacement)}
+\includegraphics[width = .5\textwidth]{histogram_3e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from a box that contains tickets numbered ``1" to ``12".}
 \end{figure}
 
 \begin{table}[H]
@@ -278,7 +278,7 @@ z & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.(q3, without replacement)} 
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains tickets numbered ``1" to ``12".} 
 \end{table}
 
 
@@ -286,9 +286,9 @@ z & EmpiricalEst & NormalApprox \\
 
 
 
-\newpage
+\pagebreak
 
- \section*{Question 3. Repeat (1) but with a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".}
+ \section*{Question 4. Repeat (1) but with a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".}
  
  \subsection*{a) - d) with replacement}
 Using the formulae we discussed in question 1,
@@ -298,10 +298,10 @@ $$E(\bar{X})= 8$$
  $$SE(\bar{X}) = 2.977$$
 
  
-\begin{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[width = .5\textwidth]{histogram_4c-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement (q4, with replacement)}\label{fig:q4c}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken with replacement from a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".}\label{fig:q4c}
 \end{figure}
  
 
@@ -321,7 +321,7 @@ z & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability.(q4 with replacement)} \label{tab:q4c}
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".} \label{tab:q4c}
 \end{table}
 
 \noindent The outlier at $30$ makes the distribution of the sample mean skewed right and bimodal (Figure~\ref{fig:q4c}.  Thus, it makes little sense to use the normal approximation.  Table~\ref{tab:q4c} confirms this, as the normal approximation is bad at points not near the center of the distribution.
@@ -336,10 +336,10 @@ $$E(\bar{X})= 8$$
 $$SE(\bar{X}) = 2.918$$
 
 
-\begin{figure}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=1]{histogram_4e-1.pdf}
-\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement(q4, without replacement)}\label{fig:q4e}
+\includegraphics[width = .5\textwidth]{histogram_4e-1.pdf}
+\caption{Histogram of 100,000 simulated values of the sample mean when the sample was taken without replacement from a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".}\label{fig:q4e}
 \end{figure}
 
 \begin{table}[H]
@@ -358,10 +358,27 @@ z & EmpiricalEst & NormalApprox \\
   4.00 & 0.00 & 0.00 \\ 
    \hline
 \end{tabular}
-\caption{The exact value, empirical estimation and normal approximation of the probability. (q4, without replacement)} \label{tab:q4e}
+\caption{The exact value, empirical estimation and normal approximation of the tail probability for a box that contains tickets numbered ``1" to ``11" and a ticket labelled ``30".} \label{tab:q4e}
 \end{table}
 
 
 \noindent When sampling without replacement, the distribution of the sample mean becomes bimodal and appears roughly symmetric (Figure~\ref{fig:q4e}).  The normal approximation is a poor estimate here.
+
+
+\pagebreak
+
+\section*{Small Extra Credit}
+\subsection*{In class we considered the model$$Y=a+X$$where $X$ is standard normal, and ask the question of whether $a^2$ is estimable. Is it? Justify your answer.}
+
+We claim that $Y^2 - 1$ is an unbiased estimator of $a^2$. The proof is as follows:
+
+\begin{align*}
+E(Y^2 - 1) &= E(a^2 + 2aX + X^2 - 1) \\
+&= E(a^2) + E(2aX) + E(X^2) + E(-1) \\
+&= a^2 + 2aE(X) + E(X^2) - 1 \\
+&= a^2 + 0 + (E(X)^2 + \text{Var}(X)) - 1 \\
+&= a^2 + 0 + 1 - 1\\
+&= a^2
+\end{align*}
 
 \end{document}
