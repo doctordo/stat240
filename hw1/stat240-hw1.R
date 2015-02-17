@@ -14,6 +14,7 @@
 library(dplyr, warn.conflicts = FALSE, quietly=TRUE)
 library(ggplot2)
 library(xtable)
+library(gridExtra)
 set.seed(1337)
 
 ################################################################################
@@ -272,3 +273,8 @@ q1 <- Analysis(ProblemTickets(1), samp.size = 6, iter = 100000)
 q2 <- Analysis(ProblemTickets(2), samp.size = 6, iter = 100000)
 q3 <- Analysis(ProblemTickets(3), samp.size = 6, iter = 100000)
 q4 <- Analysis(ProblemTickets(4), samp.size = 6, iter = 100000)
+qec <- Analysis(ProblemTickets(4), samp.size = 8, iter = 100000)
+qec2 <- Analysis(ProblemTickets(4), samp.size = 10, iter = 100000)
+
+grid.arrange(q4$hist.wr + labs(title = "Sampling With Replacement"), qec$hist.wr, qec2$hist.wr)
+grid.arrange(q4$hist.nr + labs(title = "Sampling Without Replacement"), qec$hist.nr, qec2$hist.nr)
