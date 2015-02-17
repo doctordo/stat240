@@ -258,7 +258,7 @@ Analysis <- function(tickets, samp.size = 6, iter = 100000, problem) {
   } else if(problem %in% c(4)) {
     hist.nr <- data.frame(Mean = sample.nr) %>%
       ggplot(aes(x=Mean)) + geom_histogram(aes( y=..density..), 
-                                           binwidth = 0.5, col = "white") + 
+                                           binwidth = 0.3, col = "white") + 
       stat_function(data=data.frame(x=c(0,1)), aes(x=x), 
                     fun=dnorm, arg=list(mean=mean.nr, sd=se.nr)) 
   }
