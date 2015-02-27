@@ -1,0 +1,70 @@
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{bm}
+
+\setlength\parindent{0pt}
+\newcommand{\pr}{P} % Generic probability
+
+
+\title{STAT 240 Homework 2}
+\author{Rebecca Barter, Andrew Do, and Kellie Ottoboni}
+\date{March 4, 2015} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+
+\section{Chapter 26}
+\subsection{Review exercise 2} % Kellie
+\subsubsection{(a)}
+The null hypothesis is that in a box of $38$ tickets, there are $18$ that are red.  The alternative is that in this box of $38$ tickets, there are more than $18$ red tickets.
+\subsubsection{(b)}
+The null says that the percentage of reds in the box is $\frac{18}{38}\approx 48\%$.  The alternative says that the percentage of reds in the box is greater than $48\%$.
+\subsubsection{(c)}
+$$z = \frac{1890 - (\frac{18}{38})(3800)}{\sqrt{ (\frac{18}{38}) (\frac{20}{38})(3800)}} = \frac{1890 - 1800}{\sqrt{\frac{36000}{38}}} \approx 2.924$$
+Under the null hypothesis, $z$ has approximately a standard normal distribution.  Thus the p-value for the one-sided test is $P = P(z \geq 2.924) \approx 0.0017$.  
+\subsubsection{(d)}
+At the significance level $0.05$, we reject the null hypothesis that there were $18$ red tickets in the box.  In particular, this means that there were too many reds in the $3800$ roulette spins to be due to chance alone.
+
+\subsection{Review exercise 5} % Kellie
+\subsubsection{(a)}
+Consider a box containing $3000$ tickets, from which we take a random sample of $100$ without replacement.  The null hypothesis is that the average of the box is $7.5$ and the alternative is that the average is something other than $7.5$.
+\subsubsection{(b)}
+The null hypothesis is that the average of the box is $7.5$ and the alternative is that the average is something other than $7.5$.
+\subsubsection{(c)}
+$$T= \frac{7.5 - 6.6}{\frac{9}{\sqrt{100}}\sqrt{\frac{100}{99}}} = \frac{0.9}{0.904534} \approx 0.9950$$
+
+Under the null hypothesis, $T$ has a t distribution with $99$ degrees of freedom.  Thus the p-value for the two-sided test is $ P(t_{99} \geq T) \approx 0.16$.  We fail to reject the null hypothesis that the box average is different from $7.5$, at the $0.05$ significance level.
+
+
+
+\section{Chapter 27}
+\subsection{Review exercise 8} % Kellie
+\subsubsection{(a)}
+The data tell us nothing about the research questions (i) and (ii); the two proportions measure different things.  The fraction $22$ of $46$ is the proportion of people who \textit{predicted} that they would help whereas $2$ of $46$ is the proportion of people who actually agreed to help.  A z-test is not applicable here.
+
+\subsubsection{(b)}
+This data can be used to answer question (i), can people predict how well they will behave?  However, a two-sample z-test is inappropriate because the groups under comparison are comprised of the same individuals.  This introduces correlation between the samples so the standard error of the difference in proportions cannot be computed with the usual formula.  We should use a paired z-test instead of a two-sample z-test.
+
+\subsubsection{(c)}
+The proportion of volunteers in each group can be used to answer question (ii), do predicted responses influence behavior?  We would conduct a two-sample z-test to compare the proportions. \\
+
+The null hypothesis is that the rate of volunteers among those who are asked to predict their response is the same as the rate of volunteers among those who are not asked.  The alternative hypothesis is that the rates are different.  The observed proportion in the ``prediction-request" group is $22/46$ and the observed proportion in the ``request-only" group is $14/46$.  The test statistic is
+
+$$z = \frac{ \frac{22}{46}-\frac{14}{46}}{ \sqrt{\frac{22\times 24}{46^2}\frac{1}{46} + \frac{14\times32}{46^2}\frac{1}{46}}} = \frac{ 8}{ \sqrt{\frac{976}{46}}} \approx  1.7368$$
+
+Under the null, $z$ is approximately standard normally distributed, so the p-value for the two-sided test is
+
+$$\pr( \lvert Z \rvert \geq \lvert z \rvert) = 2 \pr(Z \geq 1.7368) \approx 0.0824$$
+
+At the $0.05$ level, we fail to reject the null hypothesis that the rates are the same.
+
+
+\subsection{Review exercise 9} % Kellie
+
+\end{document}
