@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage[margin=0.75in]{geometry}
 \usepackage{bm}
+\usepackage{enumerate}
 
 \setlength\parindent{0pt}
 \newcommand{\pr}{P} % Generic probability
@@ -43,6 +44,46 @@ $$T= \frac{7.5 - 6.6}{\frac{9}{\sqrt{100}}\sqrt{\frac{100}{99}}} = \frac{0.9}{0.
 
 Under the null hypothesis, $T$ has a t distribution with $99$ degrees of freedom.  Thus the p-value for the two-sided test is $ P(t_{99} \geq T) \approx 0.16$.  We fail to reject the null hypothesis that the box average is different from $7.5$, at the $0.05$ significance level.
 
+\subsection*{Review exercise 12} % Andrew
+(Hard.) Does the psychological environment affect the anatomy of the brain?
+This question was studied experimentally by Mark Rosenzweig and his associates.
+The subjects for the study came from a genetically pure strain of rats.
+From each litter, one rat was selected at random for the treatment group, and one for the control group.
+Both groups got exactly the same kind of food and drink---as much as they wanted.
+But each animal in the treatment group lived with 11 others in a large cage, furnished with playthings which were changed daily.
+Animals in the control group lived in isolation, with no toys.
+After a month, the experimental animals were killed and dissected.
+
+On the average, the control animals were heavier and had heavier brains, perhaps because they ate more and got less exercise.
+However, the treatment group had consistently heavier cortexes (the "grey matter," or thinking part of the brain).
+This experiment was repeated many times; results from the first 5 trials are shown in the table: "T" means the treatment, and "C" is for control.
+Each line refers to one pair of animals.
+In the first pair, the animal in treatment had a cortex weighing 689 milligrams; the one in control had a lighter cortex weighing only 657 milligrams.  And so on.
+
+Two methods of analyzing the data will be presented in the form of exercises.
+Both methods take into account the pairing, which is a crucial feature of the data.
+(The pairing comes from randomization within litter.)
+\subsubsection*{Part (a)}
+\textit{First Analysis}.
+How many pairs were there in all?
+In how many of these pairs did the treatment animal have a heavier cortex?
+Suppose treatment had no effect, so each animal of the pair had a 50-50 chance to have the heavier cortex, independently from pair to pair.
+Under this assumption, how likely is it that an investigator would get as many pairs as Rosenzweig did, or more, with the treatment animal having the heavier cortex?
+What do you infer?
+
+\subsubsection*{Part (b)}
+\textit{Second Analysis}.
+For each pair of animals, compute the difference in cortex weights "treatment - control."
+Find the average and SD of all these differences.
+The null hypothesis says that these differences are like draws made at random with replacement from a box whose average is 0---the treatment has no effect.
+Conduct an appropriate hypothesis test.
+What do you infer?
+
+\subsubsection*{Part (c)}
+To ensure the validity of the analysis, the following precaution was taken.
+"The brain dissection and analysis of each set of littermates was done in immediate succession but in a random order and identified only by code number so that the person doing the dissection does not know which cage the rat comes from."
+Comment briefly on the following: What was the point of this precaution?
+Was it a good idea?
 
 
 \section*{Chapter 27}
@@ -92,5 +133,46 @@ In reality, the correlation between the IQ of the first-borns and the IQ of the 
 Therefore the estimated standard error, given by $\sqrt{0.5^2 + 0.5^2}$ overestimates the true standard error of the difference in means.  Consequently, the test statistic is biased towards $0$.  The z-test here is inappropriate. \\
 
 If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the estimated standard error would have been smaller, thus the test statistic $z$ would have been larger.  In other words, using a better estimator of the standard error, accounting for the correlation between siblings in the sample, would have given more power to detect a difference in sample means.
+
+\section*{Chapter 29}
+\subsection*{Review exercise 9} % Andrew
+Investigators are studying the relationship between income and education, for women age 25-54 who are working.
+\subsubsection*{Part (a)}
+Investigator A computes the correlation between income and education for all these women.
+Investigator B computes the correlation only for women who have professional, technical, or managerial jobs.
+Who gets the higher correlation?
+Or should the correlations be about the same?
+Explain.
+
+\subsubsection*{Part (b)}
+Investigator C computes the correlation between income and education for all the women.
+Investigator D looks at each state separately, computes the average income and average education for that state---and then computes the correlation coefficient for the 50 pairs of state averages.
+Which investigator gets the higher correlation?
+Or should the correlations be about the same?
+Explain.
+
+\subsection*{Review exercise 11} % Andrew
+A university made a study of all students who completed the first two years of undergraduate work.
+The average first-year GPA was 3.1, and the SD was 0.4.
+The correlation between first-year and second-year GPA was 0.4.
+The scatter diagram was football shaped.
+
+Sally Davis was in the study.
+She had a first-year GPA of 3.5, and her second-year GPA was just about average---among those who had a first-year GPA of 3.5.
+What was her percentile rank on the second-year GPA, relative to all the students in the study?
+If this cannot be determined from the information given, say what else you need to know and why.
+
+\subsection*{Special exercise 33} % Andrew
+In the U.S., there are two sources of national statistics on crime rates:
+\begin{enumerate}[i]
+	\item The FBI's Uniform Crime Reporting Program, which publishes summaries on all crimes reported to police agencies in jurisdictions covering virtually 100\% of the population.
+	\item The National Crime Survey, based on interviews with a nationwide probability sample of households.
+\end{enumerate}
+
+In 2001, 3\% of the households in the sample told the interviewers they had experienced at least one burglary within the past 12 months.
+The same year, the FBI reported a burglary rate of 20 per 1,000 households, or 2\%.
+Can this difference be explained as chance error?
+If not, how would you explain it?
+You may assume that the Survey is based on a simple random sample of 50,000 households out of 100 million households.
 
 \end{document}
