@@ -19,39 +19,39 @@
 \maketitle
 
 
-\section{Chapter 26}
-\subsection{Review exercise 2} % Kellie
-\subsubsection{(a)}
+\section*{Chapter 26}
+\subsection*{Review exercise 2} % Kellie
+\subsubsection*{Part (a)}
 The null hypothesis is that in a box of $38$ tickets, there are $18$ that are red.  The alternative is that in this box of $38$ tickets, there are more than $18$ red tickets.
-\subsubsection{(b)}
+\subsubsection*{Part (b)}
 The null says that the percentage of reds in the box is $\frac{18}{38}\approx 48\%$.  The alternative says that the percentage of reds in the box is greater than $48\%$.
-\subsubsection{(c)}
+\subsubsection*{Part (c)}
 $$z = \frac{1890 - (\frac{18}{38})(3800)}{\sqrt{ (\frac{18}{38}) (\frac{20}{38})(3800)}} = \frac{1890 - 1800}{\sqrt{\frac{36000}{38}}} \approx 2.924$$
 Under the null hypothesis, $z$ has approximately a standard normal distribution.  Thus the p-value for the one-sided test is $P = P(z \geq 2.924) \approx 0.0017$.  
-\subsubsection{(d)}
+\subsubsection*{Part (d)}
 At the significance level $0.05$, we reject the null hypothesis that there were $18$ red tickets in the box.  In particular, this means that there were too many reds in the $3800$ roulette spins to be due to chance alone.
 
-\subsection{Review exercise 5} % Kellie
-\subsubsection{(a)}
+\subsection*{Review exercise 5} % Kellie
+\subsubsection*{Part (a)}
 Consider a box containing $3000$ tickets, from which we take a random sample of $100$ without replacement.  The null hypothesis is that the average of the box is $7.5$ and the alternative is that the average is something other than $7.5$.
-\subsubsection{(b)}
+\subsubsection*{Part (b)}
 The null hypothesis is that the average of the box is $7.5$ and the alternative is that the average is something other than $7.5$.
-\subsubsection{(c)}
+\subsubsection*{Part (c)}
 $$T= \frac{7.5 - 6.6}{\frac{9}{\sqrt{100}}\sqrt{\frac{100}{99}}} = \frac{0.9}{0.904534} \approx 0.9950$$
 
 Under the null hypothesis, $T$ has a t distribution with $99$ degrees of freedom.  Thus the p-value for the two-sided test is $ P(t_{99} \geq T) \approx 0.16$.  We fail to reject the null hypothesis that the box average is different from $7.5$, at the $0.05$ significance level.
 
 
 
-\section{Chapter 27}
-\subsection{Review exercise 8} % Kellie
-\subsubsection{(a)}
+\section*{Chapter 27}
+\subsection*{Review exercise 8} % Kellie
+\subsubsection*{Part (a)}
 The data tell us nothing about the research questions (i) and (ii); the two proportions measure different things.  The fraction $22$ of $46$ is the proportion of people who \textit{predicted} that they would help whereas $2$ of $46$ is the proportion of people who actually agreed to help.  A z-test is not applicable here.
 
-\subsubsection{(b)}
+\subsubsection*{Part (b)}
 This data can be used to answer question (i), can people predict how well they will behave?  However, a two-sample z-test is inappropriate because the groups under comparison are comprised of the same individuals.  This introduces correlation between the samples so the standard error of the difference in proportions cannot be computed with the usual formula.  We should use a paired z-test instead of a two-sample z-test.
 
-\subsubsection{(c)}
+\subsubsection*{Part (c)}
 The proportion of volunteers in each group can be used to answer question (ii), do predicted responses influence behavior?  We would conduct a two-sample z-test to compare the proportions. \\
 
 The null hypothesis is that the rate of volunteers among those who are asked to predict their response is the same as the rate of volunteers among those who are not asked.  The alternative hypothesis is that the rates are different.  The observed proportion in the ``prediction-request" group is $22/46$ and the observed proportion in the ``request-only" group is $14/46$.  The test statistic is
@@ -65,6 +65,16 @@ $$\pr( \lvert Z \rvert \geq \lvert z \rvert) = 2 \pr(Z \geq 1.7368) \approx 0.08
 At the $0.05$ level, we fail to reject the null hypothesis that the rates are the same.
 
 
-\subsection{Review exercise 9} % Kellie
+\subsection*{Review exercise 9} % Kellie
+The null hypothesis is that the rate of rejections is the same for the paper with positive results and the paper with negative results.  The alternative hypothesis is that the rate is higher for the paper with negative results.  The observed proportion of rejections for the positive paper is $28/53$ and the observed proportion of rejections for the negative paper is $8/54$. We will conduct a one-sided, two-sample z-test for the difference in proportions.  The test statistic is
+
+$$z = \frac{\frac{28}{53} - \frac{8}{54}}{\sqrt{ \frac{28\times25}{53^2}\frac{1}{53} + \frac{8\times46}{54^2}\frac{1}{54}}} \approx \frac{ 0.5283 - 0.1481}{\sqrt{ \frac{ 0.249199}{53} + \frac{ 0.1262}{54}}} = 4.5317$$
+
+The p-value for this test is
+
+$$\pr(Z \geq 4.5317) = 2.9255 \times 10^{-6}$$
+
+There is strong evidence to reject the null hypothesis that the rejection rates are the same in favor of the alternative hypothesis that the rate of rejections is higher for the paper with negative results.
+
 
 \end{document}
