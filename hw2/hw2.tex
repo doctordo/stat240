@@ -162,6 +162,8 @@ She had a first-year GPA of 3.5, and her second-year GPA was just about average-
 What was her percentile rank on the second-year GPA, relative to all the students in the study?
 If this cannot be determined from the information given, say what else you need to know and why.
 
+
+
 \subsection*{Special exercise 33} % Andrew
 In the U.S., there are two sources of national statistics on crime rates:
 \begin{enumerate}[i]
@@ -175,4 +177,15 @@ Can this difference be explained as chance error?
 If not, how would you explain it?
 You may assume that the Survey is based on a simple random sample of 50,000 households out of 100 million households.
 
+We are interested in the probability that of the $ N = 50,000 $ interviewed, $ 1,500 $ ($ 3\% $ of $ 50,000 $ ) experienced burglary when the finite population of $ M = 100,000,000 $ has $ K = 2,000,000 $ cases on file.  Let $ F_{M, K, N} $ be the hypergeometric distribution function with parameters $ M,K,N $ as defined above, then the probability $ p $ of observing a burglary rate of 3\% or higher in a sample size of $ 50,000 $ is given by:
+
+\begin{align*}
+p &= P(\text{number of households burglarized $ \geq 1500 $}) \\
+&= 1- P(\text{number of households burglarized $ < 1500 $}) \\
+&= 1- F_{M, K, N}(1499) \\
+&= 1-\sum_{i=0}^{1499} \dfrac{\binom{2,000,000}{i} \binom{98,000,000}{50000-i}}{\binom{100,000,000}{50,000}} \\
+&\approx 4.7 \times 10^{-55}
+\end{align*} 
+
+In other words, the difference between the two rates is almost certainly not due to chance.  The most likely explanation is that many burglaries go unreported because people don't want to deal with the hassle of police reports and/or increased insurance rates especially if the stolen items are not particularly valuable.
 \end{document}
