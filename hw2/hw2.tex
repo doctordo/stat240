@@ -7,6 +7,8 @@
 
 \setlength\parindent{0pt}
 \newcommand{\pr}{P} % Generic probability
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}}
 
 
 \title{STAT 240 Homework 2}
@@ -76,5 +78,19 @@ $$\pr(Z \geq 4.5317) = 2.9255 \times 10^{-6}$$
 
 There is strong evidence to reject the null hypothesis that the rejection rates are the same in favor of the alternative hypothesis that the rate of rejections is higher for the paper with negative results.
 
+
+\subsection*{Review exercise 10} % Kellie
+There is a natural pairing in this experiment: children from the same household are the same with respect to a variety of potential confounders for IQ, including parents' socioeconomic status, parents' education, level of parent involvement, etc.  Thus, siblings in this study are highly correlated.  It therefore doesn't make sense to use a test which assumes the sample of first-borns, $X_1, \dots, X_{400}$ is independent of the sample of second-borns, $Y_1, \dots, Y_{400}$.  \\
+
+In reality, the correlation between the IQ of the first-borns and the IQ of the second-borns is positive, so
+
+\begin{align*}
+\var(\bar{X} - \bar{Y}) &= \var{\bar{X}} + \var{\bar{Y}} - 2\cov(\bar{X},\bar{Y}) \\
+&< \var{\bar{X}} + \var{\bar{Y}} 
+\end{align*}
+
+Therefore the estimated standard error, given by $\sqrt{0.5^2 + 0.5^2}$ overestimates the true standard error of the difference in means.  Consequently, the test statistic is biased towards $0$.  The z-test here is inappropriate. \\
+
+If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the estimated standard error would have been smaller, thus the test statistic $z$ would have been larger.  In other words, using a better estimator of the standard error, accounting for the correlation between siblings in the sample, would have given more power to detect a difference in sample means.
 
 \end{document}
