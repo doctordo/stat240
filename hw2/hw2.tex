@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage[margin=0.75in]{geometry}
 \usepackage{bm}
+\usepackage{color}
 \usepackage{enumerate}
 
 \setlength\parindent{0pt}
@@ -63,6 +64,7 @@ In the first pair, the animal in treatment had a cortex weighing 689 milligrams;
 Two methods of analyzing the data will be presented in the form of exercises.
 Both methods take into account the pairing, which is a crucial feature of the data.
 (The pairing comes from randomization within litter.)
+
 \subsubsection*{Part (a)}
 \textit{First Analysis}.
 How many pairs were there in all?
@@ -134,7 +136,35 @@ Therefore the estimated standard error, given by $\sqrt{0.5^2 + 0.5^2}$ overesti
 
 If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the estimated standard error would have been smaller, thus the test statistic $z$ would have been larger.  In other words, using a better estimator of the standard error, accounting for the correlation between siblings in the sample, would have given more power to detect a difference in sample means.
 
+
+
+
+
 \section*{Chapter 29}
+\subsection*{Exercise set C 6} % Kellie
+\subsubsection*{Part (a)}
+The two-sample z-test is legitimate here.  We have two randomly sampled groups, drawn without replacement from a population of reviewers.  The randomization justifies the test.
+
+\subsubsection*{Part (b)}
+We aren't given the sample sizes, but we can recover the standard error using the z-score.  The one-sided p-value is approximately $0.02$, so the z-score is $z = \Phi^{-1}(1 - 0.02) \approx 2.0537$.  Then
+
+$$ z = \frac{0.715 - 0.25}{\sqrt{\var(\bar{X} - \bar{Y})}} = 2.0537$$
+
+Solving gives $\text{SE}(\bar{X} - \bar{Y}) = 0.2264$.
+
+\subsubsection*{Part (c)}
+Yes, the difference between $71.5\%$ and $25\%$ is substantial.  Just from a qualitative perspective, this means the rate of rejection with negative results is nearly three times higher than if one had reported positive results.
+
+
+\subsubsection*{Part (d)}
+In this case, the z-test does not add a great deal of information.  It confirms our belief that there is a significant qualitative difference in the rates and gives evidence that the difference is not simply due to chance sampling variability.
+
+\subsubsection*{Part (e)}
+The data suggest that the review process is biased to favor positive results.  Since reviewers were selected at random to receive either the paper with positive findings or the paper with negative findings, we expect that the two groups are roughly the same with respect to all other variables.  Thus, the difference in acceptance rates can be attributed to the difference in the paper's results.
+
+\subsection*{Exercise set D 3} % Kellie
+It is inappropriate to do a statistical test to compare infant mortality rates in this scenario.  There is no randomness in the data.  Babies weren't randomized to be born in different seasons; their birth simply happened when it happened and we observed the date.  Furthermore, we have data for every baby that was born, so there is no sampling variability.  Since we observe the entire population of interest and the ``treatment" (season of birth) is fixed by Nature, applying a probability model makes no sense.
+
 \subsection*{Review exercise 9} % Andrew
 Investigators are studying the relationship between income and education, for women age 25-54 who are working.
 \subsubsection*{Part (a)}
@@ -188,4 +218,5 @@ p &= P(\text{number of households burglarized $ \geq 1500 $}) \\
 \end{align*} 
 
 In other words, the difference between the two rates is almost certainly not due to chance.  The most likely explanation is that many burglaries go unreported because people don't want to deal with the hassle of police reports and/or increased insurance rates especially if the stolen items are not particularly valuable.
+
 \end{document}
