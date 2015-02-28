@@ -45,6 +45,34 @@ $$T= \frac{7.5 - 6.6}{\frac{9}{\sqrt{100}}\sqrt{\frac{100}{99}}} = \frac{0.9}{0.
 
 Under the null hypothesis, $T$ has a t distribution with $99$ degrees of freedom.  Thus the p-value for the two-sided test is $ P(t_{99} \geq T) \approx 0.16$.  We fail to reject the null hypothesis that the box average is different from $7.5$, at the $0.05$ significance level.
 
+
+
+\subsection*{Review exercise 7} % Bec
+We disagree with the statement that the odd-even assignment to treatment or control is objective and impartial, and thus it is just as good as tossing a coin. The primary evidence stems from the fact that the number of patients  in the treatment group is 580 and the number of patients in the control group is 442, which corresponds to a difference of 138, which seems very large. We can in fact conduct a hypothesis test to see whether or not this study generated a balance that was just as good as randomizing.\\
+
+\noindent Our null hypothesis is that the probability of being assigned to treatment is the same as the probability of being assigned to control. \\
+
+\noindent On the other hand, our alternative hypothesis is that the probability of being assigned to treatment is greater than the probability of being assigned to control. Note that we have observed a difference of $580 - 442 = 138$ but our null hypothesis says that this difference should be 0. Our test statistic can be calculated as follows
+$$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{138 - 0}{\sqrt{1022 \times 0.5 \times 0.5}} = 8.63 $$
+
+\noindent which is absurdly large. In particular, our $P$ is so tiny that we could not possibly imagine that this difference occurred by pure chance. Thus we reject the null hypothesis that the off-even assignment to treatment or control is just as good as tossing a coin.
+
+
+\subsection*{Review exercise 10} % Bec
+
+We have observed an average of 436 births over the entire 25-day period, but an average of 357 for the three Sundays in the 25-day period. The first question is how likely is it that the average of 3 days chosen at random from the table is 357 births or less. Note first that there are only 3 days which do have less than 357 births, and so the probability is:
+
+$$P(\text{3 randomly chosen days have 357 births or less}) = \frac{3}{25}\frac{2}{24}\frac{1}{23} = \frac{1}{2,300}$$
+
+\noindent which is extremely small. Next, we ask if chance is a good explanation for the difference between Sundays and weekdays. Using a hypothesis test, we take our null hypothesis to be that the probability of a birth occurring is the same for each day, and our alternative hypothesis to be that the probability of being born on Sunday within this 25 day period is lower than on other days. We observe an average of 357 births on Sundays, however under our null hypothesis, we expect that we would observe an average of 436 births. Thus, since the variance of the observations is 1649.29 our test statistic is given by:
+
+$$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sqrt{\frac{1649.29}{25}}} = -79 $$
+It is clear that $P$ is so small that it is essentially zero. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible alternative explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
+
+
+
+
+
 \subsection*{Review exercise 12} % Andrew
 (Hard.) Does the psychological environment affect the anatomy of the brain?
 This question was studied experimentally by Mark Rosenzweig and his associates.
@@ -89,6 +117,71 @@ Was it a good idea?
 
 
 \section*{Chapter 27}
+\subsection*{Exercise set D question 4} %Bec
+
+\noindent Note that we have $N = 48835$ women who had reached menopause and we are in the situation where our box contains $N$ tickets each of which has two sides $t_i$ and $c_i$. We have drawn a sample $X_1, ..., X_n$ without replacement ($n = 19,541$) and assigned them to the treatment group (low-fat diet). We also drew a sample $Y_1, ..., Y_m$ without replacement ($m = 29,294$) and assigned them to the control group (eat as normal). We observed $\sum_i X_i = 1357$ cardiovascular events in the treatment group and $\sum_i Y_i = 2088$ cardiovascular events in the control group. The standard deviation for the treatment group is
+$$SD(X) = \sqrt{\frac{1357}{19541} \times \frac{18184}{19541}} = \sqrt{0.06462}$$
+
+\noindent which corresponds to a SE of
+$$SE\left(\sum_i X_i\right) = 35.535$$
+
+\noindent Similarly, the standard deviation for the control group is
+$$SD(Y) = \sqrt{\frac{2088}{29294} \times \frac{27206}{29294}} = \sqrt{0.066197}$$
+
+\noindent so that the SE is given by
+$$SE\left(\sum_i Y_i\right) = 44.036$$
+
+\noindent Thus the SE of the difference in the sums is given by
+$$SE\left( \sum_i X_i - \sum_i Y_i\right) = \sqrt{34.434^2 + 44.036^2} = 56.584$$
+
+
+\noindent and our test statistic, where our null hypothesis is that there is no difference between the two groups versus our alternate hypothesis is that the number of cardiovascular events is lower in the treatment group (low-fat diet) than in the control group is thus
+$$z = -\frac{731}{56.584} = -12.93$$
+
+\noindent which is extremely large, and from which it is clear that this difference was not due to chance. In particular, this implies that we have enough evidence to reject the hypothesis that there is no difference in the number of cardiovascular events in the two groups and that the number is lower in the group with the low-fat diet. That is, we conclude that it is unlikely that the difference is due to chance, and so people on a low-fat diet are less likely to suffer from a cardiovascular event.
+
+\subsection*{Exercise set D question 6} %Bec
+\subsubsection*{(a)}
+\noindent In this situation, our null hypothesis says that the percentage for the 2005 box is the same as for the 2000 box, whereas the alternative hypothesis says that the percentage for the 2005 box is smaller than the percentage in the 2000 box. The SE for the number of 1's (where a 1 corresponds to a respondent having ``a great deal or quite a lot'' of confidence in the supreme court) in the 2005 sample is estimated to be
+$$\sqrt{1000} \times \sqrt{0.41 \times 0.59} = 15.55$$
+\noindent and so the SE for the percentage is
+$$\frac{15.55}{1000} \times 100\% = 1.56\%$$
+\noindent On the other hand, the SE for the 2000 percentage is
+$$\sqrt{1000} \times \sqrt{0.5 \times 0.5} = 15.81$$
+\noindent so the SE for the percentage is
+$$\frac{15.81}{1000} \times 100\% = 1.58$$
+
+\noindent Our null hypothesis tells us that the expected difference is $0\%$, whereas our observed difference is $41\% - 50\% = -9\%$
+
+\noindent Thus our $z$ test is
+$$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE for difference}} = \frac{ - 9\% - 0\%}{\sqrt{1.58^2 + 1.56^2}} = -4.05$$
+
+\noindent which is large enough to Imply that the difference is real. In particular, this implies that in 2005, people has less confidence in the Supreme Court, compared to in 2000.
+
+
+\subsection*{(b)}
+\noindent Now, our null hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is the same as the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The alternative hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is less than the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The SE for the number of 1's (where a 1 corresponds to a respondent having ``a great deal or quite a lot'' of confidence in the Congress) is estimated to be
+$$\sqrt{1000} \times \sqrt{0.22 \times 0.78} = 13.10$$
+\noindent and so the SE for the percentage is
+$$\frac{13.10}{1000} \times 100\% = 1.31\%$$
+\noindent On the other hand, the SE for the organized labor is
+$$\sqrt{1000} \times \sqrt{0.24 \times 0.76} = 13.51$$
+\noindent so the SE for the percentage is
+$$\frac{13.51}{1000} \times 100\% = 1.35$$
+
+\noindent Our null hypothesis tells us that the expected difference is $0\%$, whereas our observed difference is $22\% - 24\% = -2\%$
+
+\noindent Thus our $z$ test is
+$$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE for difference}} = \frac{ - 2\% - 0\%}{\sqrt{1.35^2 + 1.31^2}} = -1.06$$
+
+\noindent which is not large enough to Imply that the difference is real. Using the normal approximation, this corresponds to a p-value of 0.14, which is not large enough to imply that we have evidence against the hypothesis that there is no difference between the percentage or respondents that had a ``great deal or quite a lot of''  confidence in Congress and the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor.\\
+
+\noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
+
+
+
+
+
 \subsection*{Review exercise 8} % Kellie
 \subsubsection*{Part (a)}
 The data tell us nothing about the research questions (i) and (ii); the two proportions measure different things.  The fraction $22$ of $46$ is the proportion of people who \textit{predicted} that they would help whereas $2$ of $46$ is the proportion of people who actually agreed to help.  A z-test is not applicable here.
@@ -141,6 +234,18 @@ If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the esti
 
 
 \section*{Chapter 29}
+
+
+\subsection*{Exercise set B question 9} %Bec
+
+In larger studies, we may be 
+
+
+
+
+
+
+
 \subsection*{Exercise set C 6} % Kellie
 \subsubsection*{Part (a)}
 The two-sample z-test is legitimate here.  We have two randomly sampled groups, drawn without replacement from a population of reviewers.  The randomization justifies the test.
@@ -164,6 +269,16 @@ The data suggest that the review process is biased to favor positive results.  S
 
 \subsection*{Exercise set D 3} % Kellie
 It is inappropriate to do a statistical test to compare infant mortality rates in this scenario.  There is no randomness in the data.  Babies weren't randomized to be born in different seasons; their birth simply happened when it happened and we observed the date.  Furthermore, we have data for every baby that was born, so there is no sampling variability.  Since we observe the entire population of interest and the ``treatment" (season of birth) is fixed by Nature, applying a probability model makes no sense.
+
+
+
+
+\subsection*{Review exercise 6} %Bec
+
+
+The investigators concluded from a hypothesis test with non-significant p-value where the null hypothesis is that inflation has no effect on the outcome of an election and the alternative hypothesis is that inflation has some effect on the outcome (positive or negative), that ``inflation has no impact on voting behavior''. This conclusion does not in fact follow from the statistical test, where all that we can conclude is that the data is consistent with the hypothesis that inflation has no impact on voting behavior, and thus that any observed change could be explained from chance variation.
+
+
 
 \subsection*{Review exercise 9} % Andrew
 Investigators are studying the relationship between income and education, for women age 25-54 who are working.
