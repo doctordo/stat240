@@ -9,6 +9,30 @@ library(reshape2)
 
 #-------------------------------------------------------------------------------
 #
+# Chapter 26, Problem 10
+#
+#-------------------------------------------------------------------------------
+births <- c(451, 468, 429, 448, 466, 377, 344,
+			448, 438, 455, 468, 462, 405, 377,
+			451, 497, 458, 429, 434, 410, 351,
+			467, 508, 432, 426)
+distr <- c()
+for(i in 1:(length(births)-2)){
+	for(j in (i+1):(length(births)-1)){
+		for(k in (j+1):length(births)){
+			distr <- c(distr, mean(births[c(i,j,k)]))
+		}
+	}
+}
+sd(distr)*(length(births)-1)/length(births) # this is the empirical SD of the average of three randomly selected days
+# [1] 21.12005
+
+# to use the z-test for avg of 3 days, it seems like we should use a SE like this
+sqrt(var(births/3))
+#[1] 13.53715
+
+#-------------------------------------------------------------------------------
+#
 # Chapter 26, Problem 12
 #
 #-------------------------------------------------------------------------------

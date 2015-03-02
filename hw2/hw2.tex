@@ -69,7 +69,7 @@ $$P(\text{3 randomly chosen days have 357 births or less}) = \frac{3}{25}\frac{2
 $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sqrt{\frac{1649.29}{25}}} = -79 $$
 It is clear that $P$ is so small that it is essentially zero. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible alternative explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
 
-
+\textcolor{red}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
 
 
 
