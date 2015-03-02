@@ -1,0 +1,72 @@
+467, 508, 432, 426)
+births <- c(451, 468, 429, 448, 466, 377, 344,#
+			448, 438, 455, 468, 462, 405, 377,#
+			451, 497, 458, 429, 434, 410, 351,#
+			467, 508, 432, 426)
+for(i in 1:length(births)-2){#
+	for(j in i:length(births)-1){#
+		for(k in j:length(births)){#
+			print(i,j,k)#
+		}#
+	}#
+}
+for(i in 1:length(births)-2){#
+	for(j in i:length(births)-1){#
+		for(k in j:length(births)){#
+			print(c(i,j,k))#
+		}#
+	}#
+}
+for(i in 1:(length(births)-2)){#
+	for(j in (i+1):(length(births)-1)){#
+		for(k in (j+1):length(births)){#
+			print(c(i,j,k))#
+		}#
+	}#
+}
+distr <- c()
+for(i in 1:(length(births)-2)){#
+	for(j in (i+1):(length(births)-1)){#
+		for(k in (j+1):length(births)){#
+			distr <- c(distr, mean(births[c(i,j,k)]))#
+		}#
+	}#
+}
+distr
+mean(distr <=356)
+mean(distr <=357)
+mean(distr <=358)
+births[7]
+births[7]+births[377]+births[351]
+births[7]+births[14]+births[21]
+(births[7]+births[14]+births[21])/3
+hist(distr)
+mean(distr < 358)
+mean(distr)
+sd(distr)
+1649.29/9
+sqrt((1649.29/9)/25)
+sqrt((1649.29)/25)
+(357-436)/sqrt((1649.29)/25)
+(357-436)/2.7
+sd(distr)
+sd(distr)*(length(births)-1)/length(births) # this is the empirical SD of the
+var(births)
+sd(births)
+var(births)/9
+var(births)/9/25
+sqrt(var(births)/9/25)
+> sqrt((var(births)) / 25)
+sqrt((var(births)) / 25)
+sqrt((var(births)) )
+sqrt((var(births)) /9)
+> sqrt((var(births)) / 9)
+sqrt(var(births/3))
+(357-436)/sqrt(1649.29/25)
+sqrt(1357*0.06462)
+sqrt(19541*0.06462)
+9/sqrt(1.58^2 + 1.56^2)
+?phyper
+phyper(1500, m=2000000, n = 98000000, k =50000)
+phyper(1500, m=2000000, n = 98000000, k =50000, lower.tail=F)
+phyper(1499, m=2000000, n = 98000000, k =50000, lower.tail=F)
