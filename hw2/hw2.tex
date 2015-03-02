@@ -61,17 +61,22 @@ $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{138 - 0}{\sqrt
 
 \subsection*{Review exercise 10} % Bec
 
-We have observed an average of 436 births over the entire 25-day period, but an average of 357 for the three Sundays in the 25-day period. The first question is how likely is it that the average of 3 days chosen at random from the table is 357 births or less. Note first that there are only 3 days which do have less than 357 births, and so the probability is:
+We have observed an average of 436 births over the entire 25-day period, but an average of 357 for the three Sundays in the 25-day period. The first question is how likely is it that the average of 3 days chosen at random from the table is 357 births or less. Note first that the only non-Sunday which could contribute to an average of 357 or less is Saturday the 7th. Thus the possible triples with average 357 or less are:
+$$\{\text{Sun 7, Sun 14, Sun 21}\}~,~ \{\text{Sun 7, Sun 14, Sat 6}\}~,~ \{\text{Sun 7, Sat 6, Sun 21}\}~,~ \{\text{Sat 6, Sun 14, Sun 21}\}$$
 
-$$P(\text{3 randomly chosen days have 357 births or less}) = \frac{3}{25}\frac{2}{24}\frac{1}{23} = \frac{1}{2,300}$$
+\begin{align*}
+P(\text{3 randomly chosen days have 357 births or less}) &= \frac{\# \{\text{ of all triples which average to 357 or less }\}}{\# \{\text{ all triples }\}}\\
+& = \frac{4}{\binom{25}{3}}\\
+& = \frac{1}{575}
+\end{align*}
 
 \noindent which is extremely small. Next, we ask if chance is a good explanation for the difference between Sundays and weekdays. Using a hypothesis test, we take our null hypothesis to be that the probability of a birth occurring is the same for each day, and our alternative hypothesis to be that the probability of being born on Sunday within this 25 day period is lower than on other days. We observe an average of 357 births on Sundays, however under our null hypothesis, we expect that we would observe an average of 436 births. Thus, since the variance of the observations is 1649.29 our test statistic is given by:
 
-$$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sqrt{\frac{1649.29}{25}}} = -79 $$
-It is clear that $P$ is so small that it is essentially zero. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible alternative explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
+$$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sqrt{\frac{1649.29}{3}}} = -3.37 $$
+\noindent which corresponds to $P \approx 0.00038$ which is very small. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
 
-\textcolor{blue}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
-\textcolor{ForestGreen}{I haven't looked over this too much, but shouldn't that first probability be $$P(\text{3 randomly chosen days have an \textit{average} of 357 births or less})$$ in which case you'd have to consider all triplets that average to 357 or less.  The only non-Sunday thing that stands out to me is that Saturday with 377.}
+%\textcolor{blue}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
+%\textcolor{ForestGreen}{I haven't looked over this too much, but shouldn't that first probability be $$P(\text{3 randomly chosen days have an \textit{average} of 357 births or less})$$ in which case you'd have to consider all triplets that average to 357 or less.  The only non-Sunday thing that stands out to me is that Saturday with 377.}
 
 
 \subsection*{Review exercise 12} % Andrew
@@ -161,25 +166,27 @@ $$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE fo
 
 
 \subsection*{(b)}
-\noindent Now, our null hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is the same as the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The alternative hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is less than the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The SE for the number of 1's (where a 1 corresponds to a respondent having ``a great deal or quite a lot'' of confidence in the Congress) is estimated to be
-$$\sqrt{1000} \times \sqrt{0.22 \times 0.78} = 13.10$$
-\noindent and so the SE for the percentage is
-$$\frac{13.10}{1000} \times 100\% = 1.31\%$$
-\noindent On the other hand, the SE for the organized labor is
-$$\sqrt{1000} \times \sqrt{0.24 \times 0.76} = 13.51$$
-\noindent so the SE for the percentage is
-$$\frac{13.51}{1000} \times 100\% = 1.35$$
+%\noindent Now, our null hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is the same as the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The alternative hypothesis says that the percentage of respondents that had a ``great deal or quite a lot of''  confidence in Congress is less than the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor. The SE for the number of 1's (where a 1 corresponds to a respondent having ``a great deal or quite a lot'' of confidence in the Congress) is estimated to be
+%$$\sqrt{1000} \times \sqrt{0.22 \times 0.78} = 13.10$$
+%\noindent and so the SE for the percentage is
+%$$\frac{13.10}{1000} \times 100\% = 1.31\%$$
+%\noindent On the other hand, the SE for the organized labor is
+%$$\sqrt{1000} \times \sqrt{0.24 \times 0.76} = 13.51$$
+%\noindent so the SE for the percentage is
+%$$\frac{13.51}{1000} \times 100\% = 1.35$$
+%
+%\noindent Our null hypothesis tells us that the expected difference is $0\%$, whereas our observed difference is $22\% - 24\% = -2\%$
+%
+%\noindent Thus our $z$ test is
+%$$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE for difference}} = \frac{ - 2\% - 0\%}{\sqrt{1.35^2 + 1.31^2}} = -1.06$$
+%
+%\noindent which is not large enough to Imply that the difference is real. Using the normal approximation, this corresponds to a p-value of 0.14, which is not large enough to imply that we have evidence against the hypothesis that there is no difference between the percentage or respondents that had a ``great deal or quite a lot of''  confidence in Congress and the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor.\\
 
-\noindent Our null hypothesis tells us that the expected difference is $0\%$, whereas our observed difference is $22\% - 24\% = -2\%$
-
-\noindent Thus our $z$ test is
-$$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE for difference}} = \frac{ - 2\% - 0\%}{\sqrt{1.35^2 + 1.31^2}} = -1.06$$
-
-\noindent which is not large enough to Imply that the difference is real. Using the normal approximation, this corresponds to a p-value of 0.14, which is not large enough to imply that we have evidence against the hypothesis that there is no difference between the percentage or respondents that had a ``great deal or quite a lot of''  confidence in Congress and the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor.\\
-
-\noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
-\textcolor{blue}{ I agree - you can crank out the math but it doesn't make sense because the question is comparing apples and oranges.  Since the question asks ``can you tell from the given information?", I'd just give an explanation of why we can't compare the percentages.} %Kellie
-\textcolor{ForestGreen}{I think the following box model represents the Gallup poll: there's a box of tickets representing the entire American population in it.  On the tickets is whether or not that person has confidence in Congress and the same information for organized labor, so there are four types of tickets, $ [0|0] $, $ [0|1] $, $ [1|0] $, and $ [1|1] $.  The null hypothesis would be that the proportion of tickets with 1's on the left side of the tickets equals the proportion with 1's on the right side.  We can't answer the question with the aggregated summary---we need to know percentages on how confidence was paired.}
+\noindent In this case, we are comparing responses to two unrelated questions about confidence in Congress and organized labor, respectively. We could examine this question as if it came from a box model where there are four types of tickets $ [0|0] $, $ [0|1] $, $ [1|0] $, and $ [1|1] $, where the first entry on the ticket corresponds to whether or not the respondent had ``a great deal or quite a lot'' of confidence in Congress and the second entry corresponds to whether or not the respondent had ``a great deal or quite a lot of'' confidence in organized labor. Now, our null hypothesis would be that the proportion of $[1|0]$ and $[1|1]$ tickets (proportion of respondents with confidence in Congress) was the same as the proportion of $[0|1]$ and $[0|0]$ tickets (proportion of respondents with confidence in organized labor). However, we cannot answer the question with the aggregated summaries provided, as we would need to know the proportion of respondents with each of the four confidence combinations. Thus we cannot tell if the difference is real from the information given.
+%
+%\noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
+%\textcolor{blue}{ I agree - you can crank out the math but it doesn't make sense because the question is comparing apples and oranges.  Since the question asks ``can you tell from the given information?", I'd just give an explanation of why we can't compare the percentages.} %Kellie
+%\textcolor{ForestGreen}{I think the following box model represents the Gallup poll: there's a box of tickets representing the entire American population in it.  On the tickets is whether or not that person has confidence in Congress and the same information for organized labor, so there are four types of tickets, $ [0|0] $, $ [0|1] $, $ [1|0] $, and $ [1|1] $.  The null hypothesis would be that the proportion of tickets with 1's on the left side of the tickets equals the proportion with 1's on the right side.  We can't answer the question with the aggregated summary---we need to know percentages on how confidence was paired.}
 
 
 
@@ -240,17 +247,17 @@ If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the esti
 
 \subsection*{Exercise set B question 9} %Bec
 
-In larger studies, we may be 
-
-\textcolor{blue}{Potential ideas:
-\begin{itemize}
-\item Large studies are likely better funded than smaller studies. More funding leads to both a bigger sample size and better quality of care for patients.  A better standard of care could result in lower fatality.
-\item Publication bias - large studies have better power to detect a significant difference. Journals tend to prefer publishing studies with ``statistically significant" results, which are only possible with large effect sizes or large sample sizes.  When fatality rates are low overall, a large sample size is needed for sufficient power to detect an effect. (seems likely this is the ``correct" answer because the problem comes right after the section on data snooping)
-\end{itemize}} %Kellie
-\textcolor{ForestGreen}{Addendum:
-\begin{itemize}
-	\item More on publication bias - And when the sample size is not large, getting a high fatality rate is more probable, increasing the likelihood that in small studies, doctors would see an alarmingly high patient mortality rate worthy of alerting the rest of the medical community.
-\end{itemize}} % Andrew
+There could be several possible explanations for the observation that larger studies on serum hepatitis resulting from transfusions had lower fatality rates. Firstly, it is likely that larger studies are better funded than smaller studies, which leads both to a bigger sample size and a better quality of care for patients. The higher standard of care in particular could result in lower observed fatality. Next, we could be experiencing some sort of publication bias, whereby we note that journals tend to prefer studies with ``statistically significant'' results. Statistical significance, however, is more attainable when there are either large effect sizes or large sample sizes. Moreover, it is likely that the only small studies being published are those which achieve statistically significant results, whereas the larger studies probably find it easier to publish their results even if they did not attain statistical significance, simply because the studies themselves are more prestigious.
+%
+%\textcolor{blue}{Potential ideas:
+%\begin{itemize}
+%\item Large studies are likely better funded than smaller studies. More funding leads to both a bigger sample size and better quality of care for patients.  A better standard of care could result in lower fatality.
+%\item Publication bias - large studies have better power to detect a significant difference. Journals tend to prefer publishing studies with ``statistically significant" results, which are only possible with large effect sizes or large sample sizes.  When fatality rates are low overall, a large sample size is needed for sufficient power to detect an effect. (seems likely this is the ``correct" answer because the problem comes right after the section on data snooping)
+%\end{itemize}} %Kellie
+%\textcolor{ForestGreen}{Addendum:
+%\begin{itemize}
+%	\item More on publication bias - And when the sample size is not large, getting a high fatality rate is more probable, increasing the likelihood that in small studies, doctors would see an alarmingly high patient mortality rate worthy of alerting the rest of the medical community.
+%\end{itemize}} % Andrew
 
 
 
