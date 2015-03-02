@@ -5,6 +5,7 @@
 \usepackage[margin=0.75in]{geometry}
 \usepackage{bm}
 \usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{enumerate}
 
 \setlength\parindent{0pt}
@@ -70,7 +71,7 @@ $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sq
 It is clear that $P$ is so small that it is essentially zero. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible alternative explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
 
 \textcolor{blue}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
-
+\textcolor{ForestGreen}{I haven't looked over this too much, but shouldn't that first probability be $$P(\text{3 randomly chosen days have an \textit{average} of 357 births or less})$$ in which case you'd have to consider all triplets that average to 357 or less.  The only non-Sunday thing that stands out to me is that Saturday with 377.}
 
 
 \subsection*{Review exercise 12} % Andrew
@@ -178,6 +179,7 @@ $$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE fo
 
 \noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
 \textcolor{blue}{ I agree - you can crank out the math but it doesn't make sense because the question is comparing apples and oranges.  Since the question asks ``can you tell from the given information?", I'd just give an explanation of why we can't compare the percentages.} %Kellie
+\textcolor{ForestGreen}{I think the following box model represents the Gallup poll: there's a box of tickets representing the entire American population in it.  On the tickets is whether or not that person has confidence in Congress and the same information for organized labor, so there are four types of tickets, $ [0|0] $, $ [0|1] $, $ [1|0] $, and $ [1|1] $.  The null hypothesis would be that the proportion of tickets with 1's on the left side of the tickets equals the proportion with 1's on the right side.  We can't answer the question with the aggregated summary---we need to know percentages on how confidence was paired.}
 
 
 
@@ -245,7 +247,10 @@ In larger studies, we may be
 \item Large studies are likely better funded than smaller studies. More funding leads to both a bigger sample size and better quality of care for patients.  A better standard of care could result in lower fatality.
 \item Publication bias - large studies have better power to detect a significant difference. Journals tend to prefer publishing studies with ``statistically significant" results, which are only possible with large effect sizes or large sample sizes.  When fatality rates are low overall, a large sample size is needed for sufficient power to detect an effect. (seems likely this is the ``correct" answer because the problem comes right after the section on data snooping)
 \end{itemize}} %Kellie
-
+\textcolor{ForestGreen}{Addendum:
+\begin{itemize}
+	\item More on publication bias - And when the sample size is not large, getting a high fatality rate is more probable, increasing the likelihood that in small studies, doctors would see an alarmingly high patient mortality rate worthy of alerting the rest of the medical community.
+\end{itemize}} % Andrew
 
 
 
@@ -277,53 +282,74 @@ It is inappropriate to do a statistical test to compare infant mortality rates i
 
 
 \subsection*{Review exercise 6} %Bec
-
+Using election data, investigators make a study of the various factors influencing voting behavior.
+They estimate that the issue of inflation contributed about 7 percentage points to the Republican vote in a certain election.
+However, the standard error for this estimate is about 5 percentage points.
+Therefore, the increase is not statistically significant.  
+The investigators conclude that "in fact, and contrary to widely held views, inflation has no impact on voting behavior."
+Does the conclusion follow from the statistical test?
+Answer yes or no, and explain briefly.
 
 The investigators concluded from a hypothesis test with non-significant p-value where the null hypothesis is that inflation has no effect on the outcome of an election and the alternative hypothesis is that inflation has some effect on the outcome (positive or negative), that ``inflation has no impact on voting behavior''. This conclusion does not in fact follow from the statistical test, where all that we can conclude is that the data is consistent with the hypothesis that inflation has no impact on voting behavior, and thus that any observed change could be explained from chance variation.  We can't ``accept" the null hypothesis; we can only fail to reject it.
 
 
 
 \subsection*{Review exercise 9} % Andrew
-Investigators are studying the relationship between income and education, for women age 25-54 who are working.
+\textit{In 1970, $ 36\% $ of first-year college students thought that "being very well off financially is very important or essential."
+By 2000, the percentage had increased to $ 74\% $.
+These percentages are based on nationwide multistage cluster samples.}
 \subsubsection*{Part (a)}
-Investigator A computes the correlation between income and education for all these women.
-Investigator B computes the correlation only for women who have professional, technical, or managerial jobs.
-Who gets the higher correlation?
-Or should the correlations be about the same?
-Explain.
+\textit{Is the difference important?
+Or does the question make sense?}
+
+\vspace{5mm}
+
+The question makes sense and a difference in attitudes gives insight to changes in priorities over time.
 
 \subsubsection*{Part (b)}
-Investigator C computes the correlation between income and education for all the women.
-Investigator D looks at each state separately, computes the average income and average education for that state---and then computes the correlation coefficient for the 50 pairs of state averages.
-Which investigator gets the higher correlation?
-Or should the correlations be about the same?
-Explain.
+\textit{Does it make sense to ask if the difference is statistically significant?
+Can you answer on the basis of the information given?}
+
+\vspace{5mm}
+
+The box model underlying the question consists of two boxes, one containing the tickets for first-year college students in 1970 and in the other, tickets of their counterparts from 2000.  
+Since they took probability samples, it would make sense to ask if the differences are statistically significant, but because they used cluster sampling, we cannot answer the question with the information given.
+
+\subsubsection*{Part (c)}
+\textit{Repeat (b), assuming the percentages are based on independent simple random samples of 1,000 first-year college students drawn each year.}
+
+\vspace{5mm}
+
+The two samples differ by $ 74-36=38 $ percentage points. 
+The two standard errors for the percentages are $$ \sqrt{\frac{(.74)(1-.74)}{1000}} \times 100\% \approx 1.4\%  \text{ and } \sqrt{\frac{(.36)(1-.36)}{1000}} \times 100\%  \approx 1.5\% $$ 
+Hence the SE for the difference is $$ \sqrt{1.4^2 + 1.5^2} \approx 2.3 $$ percent, so the we get a test statistic $$ t = \dfrac{38}{2.3} \approx 16.5, $$ which results in a tiny p-value, leading us to rejecting the null hypothesis and concluding that attitudes toward financial status have changed over the years.
 
 \subsection*{Review exercise 11} % Andrew
-A university made a study of all students who completed the first two years of undergraduate work.
-The average first-year GPA was 3.1, and the SD was 0.4.
-The correlation between first-year and second-year GPA was 0.4.
-The scatter diagram was football shaped.
+\textit{A market research company interviews a simple random sample of 3,600 persons in a certain town, and asked what they did with their leisure time last year:
+$ 39.8\% $ of the respondents read at least one book, whereas $ 39.3\% $ of them entertained friends or relatives at home.
+A reporter wants to know whether the difference between the two percentages is statistically significant.
+Does the question make sense?
+Can you answer it with the information given?}
 
-Sally Davis was in the study.
-She had a first-year GPA of 3.5, and her second-year GPA was just about average---among those who had a first-year GPA of 3.5.
-What was her percentile rank on the second-year GPA, relative to all the students in the study?
-If this cannot be determined from the information given, say what else you need to know and why.
+\vspace{5mm}
 
+While this question makes sense from a marketing standpoint---gaining perspective on what market shares are available---reading books is not mutually exclusive of entertaining friends, so with the given information, it's not a well-formulated in the statistical sense.  To answer this question, we would need more specific information: namely what percentage of people read and entertain for pleasure, what percentage just read, what percentage just entertain, and what percentage do neither.  The underlying probability model follows a multinomial hypergeometric distribution (multinomial asymptotically).  It should also be noted that statistical significance in this setting refers only to whether the difference in proportions is derived from chance and has nothing to do with the practical importance of who to market to.
 
 
 \subsection*{Special exercise 33} % Andrew
-In the U.S., there are two sources of national statistics on crime rates:
+\textit{In the U.S., there are two sources of national statistics on crime rates:}
 \begin{enumerate}[i]
-	\item The FBI's Uniform Crime Reporting Program, which publishes summaries on all crimes reported to police agencies in jurisdictions covering virtually 100\% of the population.
-	\item The National Crime Survey, based on interviews with a nationwide probability sample of households.
+	\item \textit{The FBI's Uniform Crime Reporting Program, which publishes summaries on all crimes reported to police agencies in jurisdictions covering virtually 100\% of the population.}
+	\item \textit{The National Crime Survey, based on interviews with a nationwide probability sample of households.}
 \end{enumerate}
 
-In 2001, 3\% of the households in the sample told the interviewers they had experienced at least one burglary within the past 12 months.
+\textit{In 2001, 3\% of the households in the sample told the interviewers they had experienced at least one burglary within the past 12 months.
 The same year, the FBI reported a burglary rate of 20 per 1,000 households, or 2\%.
 Can this difference be explained as chance error?
 If not, how would you explain it?
-You may assume that the Survey is based on a simple random sample of 50,000 households out of 100 million households.
+You may assume that the Survey is based on a simple random sample of 50,000 households out of 100 million households.}
+
+\vspace{5mm}
 
 We are interested in the probability that of the $ N = 50,000 $ interviewed, $ 1,500 $ ($ 3\% $ of $ 50,000 $ ) experienced burglary when the finite population of $ M = 100,000,000 $ has $ K = 2,000,000 $ cases on file.  Let $ F_{M, K, N} $ be the hypergeometric distribution function with parameters $ M,K,N $ as defined above, then the probability $ p $ of observing a burglary rate of 3\% or higher in a sample size of $ 50,000 $ is given by:
 
