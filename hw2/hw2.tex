@@ -69,7 +69,7 @@ $$P(\text{3 randomly chosen days have 357 births or less}) = \frac{3}{25}\frac{2
 $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sqrt{\frac{1649.29}{25}}} = -79 $$
 It is clear that $P$ is so small that it is essentially zero. Thus we can be fairly certain that the difference cannot be explained by chance. However, a possible alternative explanation is that many births were done by cesarean section, and the doctors did not want to schedule them on Sundays.
 
-\textcolor{red}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
+\textcolor{blue}{ Since the statistic of interest is the average of three days from the month, I believe the variance should be $1649.29/9$.  See the .R file.  In any case, the math isn't right - plugging in what you have gives $z=-9.726321$.} % Kellie 
 
 
 
@@ -149,14 +149,14 @@ $$\frac{15.55}{1000} \times 100\% = 1.56\%$$
 \noindent On the other hand, the SE for the 2000 percentage is
 $$\sqrt{1000} \times \sqrt{0.5 \times 0.5} = 15.81$$
 \noindent so the SE for the percentage is
-$$\frac{15.81}{1000} \times 100\% = 1.58$$
+$$\frac{15.81}{1000} \times 100\% = 1.58\%$$
 
 \noindent Our null hypothesis tells us that the expected difference is $0\%$, whereas our observed difference is $41\% - 50\% = -9\%$
 
 \noindent Thus our $z$ test is
 $$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE for difference}} = \frac{ - 9\% - 0\%}{\sqrt{1.58^2 + 1.56^2}} = -4.05$$
 
-\noindent which is large enough to Imply that the difference is real. In particular, this implies that in 2005, people has less confidence in the Supreme Court, compared to in 2000.
+\noindent which is large enough to imply that the difference is real. In particular, this implies that in 2005, people has less confidence in the Supreme Court, compared to in 2000.
 
 
 \subsection*{(b)}
@@ -177,7 +177,7 @@ $$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE fo
 \noindent which is not large enough to Imply that the difference is real. Using the normal approximation, this corresponds to a p-value of 0.14, which is not large enough to imply that we have evidence against the hypothesis that there is no difference between the percentage or respondents that had a ``great deal or quite a lot of''  confidence in Congress and the percentage of respondents that had a ``great deal or quite a lot of confidence'' in organized labor.\\
 
 \noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
-
+\textcolor{blue}{ I agree - you can crank out the math but it doesn't make sense because the question is comparing apples and oranges.  Since the question asks ``can you tell from the given information?", I'd just give an explanation of why we can't compare the percentages.} %Kellie
 
 
 
@@ -240,8 +240,11 @@ If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the esti
 
 In larger studies, we may be 
 
-
-
+\textcolor{blue}{Potential ideas:
+\begin{itemize}
+\item Large studies are likely better funded than smaller studies. More funding leads to both a bigger sample size and better quality of care for patients.  A better standard of care could result in lower fatality.
+\item Publication bias - large studies have better power to detect a significant difference. Journals tend to prefer publishing studies with ``statistically significant" results, which are only possible with large effect sizes or large sample sizes.  When fatality rates are low overall, a large sample size is needed for sufficient power to detect an effect. (seems likely this is the ``correct" answer because the problem comes right after the section on data snooping)
+\end{itemize}} %Kellie
 
 
 
@@ -276,7 +279,7 @@ It is inappropriate to do a statistical test to compare infant mortality rates i
 \subsection*{Review exercise 6} %Bec
 
 
-The investigators concluded from a hypothesis test with non-significant p-value where the null hypothesis is that inflation has no effect on the outcome of an election and the alternative hypothesis is that inflation has some effect on the outcome (positive or negative), that ``inflation has no impact on voting behavior''. This conclusion does not in fact follow from the statistical test, where all that we can conclude is that the data is consistent with the hypothesis that inflation has no impact on voting behavior, and thus that any observed change could be explained from chance variation.
+The investigators concluded from a hypothesis test with non-significant p-value where the null hypothesis is that inflation has no effect on the outcome of an election and the alternative hypothesis is that inflation has some effect on the outcome (positive or negative), that ``inflation has no impact on voting behavior''. This conclusion does not in fact follow from the statistical test, where all that we can conclude is that the data is consistent with the hypothesis that inflation has no impact on voting behavior, and thus that any observed change could be explained from chance variation.  We can't ``accept" the null hypothesis; we can only fail to reject it.
 
 
 
