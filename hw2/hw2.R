@@ -80,3 +80,4 @@ weight.table <- dcast(data,
                       length, 
                       margins = TRUE,
                       value.var = 'WhichHeavier')
+

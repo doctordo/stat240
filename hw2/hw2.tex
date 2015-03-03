@@ -31,7 +31,8 @@
 \noindent \emph{Formulate the null and alternative hypotheses as statements about a box model.}\\
 
 \noindent The null hypothesis is that in a box of $38$ tickets, there are $18$ that are red.  The alternative is that in this box of $38$ tickets, there are more than $18$ red tickets.\\
-\textcolor{red}{Bec -- could be totes wrong, but should this be that the box specifically has 3,800 tickets, of which 1,800 are red? Since we are specifically drawing from the box of the 3,800 plays?}
+\textcolor{red}{Bec -- could be totes wrong, but should this be that the box specifically has 3,800 tickets, of which 1,800 are red? Since we are specifically drawing from the box of the 3,800 plays?}\\
+\textcolor{ForestGreen}{I think it's fine if we say the sampling is with replacement?}
 
 \subsubsection*{Part (b)}
 \noindent \emph{The null says that the percentage of reds in the box is ???. The alternative says that the percentage of reds in the box is ???. Fill in the blanks.}\\
@@ -115,7 +116,15 @@ $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{357 - 436}{\sq
 In how many of these pairs did the treatment animal have a heavier cortex?
 Suppose treatment had no effect, so each animal of the pair had a 50-50 chance to have the heavier cortex, independently from pair to pair.
 Under this assumption, how likely is it that an investigator would get as many pairs as Rosenzweig did, or more, with the treatment animal having the heavier cortex?
-What do you infer?}
+What do you infer?}\\
+
+The treatment animal had a heavier cortex in 52 of 59 pairs.  We use a one-tailed binomial test to check the probability of seeing a count of 52 or greater under the null hypothesis that each animal of the pair had a 50-50 chance to have a heavier cortex.
+\begin{align*}
+P(\text{In 52 pairs or more, treatment heavier}) &= P(\text{In 7 pairs or fewer, control heavier})\\
+&= \sum_{k=1}^{7} \binom{59}{k}(\dfrac{1}{2})^{k}(\dfrac{1}{2})^{59-k} \\
+&\approx 8.8 \times 10^{-11}
+\end{align*}
+This is a negligible p-value, so we can reject the null hypothesis in favor of the alternative that treatment effected a heavier cortex.  If in fact the researchers were interested in whether or not social interaction had any effect at all on cortex size (not just increases), the p-value would be twice the value calculated but still minuscule.
 
 \subsubsection*{Part (b)}
 \textit{Second Analysis.
@@ -129,7 +138,9 @@ What do you infer?}
 \textit{To ensure the validity of the analysis, the following precaution was taken.
 ``The brain dissection and analysis of each set of littermates was done in immediate succession but in a random order and identified only by code number so that the person doing the dissection does not know which cage the rat comes from."
 Comment briefly on the following: What was the point of this precaution?
-Was it a good idea?}
+Was it a good idea?}\\
+
+This precaution reduces detection bias.  In principle, the blinding reduces the likelihood that the person performing the dissection does something for the treatment group that he/she does not do for the control group (or vice versa).
 
 
 \section*{Chapter 27}
