@@ -124,7 +124,7 @@ P(\text{In 52 pairs or more, treatment heavier}) &= P(\text{In 7 pairs or fewer,
 &= \sum_{k=1}^{7} \binom{59}{k}(\dfrac{1}{2})^{k}(\dfrac{1}{2})^{59-k} \\
 &\approx 8.8 \times 10^{-11}
 \end{align*}
-This is a negligible p-value, so we can reject the null hypothesis in favor of the alternative that treatment effected a heavier cortex.  If in fact the researchers were interested in whether or not social interaction had any effect at all on cortex size (not just increases), the p-value would be twice the value calculated but still minuscule.
+This is a negligible p-value, so we can reject the null hypothesis in favor of the alternative that treatment effected a heavier cortex.
 
 \subsubsection*{Part (b)}
 \textit{Second Analysis.
@@ -132,7 +132,16 @@ For each pair of animals, compute the difference in cortex weights ``treatment -
 Find the average and SD of all these differences.
 The null hypothesis says that these differences are like draws made at random with replacement from a box whose average is 0---the treatment has no effect.
 Conduct an appropriate hypothesis test.
-What do you infer?}
+What do you infer?}\\
+
+First we note that the treatment and control averages are dependent since the rats came in pairs from the same litter, meaning if one rat is predisposed to having a heavy cortex, its littermate is also.  That being said, we use a box model where there is only one box and the tickets represent the difference between treatment and control pairings (the observational unit is the pair of rats).  We perform a t-test with 58 degrees of freedom and begin by calculating the following:
+\begin{itemize}
+	\item The average of the differences is 36.2
+	\item The standard deviation for the differences is approximately 31.5 mg.
+	\item The standard error for the average of the differences is $ 31.5/\sqrt{59} \approx 4.1 $ mg
+	\item The t-statistic then is $$ t = \dfrac{observed-expected}{standard \ error} = \dfrac{36.2-0}{4.1} \approx 8.8 $$
+\end{itemize}
+This gives a p-value of $ 1.2 \times 10^{-12} $.  Thus we reject the null hypothesis in favor of the alternative that the differences in cortex mass is not due to chance variability.
 
 \subsubsection*{Part (c)}
 \textit{To ensure the validity of the analysis, the following precaution was taken.

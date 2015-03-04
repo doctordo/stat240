@@ -75,9 +75,19 @@ data <- data.frame(Experiment = c(rep('#1', 11),
   mutate(WhichHeavier = ifelse(Treatment>Control, 'Treatment', 'Control'),
          Difference = Treatment - Control)
 
+# Part B
+# Average and Standard Error Calculations
 weight.table <- dcast(data, 
                       Experiment ~ WhichHeavier, 
                       length, 
                       margins = TRUE,
                       value.var = 'WhichHeavier')
+
+avg.d <- mean(data$Difference)
+sd.d <- sd(data$Difference)
+se.d.avg <- sd.d/sqrt(59)
+t.stat <- avg.d/se.d.avg
+t.test(x=data$Difference, alternative = "greater", mu = 0)
+
+
 
