@@ -32,7 +32,7 @@
 
 \noindent The null hypothesis is that in a box of $38$ tickets, there are $18$ that are red.  The alternative is that in this box of $38$ tickets, there are more than $18$ red tickets.\\
 \textcolor{red}{Bec -- could be totes wrong, but should this be that the box specifically has 3,800 tickets, of which 1,800 are red? Since we are specifically drawing from the box of the 3,800 plays?}\\
-\textcolor{ForestGreen}{I think it's fine if we say the sampling is with replacement?}
+\textcolor{ForestGreen}{Andrew - I think it's fine if we say the sampling is with replacement?}
 
 \subsubsection*{Part (b)}
 \noindent \emph{The null says that the percentage of reds in the box is ???. The alternative says that the percentage of reds in the box is ???. Fill in the blanks.}\\
@@ -81,6 +81,7 @@ $$z = \frac{\text{observed} - \text{expected}}{\text{SE}} = \frac{138 - 0}{\sqrt
 
 \noindent which is absurdly large. In particular, our $P$ is so tiny that we could not possibly imagine that this difference occurred by pure chance. Thus we reject the null hypothesis that the off-even assignment to treatment or control is just as good as tossing a coin.
 
+\textcolor{ForestGreen}{Andrew - Since we were given the liberty to use whatever test we'd like, do you think we should do a binomial test here? The normal approximation is probably fine given the large sample size though.} % Andrew
 
 \subsection*{Review exercise 10} % Bec
 \noindent \emph{On November 9, 1965, the power went out in New York City, and stayed out for a day -- the Great Blackout. Nine months later, the newspapers suggested that New York was experiencing a baby boom. The table below shows the number of babies born every day during a 25-day period, centered nine months and ten days after the Great Blackout. These numbers average out to 436. This turns out not to be unusually high for New York. But there is an interesting twist to the data: the 3 Sundays only average 357. How likely is it that the average of 3 days chosen at random from the table will be 357 or less? Is chance a good explanation for the difference betters Sundays and weekdays? If not, how would you explain the difference?}\\
@@ -121,7 +122,7 @@ What do you infer?}\\
 The treatment animal had a heavier cortex in 52 of 59 pairs.  We use a one-tailed binomial test to check the probability of seeing a count of 52 or greater under the null hypothesis that each animal of the pair had a 50-50 chance to have a heavier cortex.
 \begin{align*}
 P(\text{In 52 pairs or more, treatment heavier}) &= P(\text{In 7 pairs or fewer, control heavier})\\
-&= \sum_{k=1}^{7} \binom{59}{k}(\dfrac{1}{2})^{k}(\dfrac{1}{2})^{59-k} \\
+&= \sum_{k=1}^{7} \binom{59}{k} \left(\dfrac{1}{2}\right)^{k}\left(\dfrac{1}{2}\right)^{59-k} \\
 &\approx 8.8 \times 10^{-11}
 \end{align*}
 This is a negligible p-value, so we can reject the null hypothesis in favor of the alternative that treatment effected a heavier cortex.
@@ -224,21 +225,24 @@ $$z = \frac{\text{observed difference} - \text{expected difference}}{\text{SE fo
 %\noindent \textcolor{red}{My issue with this question, is what is our box model? It's not an experiment with tmt and ctrl responses on either side, and it's not two boxes with independent populations since it's the same responders for each question}
 %\textcolor{blue}{ I agree - you can crank out the math but it doesn't make sense because the question is comparing apples and oranges.  Since the question asks ``can you tell from the given information?", I'd just give an explanation of why we can't compare the percentages.} %Kellie
 %\textcolor{ForestGreen}{I think the following box model represents the Gallup poll: there's a box of tickets representing the entire American population in it.  On the tickets is whether or not that person has confidence in Congress and the same information for organized labor, so there are four types of tickets, $ [0|0] $, $ [0|1] $, $ [1|0] $, and $ [1|1] $.  The null hypothesis would be that the proportion of tickets with 1's on the left side of the tickets equals the proportion with 1's on the right side.  We can't answer the question with the aggregated summary---we need to know percentages on how confidence was paired.}
+\\
 
-
+\textcolor{ForestGreen}{Andrew - I think in terms of the question asked, we're looking for the difference in proportion of $ [1|1] $ and $ [1|0] $ vs $ [1|1] and [0|1] $ or equivalently just difference in proportion between $ [1|0] $ and $ [0|1] $}
 
 
 \subsection*{Review exercise 8} % Kellie
 \noindent \textit{One experiment contrasted responses to ``prediction-request'' and to ``request-only'' treatments, in order to answer two research questions. (i) Can people predict how well they will behave? (ii) Do their predictions influence their behavior? In the prediction-request group, subjects were first asked to predict whether they would agree to do some volunteer work. Then they were requested to do the work. In the request only group, the subjects were requested to do the work; they were not asked to make predictions beforehand. In parts (a-b-c), a two sample $z$-test may not be legitimate. If it is legitemate, make it. If not, why not?}
 \subsubsection*{Part (a)}
-\noindent \textit{46 residents of Bloomington, Indiane were chosen at random for the ``prediction-request'' treatment. They were called and asked to predict whether they would agree to spend 3 hours collecting for the American Cancer Society if contacted over the telephone with such a request. 22 out of the 46 said they would. Another 46 residents of that town were chosen at random for the ``request-only'' treatment. They were requested to spend the 3 hours collecting for the american Cancer Society. Only 2 out of the 46 agreed to do it. Can the difference be due to chance? What do the data say about research questions (i) and (ii)?}\\
+\noindent \textit{46 residents of Bloomington, Indiane were chosen at random for the ``prediction-request'' treatment. They were called and asked to predict whether they would agree to spend 3 hours collecting for the American Cancer Society if contacted over the telephone with such a request. 22 out of the 46 said they would. Another 46 residents of that town were chosen at random for the ``request-only'' treatment. They were requested to spend the 3 hours collecting for the American Cancer Society. Only 2 out of the 46 agreed to do it. Can the difference be due to chance? What do the data say about research questions (i) and (ii)?}\\
 
 The data tell us nothing about the research questions (i) and (ii); the two proportions measure different things.  The fraction $22$ of $46$ is the proportion of people who \textit{predicted} that they would help whereas $2$ of $46$ is the proportion of people who actually agreed to help.  A z-test is not applicable here.
 
 \subsubsection*{Part (b)}
 \noindent \textit{Three days later, the prediction-request group was called again, and requested to spend 3 hours collecting for the ACS: 14 out of 46 agreed to do so. Can the difference be due to chance? What to the data say about the research questions?}\\
 
-This data can be used to answer question (i), can people predict how well they will behave?  However, a two-sample z-test is inappropriate because the groups under comparison are comprised of the same individuals.  This introduces correlation between the samples so the standard error of the difference in proportions cannot be computed with the usual formula.  We should use a paired z-test instead of a two-sample z-test.
+This data can be used to answer question (i), can people predict how well they will behave?  However, a two-sample z-test is inappropriate because the groups under comparison are comprised of the same individuals.  This introduces correlation between the samples so the standard error of the difference in proportions cannot be computed with the usual formula.  We should use a paired z-test instead of a two-sample z-test.\\
+
+\textcolor{ForestGreen}{Andrew - I hate the wording in this question.  Difference between 14 out of 46 compared and what?  We may be able to answer more about (ii) as we can compare the 14 out of 46 in the P-R group to the 2 out of 46 in the P-O group.  Both groups were simple random samples drawn independently of each other, which leads me to believe that we have two comparable groups.} % Andrew
 
 \subsubsection*{Part (c)}
 \textit{Can the difference between 22/46 and 14/46 be due to chance? What do the data say about the research questions?}\\
@@ -253,8 +257,9 @@ Under the null, $z$ is approximately standard normally distributed, so the p-val
 
 $$\pr( \lvert Z \rvert \geq \lvert z \rvert) = 2 \pr(Z \geq 1.7368) \approx 0.0824$$
 
-At the $0.05$ level, we fail to reject the null hypothesis that the rates are the same.
+At the $0.05$ level, we fail to reject the null hypothesis that the rates are the same.\\
 
+\textcolor{ForestGreen}{Andrew - The difference between 22/46 and 14/46 answers research question (i) I think as it's the difference between prediction and what they actually did.  In that case we should do a paired t-test} % Andrew
 
 \subsection*{Review exercise 9} % Kellie
 \textit{A researcher wants to see if the editors of a journal in the field of social work are biased. He makes up two versions of an article, ``in which an asthmatic child was temporarily separated from its parents in an effort to relieve the symptoms of an illness that is often psychosomatic''. In one version the separation has a positive effect; in the other, negative. The article is submitted to a group of 107 journals; 53 are chosen at random to get the positive version and 54 the negative. The first column of the table says that 28 of the journals getting the positive version accepted it for publication, and 25 rejected it. The second column gives the results for the journals that got the negative version. IS chance a good explanation for the results? If not, what can be concluded about journal publication policy?}\\
@@ -289,7 +294,7 @@ Therefore the estimated standard error, given by $\sqrt{0.5^2 + 0.5^2}$ overesti
 
 If we had accounted for the covariance between $\bar{X}$ and $\bar{Y}$, the estimated standard error would have been smaller, thus the test statistic $z$ would have been larger.  In other words, using a better estimator of the standard error, accounting for the correlation between siblings in the sample, would have given more power to detect a difference in sample means.
 
-
+\textcolor{ForestGreen}{Andrew - In fact, the sampling is not random for treatment and control as you didn't pick the ordering of the children.}
 
 
 
@@ -314,7 +319,7 @@ There could be several possible explanations for the observation that larger stu
 
 
 \subsection*{Exercise set C 6} % Kellie
-\textit{Before publication in a scholarly journal, papers are reviewed. Is this process far? To find out, a psychologist makes up two versions of a paper. Both versions describe a study on the effect of rewarding children for classroom performance. The versions are identical except for the data. One dataset shows tat rewards help motivate learning, the other, that rewards don't help. Some reviewers were chosen at random to get each version. All the reviewers were associated with a journal whose position was behaviorist: rewards for learning should work. As it turned out, both versions of the paper contained a minor inconsistent in the description of the study. The investigator did a two-sample $z$-test, concluding that ``of the individuals who got the positive version, only 25\% found the mistake. Of those who got the negative version, 71.5\% found the mistake. By the two-sample $z$-test, this difference must be considered substantial''.}
+\textit{Before publication in a scholarly journal, papers are reviewed. Is this process fair? To find out, a psychologist makes up two versions of a paper. Both versions describe a study on the effect of rewarding children for classroom performance. The versions are identical except for the data. One dataset shows that rewards help motivate learning, the other, that rewards don't help. Some reviewers were chosen at random to get each version. All the reviewers were associated with a journal whose position was behaviorist: rewards for learning should work. As it turned out, both versions of the paper contained a minor inconsistent in the description of the study. The investigator did a two-sample $z$-test, concluding that ``of the individuals who got the positive version, only 25\% found the mistake. Of those who got the negative version, 71.5\% found the mistake. By the two-sample $z$-test, this difference must be considered substantial''.}
 \subsubsection*{Part (a)}
 \textit{Why is the two-sample $z$-test legitimate? Or is it?}\\
 
@@ -338,7 +343,9 @@ Yes, the difference between $71.5\%$ and $25\%$ is substantial.  Just from a qua
 \subsubsection*{Part (d)}
 \textit{What to the results of the $z$-test add to the argument?}\\
 
-In this case, the z-test does not add a great deal of information.  It confirms our belief that there is a significant qualitative difference in the rates and gives evidence that the difference is not simply due to chance sampling variability.
+In this case, the z-test does not add a great deal of information.  It confirms our belief that there is a significant qualitative difference in the rates and gives evidence that the difference is not simply due to chance sampling variability.\\
+
+\textcolor{ForestGreen}{Andrew - Adds to the defense against journals saying something like ``we were unlucky that too many of our super-critical reviewers got the negative papers"}
 
 \subsubsection*{Part (e)}
 \textit{What to the data say about the fairness of the review process?}\\
