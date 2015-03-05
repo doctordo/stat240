@@ -24,7 +24,37 @@
 \maketitle
 
 
-\section*{1) Show that a permutation test based on $\bar{X}$ and a permutation test based on $t$ are equivalent when $m = n$}
+\section*{1) Show that a permutation test based on $\bar{X}$ and a permutation test based on $t$ are equivalent when $m = n$} % Bec
+
+\noindent Note that the $t$ statistic is defined by
+$$t = \frac{\bar{X} - \bar{Y}}{\sqrt{\frac{Var(X)}{n} + \frac{Var(Y)}{m}}}$$
+\noindent and that a permutation test based on $t$ involves
+\begin{enumerate}
+\item Fill a box with the observed data.
+\item Draw a simple random sample of size $n$ and call if $X$, call the remaining elements in the box $Y$.
+\item Compute $t$ as you would if $X$ and $Y$ were your original data. Call this $t^{*(1)}$.
+\item Repeat steps 1-3 $L$ times to get $t^{*(2)}, t^{*(3)}, ..., t^{*(L)}$.
+\item The distribution of the $t^{*(\ell)}$ approximates the true probability distribution of $t$ under the strong null. In particular, a (left-tail) $p$-value can be computed as
+$$\frac{1}{L} \# \{t^{*(\ell)} \leq t\}$$
+\end{enumerate}
+
+\noindent We thus need to show that we can write
+$$t^* = \frac{\bar{X}^* - \bar{Y}^*}{\sqrt{\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{m}}}$$
+\noindent in terms of $\bar{X}^*$ only.\\
+
+
+\noindent We note, however, that if we simply write $A = \sum_{i=1}^n X_i + \sum_{i=1}^m Y_i   = \sum_{i=1}^n X_i^* + \sum_{i=1}^m Y_i^*$ to the the sum of all observations (which can be considered our new population from which we are drawing), we have that
+$$\bar{X}^* - \bar{Y}^* = \left(1 + \frac{n}{m} \right) \bar{X}^* - \frac1m A$$
+
+\noindent Thus the RHS depends only on $\bar{X}^*$. Next, if we write $B =\sum_{i=1}^n X_i^2 + \sum_{i=1}^m Y_i^2 = \sum_{i=1}^n X_i^{*2} +\sum_{i=1}^m Y_i^{*2}$, then 
+
+\begin{align*}
+\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{m} &= \frac{1}{n} \left[ \frac1n \sum_{i=1}^n X_i^{*2} - \frac{1}{n^2} \left( \sum_{i=1}^n X_i^*\right)^2 \right] + \frac{1}{m} \left[ \frac1m \sum_{i=1}^m Y_i^{*2} - \frac{1}{m^2} \left( \sum_{i=1}^m Y_i^*\right)^2 \right]\\
+& = \left[ \frac{1}{n^2} \sum_{i=1}^n X_i^{*2} + \frac{1}{m^2} \sum_{i=1}^m Y_i^{*2} \right] - \frac1n\bar{X}^{*2} - \frac{1}{m^3} \left[A - n \bar{X}^* \right]^2\\
+& = \frac{1}{n^2m^2}\left[ m^2 \sum_{i=1}^n X_i^{*2} + n^2\left(B - \sum_{i=1}^n X_i^{*2}\right) \right] - \frac1n\bar{X}^{*2} - \frac{1}{m^3} \left[A - n \bar{X}^* \right]^2
+\end{align*}
+
+\noindent \textcolor{red}{How to show that the RHS depends only on $\bar{X}^{*2}$.??? Have I just gone about this all wrong???} 
 
 \section*{2) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a permutation test based on $t$. Try to make the difference substantial.}
 
