@@ -39,22 +39,24 @@ $$\frac{1}{L} \# \{t^{*(\ell)} \leq t\}$$
 \end{enumerate}
 
 \noindent We thus need to show that we can write
-$$t^* = \frac{\bar{X}^* - \bar{Y}^*}{\sqrt{\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{m}}}$$
+$$t^* = \frac{\bar{X}^* - \bar{Y}^*}{\sqrt{\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{n}}}$$
 \noindent in terms of $\bar{X}^*$ only.\\
 
 
-\noindent We note, however, that if we simply write $A = \sum_{i=1}^n X_i + \sum_{i=1}^m Y_i   = \sum_{i=1}^n X_i^* + \sum_{i=1}^m Y_i^*$ to the the sum of all observations (which can be considered our new population from which we are drawing), we have that
-$$\bar{X}^* - \bar{Y}^* = \left(1 + \frac{n}{m} \right) \bar{X}^* - \frac1m A$$
+\noindent We note, however, that if we simply write $A = \sum_{i=1}^n X_i + \sum_{i=1}^n Y_i   = \sum_{i=1}^n X_i^* + \sum_{i=1}^n Y_i^*$ to the the sum of all observations (which can be considered our new population from which we are drawing), we have that
+$$\bar{X}^* - \bar{Y}^* = \left(1 + \frac{n}{n} \right) \bar{X}^* - \frac1n A = 2 \bar{X}^* - \frac1n A $$
 
-\noindent Thus the RHS depends only on $\bar{X}^*$. Next, if we write $B =\sum_{i=1}^n X_i^2 + \sum_{i=1}^m Y_i^2 = \sum_{i=1}^n X_i^{*2} +\sum_{i=1}^m Y_i^{*2}$, then 
+\noindent Thus the RHS depends only on $\bar{X}^*$. Next, if we write $B =\sum_{i=1}^n X_i^2 + \sum_{i=1}^n Y_i^2 = \sum_{i=1}^n X_i^{*2} +\sum_{i=1}^n Y_i^{*2}$, then 
 
 \begin{align*}
-\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{m} &= \frac{1}{n} \left[ \frac1n \sum_{i=1}^n X_i^{*2} - \frac{1}{n^2} \left( \sum_{i=1}^n X_i^*\right)^2 \right] + \frac{1}{m} \left[ \frac1m \sum_{i=1}^m Y_i^{*2} - \frac{1}{m^2} \left( \sum_{i=1}^m Y_i^*\right)^2 \right]\\
-& = \left[ \frac{1}{n^2} \sum_{i=1}^n X_i^{*2} + \frac{1}{m^2} \sum_{i=1}^m Y_i^{*2} \right] - \frac1n\bar{X}^{*2} - \frac{1}{m^3} \left[A - n \bar{X}^* \right]^2\\
-& = \frac{1}{n^2m^2}\left[ m^2 \sum_{i=1}^n X_i^{*2} + n^2\left(B - \sum_{i=1}^n X_i^{*2}\right) \right] - \frac1n\bar{X}^{*2} - \frac{1}{m^3} \left[A - n \bar{X}^* \right]^2
+\frac{Var(X^*)}{n} + \frac{Var(Y^*)}{n} &= \frac{1}{n} \left[ \frac1n \sum_{i=1}^n X_i^{*2} - \frac{1}{n^2} \left( \sum_{i=1}^n X_i^*\right)^2 \right] + \frac{1}{n} \left[ \frac1n \sum_{i=1}^n Y_i^{*2} - \frac{1}{n^2} \left( \sum_{i=1}^n Y_i^*\right)^2 \right]\\
+& = \left[ \frac{1}{n^2} \sum_{i=1}^n X_i^{*2} + \frac{1}{n^2} \sum_{i=1}^n Y_i^{*2} \right] - \frac1n\bar{X}^{*2} - \frac{1}{n^3} \left[A - n \bar{X}^* \right]^2\\
+& = \frac{1}{n^4}\left[ n^2 \sum_{i=1}^n X_i^{*2} + n^2\left(B - \sum_{i=1}^n X_i^{*2}\right) \right] - \frac1n\bar{X}^{*2} - \frac{1}{n^3} \left[A - n \bar{X}^* \right]^2\\
+& = \frac{B}{n^2} - \frac1n\bar{X}^{*2} - \frac{1}{n^3} \left[A - n \bar{X}^* \right]^2\\
 \end{align*}
 
-\noindent \textcolor{red}{How to show that the RHS depends only on $\bar{X}^{*2}$.??? Have I just gone about this all wrong???} 
+\noindent which depends only on $\bar{X}^{*}$. Thus we have shown that we can write $t^*$ in terms of $\bar{X}^*$ only, implying that $t$ and $\bar{X}$ are equivalent test statistics for a permutation test when $m  = n$.
+
 
 \section*{2) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a permutation test based on $t$. Try to make the difference substantial.}
 
