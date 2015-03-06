@@ -59,9 +59,22 @@ $$\bar{X}^* - \bar{Y}^* = \left(1 + \frac{n}{n} \right) \bar{X}^* - \frac1n A = 
 
 
 \section*{2) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a permutation test based on $t$. Try to make the difference substantial.}
+Let the treatment group consist of the observations
 
+$$ X = \{ -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 100, 1000\}$$
+and the control group consist of the integers from $-10$ to $10$.  Suppose that in the treatment group, $100$ and $1000$ are highly unusual observations.  If we were to exclude these, the two groups would have the same means.  We would like our test to be robust to these outliers and tell us that the difference in means between the treatment and control groups is not significantly different from $0$ under the strong null.  We will compare the strong null to the alternative hypothesis that the difference in means is greater than $0$.  \\
+
+The observed difference in means is $\bar{X} - \bar{Y} = 84.6154$ and the observed t-statistic is $1.1034$.  Using $10000$ simulations, the permutation test p-values are
+
+\begin{align*}
+\pr(\bar{X} - \bar{Y} \geq 84.6154) &= 0.0162 \\
+\pr(t \geq 1.1034) &= 0.1492
+\end{align*}
+
+The p-value of the permutation test based on $\bar{X}$ is smaller than the p-value of the permutation test based on $t$ because of the extreme outliers in the treatment group.
 
 \section*{3) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $t$ is smaller than the $p$-value of a permutation test based on $\bar{X}$. Try to make the difference substantial.}
+
 
 \section*{4) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a standard $t$ test. Try to make the difference substantial.}
 

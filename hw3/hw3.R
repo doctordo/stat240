@@ -30,7 +30,23 @@ perm_test_mean <- function(x, y, iters = 10000){
 }
 
 
+
+
 ### Problem 2: Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the p-value of a permutation test based on X ̄ is smaller than the p-value of a permutation test based on t.
+x <- c(-5:5, 100, 1000)
+y <- -10:10
+res1 <-perm_test_mean(x, y)
+res1$tPvalue
+#upper  lower   both
+#0.0162 0.9838 0.3393
+res1$MeansPvalue
+#upper  lower   both
+#0.1492 0.8508 0.1492
+#res1$TestStats
+#diff_means          t
+#84.615385   1.103447
+
+### Problem 3: Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the p-value of a permutation test based on t is smaller than the p-value of a permutation test based on X ̄.
 x <- rnorm(20, mean = 0, sd = 1)
 y <- rnorm(5, mean = 0, sd = 20)
 res1 <- perm_test_mean(x, y)
@@ -41,3 +57,8 @@ res1 <- perm_test_mean(x, y)
 # $tPvalue
 # upper  lower   both
 # 0.6697 0.3303 0.3926
+# this is probably a bad example - let's think of another
+
+
+
+
