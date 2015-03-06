@@ -28,3 +28,16 @@ perm_test_mean <- function(x, y, iters = 10000){
   pval_t <- c("upper" = sum(distr[2,] >= obs[2])/iters, "lower" = sum(distr[2,] <= obs[2])/iters, "both" = sum(abs(distr[2,]) >= abs(obs[2]))/iters)
   return(list("TestStats" = obs, distr, "MeansPvalue" = pval_diffmeans, "tPvalue" = pval_t))
 }
+
+
+### Problem 2: Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the p-value of a permutation test based on X ̄ is smaller than the p-value of a permutation test based on t.
+x <- rnorm(20, mean = 0, sd = 1)
+y <- rnorm(5, mean = 0, sd = 20)
+res1 <- perm_test_mean(x, y)
+# $MeansPvalue
+# upper  lower   both
+# 1.0000 0.0000 0.0278
+#
+# $tPvalue
+# upper  lower   both
+# 0.6697 0.3303 0.3926
