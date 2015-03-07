@@ -59,21 +59,7 @@ $$\bar{X}^* - \bar{Y}^* = \left(1 + \frac{n}{n} \right) \bar{X}^* - \frac1n A = 
 
 
 \section*{2) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a permutation test based on $t$. Try to make the difference substantial.}
-% Kellie - There was a bug in the code so this is all wrong :( 
 
-%Let the treatment group consist of the observations
-%
-%$$ X = \{ -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 100, 1000\}$$
-%and the control group consist of the integers from $-10$ to $10$.  Suppose that in the treatment group, $100$ and $1000$ are highly unusual observations.  If we were to exclude these, the two groups would have the same means.  We would like our test to be robust to these outliers and tell us that the difference in means between the treatment and control groups is not significantly different from $0$ under the strong null.  We will compare the strong null to the alternative hypothesis that the difference in means is greater than $0$.  \\
-%
-%The observed difference in means is $\bar{X} - \bar{Y} = 84.6154$ and the observed t-statistic is $1.1034$.  Using $10000$ simulations, the permutation test p-values are
-%
-%\begin{align*}
-%\pr(\bar{X} - \bar{Y} \geq 84.6154) &= 0.0162 \\
-%\pr(t \geq 1.1034) &= 0.1492
-%\end{align*}
-%
-%The p-value of the permutation test based on $\bar{X}$ is smaller than the p-value of the permutation test based on $t$ because of the extreme outliers in the treatment group.
 
 Suppose that the treatment group $X$ contains only $5$ observations, drawn from a Gaussian distribution with mean $0$ and standard deviation $20$.  In this example, the generated sample is
 
@@ -95,4 +81,17 @@ The p-value of the permutation test based on $\bar{X}$ is smaller than the p-val
 
 \section*{4) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a standard $t$ test. Try to make the difference substantial.}
 
+Let the treatment group consist of the observations
+$$ X = \{ -10, -9, \dots, 9, 10, 500, 1000, 2000, 5000\}$$
+
+and the control group consist of the numbers $0$ through $5$, each appearing $5$ times.  Suppose that in the treatment group, the large observations are highly unusual.  If we were to exclude these, the two groups would have the same means.  We would like our test to be robust to these outliers and tell us that the difference in means between the treatment and control groups is not significantly different from $0$ under the strong null.  We will compare the strong null to the alternative hypothesis that the difference in means is greater than $0$.  \\
+
+The observed difference in means is $\bar{X} - \bar{Y} = 337.5$ and the observed t-statistic is $1.5805$ ($df = 53$).  Using $10000$ simulations, the permutation test p-value for the mean is
+$$\pr(\lvert \bar{X} - \bar{Y}\rvert \geq 337.5) = 0.0394 $$
+
+The t-test p-value is
+$$\pr(\lvert t_{53}\rvert \geq 1.5805) = 0.1200 $$
+
+
+The p-value of the permutation test based on $\bar{X}$ is smaller than the p-value of the usual two-sample t-test based because of the extreme outliers in the treatment group.  When the data is highly skewed, the normality assumptions needed for the t-test are violated.
 \end{document}

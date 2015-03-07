@@ -53,3 +53,26 @@ res2$TestStats
 
 ### Problem 3: Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the p-value of a permutation test based on t is smaller than the p-value of a permutation test based on X ̄.
 
+# this sort of works but it's not a "HUGE" difference. Let's play with it more; increasing variability in the ctrl group helps
+tr_3 <- rnorm(10, mean = 2, sd = 1)
+ctrl_3 <- rnorm(20, mean = 0, sd = 10)
+res3 <- perm_test_mean(tr_3, ctrl_3)
+res3$TestStats
+res3$tPvalue
+res3$MeansPvalue
+
+
+### Problem 4: Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the p-value of a permutation test based on X ̄ is smaller than the p-value of a standard t test.
+
+tr_4 <- c(-10:10, 500, 1000, 2000, 5000)
+ctrl_4 <- rep(0:5, 5)
+res4 <- perm_test_mean(tr_4, ctrl_4)
+t_obs <- res4$TestStats[2]
+#       t
+# 1.580465
+res4$MeansPvalue
+#upper  lower   both
+#0.0394 0.9608 0.0394
+2*pt(t_obs, df = length(tr_4) + length(ctrl_4) -2, lower.tail=F)
+#t
+#0.1199507
