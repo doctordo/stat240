@@ -80,7 +80,9 @@ res2$TestStats
 
 # Andrew - This always gives a higher p-value to the mean test with the mean of
 # the ratio of the p-values at 4 and median at 2.  It took roughly an hour to run 
-# 1000 simulations for the p-values.
+# 1000 simulations for the p-values.  I think it has to do with the spread
+# and number of realized points as the t-test gains power from increased
+# sample size
 
 tr_3 <- rnorm(10, mean = 0, sd = 1)
 ctrl_3 <- rnorm(1000, mean = 1, sd = 100)
