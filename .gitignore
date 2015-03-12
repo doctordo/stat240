@@ -33,3 +33,5 @@ figure
 *.mtc1
 *.out
 *.synctex.gz
+
+!*hw3.RData
