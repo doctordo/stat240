@@ -7,6 +7,7 @@
 \usepackage{color}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{enumerate}
+\usepackage{courier}
 
 \setlength\parindent{0pt}
 \newcommand{\pr}{P} % Generic probability
@@ -78,6 +79,15 @@ The p-value of the permutation test based on $\bar{X}$ is smaller than the p-val
 
 \section*{3) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $t$ is smaller than the $p$-value of a permutation test based on $\bar{X}$. Try to make the difference substantial.}
 
+The treatment group consists of 10 i.i.d. observations drawn from a normal distribution with mean 0 and unit standard deviation.  The control group are 1000 i.i.d observations drawn from a normal distribution with mean 1 and standard deviation 100.  The exact values we used can be found in the \texttt{hw3.Rdata} file turned in with this assignment.  The treatment and control group data are stored in the objects \texttt{tr\_3} and \texttt{ctrl\_3}, respectively. \\
+
+The observed different in means is $\bar{X} - \bar{Y} = 6.4$, and the observed t-statistic is $2.00$.  Using $10000$ simulations, the permutation test p-values for the two-sided test are:
+\begin{align*}
+\pr(\lvert \bar{X} - \bar{Y} \rvert \geq 6.4) &= 0.84 \\
+\pr(\lvert t\rvert \geq 2.0) &= 0.07
+\end{align*}
+
+The p-value of the permutation test based on $ \bar{X} $ is larger than its t-statistic counterpart due to the large amount of noise coupled with a large sample size in the control group.
 
 \section*{4) Construct a hypothetical dataset (with at least 3 data points in treatment and at least 3 in control) for which the $p$-value of a permutation test based on $\bar{X}$ is smaller than the $p$-value of a standard $t$ test. Try to make the difference substantial.}
 
