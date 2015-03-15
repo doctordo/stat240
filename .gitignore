@@ -1,10 +1,9 @@
 *.RData
 
+*.RHistory
 *.rdb
 
 *.rds
-
-*.txt
 
 *.DX_Store
 cache
