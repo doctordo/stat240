@@ -53,10 +53,10 @@ perm_test_mean <- function(x, y, iters = 10000){
 # (with at least 3 data points in treatment and at least 3 in control) 
 # for which the p-value of a permutation test based on X ̄ is smaller
 # than the p-value of a permutation test based on t.
-tr <- rnorm(5, mean = 0, sd = 20)
+tr_2 <- rnorm(5, mean = 0, sd = 20)
 # [1]  10.9933979 -16.8320749   0.6599587  10.4829942 -34.5520822
-ctrl <- rnorm(100, mean = 0, sd = 1)
-res2 <- perm_test_mean(tr, ctrl)
+ctrl_2 <- rnorm(100, mean = 0, sd = 1)
+res2 <- perm_test_mean(tr_2, ctrl_2)
 res2$MeansPvalue
 #upper lower  both
 #0.95  0.05  0.05
@@ -87,11 +87,14 @@ res2$TestStats
 tr_3 <- rnorm(10, mean = 0, sd = 1)
 ctrl_3 <- rnorm(1000, mean = 1, sd = 100)
 res3 <- perm_test_mean(tr_3, ctrl_3, iters = 10000)
-res3$MeansPvalue[3] / res3$tPvalue[3]
 res3$TestStats
 res3$tPvalue
 res3$MeansPvalue
 
+# Simulating P values, change playing to TRUE to run the simulation
+playing = FALSE
+
+if (playing) {
 SimulateP <- function(iterations = 1000) {
   p <- rep(NA, iterations)
   for (i in 1:iterations) {
@@ -106,6 +109,8 @@ SimulateP <- function(iterations = 1000) {
 ggplot(data.frame(p=p)) + geom_histogram(aes(x=p), binwidth=1) + xlim(c(1,25))
 mean(p)
 median(p)
+
+}
 
 ### Problem 4: Construct a hypothetical dataset 
 # (with at least 3 data points in treatment and at least 3 in control) 
