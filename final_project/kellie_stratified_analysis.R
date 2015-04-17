@@ -1,7 +1,11 @@
 
 rm(list=ls())
-library("dplyr")
-library("reshape2")
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+library(gridExtra)
+
+
 #if(!("ModelMatch" %in% rownames(installed.packages()))){library(devtools); install_github("kellieotto/ModelMatch/ModelMatch")} 
 #library("ModelMatch")
 
@@ -29,7 +33,7 @@ stratified_permute_means <- function(values, groups, treatment, nsims){
   ng <- table(groups)
   group_names <- names(ng)
   ng <- as.vector(ng)
-  ind <- lapply(unique(groups), function(x) groups == x)
+  ind <- lapply(group_names, function(x) groups == x)
   
   
   # Compute the test statistic for the given data
@@ -47,7 +51,7 @@ stratified_permute_means <- function(values, groups, treatment, nsims){
       sims[i,g] <- testStatistic(values[gg], treatment[gg])
     }
   }
-  sims[,5] <- apply(sims[,-5], 1, function(x) {sum(x*ng)/length(groups)})
+  sims[,ncol(sims)] <- apply(sims[,-ncol(sims)], 1, function(x) {sum(x*ng)/length(groups)})
   
   
   # Compute p-values
@@ -129,3 +133,16 @@ for(i in 1:4){
 ######################################### Data analysis #########################################
 #################################################################################################
 stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, nsims = 1000)
+
+p1 <- filter(dat, !is.na(tracking)) %>% select(bottomquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
+p2 <- filter(dat, !is.na(tracking)) %>% select(secondquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
+p3 <- filter(dat, !is.na(tracking)) %>% select(thirdquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
+p4 <- filter(dat, !is.na(tracking)) %>% select(topquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
+plist <- list(p1, p2, p3, p4)
+do.call(grid.arrange, plist)
+p <-  filter(dat, !is.na(tracking)) %>% ggplot(aes(litscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4))
+
+dat_cleanquantiles <- filter(dat, !is.na(quantile5p) & !is.na(totalscore))
+stratified_permute_means(values = dat_cleanquantiles$totalscore, groups = dat_cleanquantiles$quantile5p, treatment = dat_cleanquantiles$tracking, nsims = 1000)
+
+ggplot(dat_cleanquantiles, aes(factor(quantile5p), totalscore, fill = as.factor(tracking))) + geom_boxplot()
