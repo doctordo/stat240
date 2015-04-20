@@ -74,9 +74,18 @@ for(i in 1:4){
 
 # GENERATE MANUAL PERCENTILE BASED ON STD_MARK
 ### percentile does not match up with std_mark!!!
-dat %>% group_by(schoolid) %>% mutate(percentile.new = sum(std.mark <= std.mark)
+score_med <- dat %>% group_by(schoolid) %>% summarize(med = median(std_mark, na.rm = TRUE))
+# identify median score in each school
+dat2 <- inner_join(dat, score_med, by = "schoolid")
+dim(dat2)
+# remove students who were put into the wrong stream
+dat3 <- dat2 %>% filter((std_mark < med & lowstream == 1) | (std_mark > med & lowstream == 0) | (tracking == 0))
+dat3 <- dat3 %>% mutate(std_mark2 = std_mark - med)
+# remove students without one of the two scores
+dat3 <- dat3 %>% filter(!is.na(std_mark) & !is.na(totalscore))
 
-tracking.schools <- dat %>% filter(tracking == 1)
+
+tracking.schools <- dat3 %>% filter(tracking == 1)
 
 # keep in mind that the assignment into stream was done WITHIN schools:
 # but standardization of baseline/initial marks was done over ALL schools
@@ -89,27 +98,38 @@ ggplot(filter(tracking.schools, schoolid %in% sample(unique(tracking.schools$sch
 # how many students in each school (~60):
 dat %>% group_by(schoolid) %>% summarize(n = n())
 # how many students are within the (40,60) percentile interval in each school -- try this window
-filter(tracking.schools, percentile < 60 & percentile > 40) %>% group_by(schoolid) %>% summarize(n = n())
+n.window <- filter(tracking.schools, percentile < 65 & percentile > 35) %>% 
+  group_by(schoolid) %>% 
+  summarize(n = n())
+n.window
 
 # restrict to small window of "equivalent students"
 dat.window <- tracking.schools %>% filter(percentile < 65 & percentile > 35)
-
-# remove students who were put into the wrong stream
-dat.window <- dat.window %>% filter(!is.na(totalscore) & !is.na(std_mark))
-dat.window <- dat.window %>% mutate(right.stream = ((percentile < 50 && lowstream == 1) | (percentile >= 50 && lowstream == 0)))
 
 
 # by school:
 ggplot(filter(dat.window, schoolid %in% sample(unique(dat.window$schoolid), 6))) +
   geom_point(aes(x = percentile, y = totalscore, col = factor(lowstream))) +
-  stat_smooth(aes(x = percentile, y = totalscore, col = factor(lowstream)), se = FALSE) +
+  stat_smooth(aes(x = percentile, y = totalscore, col = factor(lowstream)), method = "loess", se = FALSE) +
   facet_wrap(~schoolid, ncol = 3)
 
 # overall:
 ggplot(dat.window) +
-  geom_point(aes(x = percentile, y = totalscore, col = factor(lowstream))) +
-  stat_smooth(aes(x = percentile, y = totalscore, col = factor(lowstream)), se = FALSE) 
-# there are some observations which have been put into the upper stream but are significantly below the 50th percentile... 
+  geom_point(aes(x = std_mark2, y = totalscore, col = factor(lowstream))) +
+  stat_smooth(aes(x = std_mark2, y = totalscore, col = factor(lowstream)), method = "loess", se = FALSE) 
+# there is a slight difference!
 
 
+
+
+# let's identify schools for which there is a big difference:
+stream.med <- dat.window %>% group_by(schoolid, lowstream) %>% summarize(medstream = median(totalscore))
+stream.med.diff <- stream.med %>% group_by(schoolid) %>% summarize(streamdiff = medstream[1] - medstream[2])
+most.diff.schools <- stream.med.diff %>% filter(streamdiff > 10)
+most.diff.schools$schoolid
+# plot the regression
+ggplot(filter(dat.window, schoolid %in% most.diff.schools$schoolid)) +
+  geom_point(aes(x = std_mark2, y = totalscore, col = factor(lowstream))) +
+  stat_smooth(aes(x = std_mark2, y = totalscore, col = factor(lowstream)), method = "loess", se = FALSE) +
+  facet_wrap(~schoolid, ncol = 3)
 
