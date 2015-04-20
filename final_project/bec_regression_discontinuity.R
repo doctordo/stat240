@@ -127,9 +127,13 @@ stream.med <- dat.window %>% group_by(schoolid, lowstream) %>% summarize(medstre
 stream.med.diff <- stream.med %>% group_by(schoolid) %>% summarize(streamdiff = medstream[1] - medstream[2])
 most.diff.schools <- stream.med.diff %>% filter(streamdiff > 10)
 most.diff.schools$schoolid
-# plot the regression
+# plot the regression for the classes of interest
 ggplot(filter(dat.window, schoolid %in% most.diff.schools$schoolid)) +
   geom_point(aes(x = std_mark2, y = totalscore, col = factor(lowstream))) +
   stat_smooth(aes(x = std_mark2, y = totalscore, col = factor(lowstream)), method = "loess", se = FALSE) +
   facet_wrap(~schoolid, ncol = 3)
-
+# make each point the mean of a class, rather than an individual student
+dat.window.join <- inner_join(dat.window, stream.med, by = c("schoolid", "lowstream"))
+ggplot(dat.window.join ) +
+  geom_point(aes(x = std_mark2, y = medstream, col = factor(lowstream))) +
+  stat_smooth(aes(x = std_mark2, y = medstream, col = factor(lowstream)), method = "loess", se = FALSE) 
