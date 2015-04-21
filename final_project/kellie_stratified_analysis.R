@@ -4,8 +4,9 @@ library(dplyr)
 library(reshape2)
 library(ggplot2)
 library(gridExtra)
-
-
+library(xtable)
+setwd("Documents/stat240/final_project/")
+set.seed(650)
 #if(!("ModelMatch" %in% rownames(installed.packages()))){library(devtools); install_github("kellieotto/ModelMatch/ModelMatch")} 
 #library("ModelMatch")
 
@@ -20,11 +21,17 @@ permute_within_groups <- function(x, groups){
   return(x)
 }
 
-testStatistic <- function(x, treatment){
+testStatistic_diffmeans <- function(x, treatment){
   mean(x[treatment ==  1], na.rm=T) - mean(x[treatment == 0], na.rm=T)
 }
 
-stratified_permute_means <- function(values, groups, treatment, nsims){
+testStatistic_t <- function(x, treatment){
+  numer <- testStatistic_diffmeans(x, treatment)
+  denom <- sqrt( (var(x[treatment == 1], na.rm=T)/sum(!is.na(x[treatment==1]))) + (var(x[treatment == 0], na.rm=T)/sum(!is.na(x[treatment==0]))))
+  return(numer/denom)
+}
+
+stratified_permute_means <- function(values, groups, treatment, ts_function, nsims){
   # set up storage
   sims <- matrix(rep(NA, nsims*(length(unique(groups))+1)), ncol = length(unique(groups))+1)
   teststat <- c()
@@ -39,7 +46,7 @@ stratified_permute_means <- function(values, groups, treatment, nsims){
   # Compute the test statistic for the given data
   for(g in seq_along(ind)){
     gg <- ind[[g]]
-    teststat <- c(teststat, testStatistic(values[gg], treatment[gg]))
+    teststat <- c(teststat, ts_function(values[gg], treatment[gg]))
   }
   teststat <- c(teststat, sum(teststat*ng)/length(groups))
   
@@ -48,7 +55,7 @@ stratified_permute_means <- function(values, groups, treatment, nsims){
     treatment <- permute_within_groups(treatment, groups)
     for(g in seq_along(ind)){
       gg <- ind[[g]]
-      sims[i,g] <- testStatistic(values[gg], treatment[gg])
+      sims[i,g] <- ts_function(values[gg], treatment[gg])
     }
   }
   sims[,ncol(sims)] <- apply(sims[,-ncol(sims)], 1, function(x) {sum(x*ng)/length(groups)})
@@ -132,7 +139,11 @@ for(i in 1:4){
 
 ######################################### Data analysis #########################################
 #################################################################################################
-stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, nsims = 1000)
+
+
+#### Question 1: does tracking affect follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
+res1 <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
+res1t <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
 
 p1 <- filter(dat, !is.na(tracking)) %>% select(bottomquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
 p2 <- filter(dat, !is.na(tracking)) %>% select(secondquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4)) #+ facet_grid(.~quartile)
@@ -142,7 +153,16 @@ plist <- list(p1, p2, p3, p4)
 do.call(grid.arrange, plist)
 p <-  filter(dat, !is.na(tracking)) %>% ggplot(aes(litscore, fill = as.factor(tracking))) + geom_density(aes(alpha = 0.4))
 
-dat_cleanquantiles <- filter(dat, !is.na(quantile5p) & !is.na(totalscore))
-stratified_permute_means(values = dat_cleanquantiles$totalscore, groups = dat_cleanquantiles$quantile5p, treatment = dat_cleanquantiles$tracking, nsims = 1000)
+mat1 <- rbind(res1[1,], res1t[c(1,4),])
+rownames(mat1) <- c("Difference in means", "t", "P-value")
+colnames(mat1) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
+xtable(mat1)
 
-ggplot(dat_cleanquantiles, aes(factor(quantile5p), totalscore, fill = as.factor(tracking))) + geom_boxplot()
+
+#### Question 2: does tracking affect follow-up exam score, stratifying by baseline 5% quantiles? Look overall and w/in strata
+dat_cleanquantiles <- filter(dat, !is.na(quantile5p) & !is.na(totalscore))
+res2 <- stratified_permute_means(values = dat_cleanquantiles$totalscore, groups = dat_cleanquantiles$quantile5p, treatment = dat_cleanquantiles$tracking, ts_function = testStatistic_diffmeans, nsims = 1000)
+
+ggplot(dat_cleanquantiles, aes(factor(quantile5p), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "5% Quantile", y= "Score", title = "18 month follow-up scores") + guides(fill = guide_legend(title = "Tracking"))
+
+xtable(res2[c(1,4),], caption = "Difference in mean follow-up exam score between tracking and non-tracking students, by 5% quantile and overall.")
