@@ -136,12 +136,26 @@ for(i in 1:4){
   dat$quartile[keep] <- quartiles[i]
 }
 
+# rate of noncompliance - ie crossover between tracks
+tracked <- select(dat, lowstream, tracking, bottomhalf, tophalf, quartile) %>% filter(tracking == 1) 
+table(tracked$lowstream, tracked$quartile)
+#  bottomquarter secondquarter thirdquarter topquarter
+#0            13             8          857        927
+#1           857           911           37          3
+table(tracked$lowstream, tracked$bottomhalf)
+#    0    1     bottomhalf
+#0 1775   30
+#1   22 1785
+table(tracked$bottomhalf, tracked$quartile)
+#      bottomquarter secondquarter thirdquarter topquarter
+#0             0             0          868        929
+#1           870           919           26          0
 
 ######################################### Data analysis #########################################
 #################################################################################################
 
 
-#### Question 1: does tracking affect follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
+#### Question 1a: does tracking affect follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
 res1 <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
 res1t <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
 
@@ -158,6 +172,24 @@ mat1 <- rbind(res1[1,], res1t[c(1,4),])
 rownames(mat1) <- c("Difference in means", "t", "P-value")
 colnames(mat1) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
 xtable(mat1)
+
+
+#### Question 1b: does tracking affect different dimensions of the follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
+
+res1t_wordscore <- stratified_permute_means(values = dat$wordscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_sentscore <- stratified_permute_means(values = dat$sentscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_letterscore <- stratified_permute_means(values = dat$letterscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_spellscore <- stratified_permute_means(values = dat$spellscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_litscore <- stratified_permute_means(values = dat$litscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_mathscoreraw <- stratified_permute_means(values = dat$mathscoreraw, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+
+mat1_comp <- rbind(res1t_wordscore[c(1,4),], res1t_sentscore[c(1,4),], res1t_letterscore[c(1,4),], res1t_spellscore[c(1,4),],res1t_litscore[c(1,4),], res1t_mathscoreraw[c(1,4),])
+rownames(mat1_comp) <- c("Word Score t", "P-value","Sentence Score t", "P-value","Letter Score t", "P-value","Spelling Score t", "P-value","Literacy Score t", "P-value","Math Score t", "P-value")
+colnames(mat1_comp) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
+xtable(mat1_comp)
+
+
+
 
 
 #### Question 2: does tracking affect follow-up exam score, stratifying by baseline 5% quantiles? Look overall and w/in strata
@@ -213,11 +245,12 @@ p25 <- filter(dat, etpteacher==0) %>% ggplot(aes(as.factor(quartile), totalscore
 plist5 <- list(p15, p25)
 do.call(grid.arrange, plist5)
 
-mutate(dat, etp = ifelse(etpteacher == 1, "ETP", "Non-ETP"), tracking2 = ifelse(tracking == 1, "Tracking", "Non-tracking")) %>% ggplot(aes(interaction(tracking2,  as.numeric(as.factor(quartile))), totalscore, fill = interaction(etp,  tracking2))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, ETP Schools") + guides(fill = guide_legend(title = "Tracking"))
+mutate(dat, etp = ifelse(etpteacher == 1, "ETP", "Non-ETP"), tracking2 = ifelse(tracking == 1, "Tracking", "Non-tracking")) %>% ggplot(aes(quartile, totalscore, color = etp, linetype = tracking2)) + geom_boxplot() + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, ETP Schools") + guides(color = guide_legend(title = "Teacher"),linetype = guide_legend(title = "Tracking"))
 
 mat5 <- rbind(res5[1,], res5t[c(1,4),])
 rownames(mat5) <- c("Difference in means", "t", "P-value")
 colnames(mat5) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
 xtable(mat5, caption = "Difference in mean follow-up exam score between students in tracking vs non-tracking schools, stratified by ETP vs civil servant teachers.")
+
 
 
