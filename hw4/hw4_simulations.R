@@ -25,7 +25,7 @@ X <- c(-1.0, 1.7, -2.0, 0.6, 0.9, 3.5)
 Y <- c(1.9, -0.3, 2.8, -0.7, 1.6, -2.4)
 
 permutation_test(X, Y, normal_approx=TRUE)
-# [1] 0.4528333 -- doesn't match
+# [1] 0.4505772 -- matches
 permutation_test(X, Y, normal_approx=FALSE, L=1000000)
 
 wilcoxon_rank_sum_test(X, Y, normal_approx=TRUE)

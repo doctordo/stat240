@@ -5,7 +5,7 @@ permutation_test = function(x, y, normal_approx=FALSE, L=100000)
   if (normal_approx)
   {
     test_statistic = mean(x) - mean(y)
-    standard_error = sqrt(var(x)/n + var(y)/m)      # Exact value under the strong null
+    standard_error = sqrt( (n+m)*(var(c(x,y))/(n*m)) )      # Exact value under the strong null
       z = test_statistic / standard_error
     pval = 1-pnorm(z)  # One sided test; Alternative hypothesis is positive treatment effect    
     # No continuity correction; x and y need not be integers.
