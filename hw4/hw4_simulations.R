@@ -30,3 +30,10 @@ wilcoxon_rank_sum_test(X, Y, normal_approx=TRUE)
 # [1] 0.5319069 -- matches
 wilcoxon_rank_sum_test(X, Y, normal_approx=FALSE)
 
+paired_permutation_test(X, Y, normal_approx = TRUE)
+# [1] 0.4625569 -- matches
+paired_permutation_test(X, Y, normal_approx = FALSE)
+
+sign_test(X,Y)
+# [1] 0.65625 -- matches
+

@@ -62,15 +62,23 @@ paired_permutation_test = function(x, y, normal_approx=FALSE, L=100000)
   n = length(x) # paired data; m = n
   if (normal_approx)
   {
-    test_statistic = mean(x - y)  # Or mean(x). Your choice.
-    # Insert code here
-    # One sided test; Alternative hypothesis is positive treatment effect    
+    test_statistic = mean(x)  # Or mean(x). Your choice.
+    mu <- mean(x+y)/2
+    sigma2 <- sum((x-y)^2)/(4*n^2)
+    pval <- 1-pnorm(test_statistic, mu, sqrt(sigma2))# One sided test; Alternative hypothesis is positive treatment effect    
     # No continuity correction; x and y need not be integers.
   }
   else 
   {
-    test_statistic = mean(x - y)  # Or mean(x). Your choice.
-    # Insert code here
+    test_statistic = mean(x)  # Or mean(x). Your choice.
+    test_statistic_stars = rep(0,L)
+    for (l in 1:L)
+    {
+      w <- c(x,y)
+      x_star <- w[sample(1:(2*n), n, replace = FALSE)]
+      test_statistic_stars[l] <- mean(x_star)
+    }
+    pval = sum(test_statistic_stars >= test_statistic)/L  # One sided test
     # One sided test; Alternative hypothesis is positive treatment effect    
   }
   return(pval)
@@ -79,7 +87,15 @@ paired_permutation_test = function(x, y, normal_approx=FALSE, L=100000)
 
 sign_test = function(x, y)
 {
+  n <- length(x)
+  identical <- (x == y)
+  if(any(identical)){
+    x <- x[!identical]
+    y <- y[!identical]
+  }
+  S <- sum(x > y)
   # Provide an exact p-value
+  pval <- pbinom(S, n, 0.5)
   return(pval)
 }
 
