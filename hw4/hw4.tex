@@ -1,0 +1,63 @@
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{bm}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumerate}
+\usepackage{courier}
+\usepackage{verbatim}
+
+\setlength\parindent{0pt}
+\newcommand{\pr}{P} % Generic probability
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}}
+
+
+\title{STAT 240 Homework 4}
+\author{Rebecca Barter, Andrew Do, and Kellie Ottoboni}
+\date{May 1, 2015} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+
+\section*{Problem (1)}
+We completed the code in file \texttt{hw4\_functions.R}.  For the dataset 
+$$X: -1.0, 1.7, -2.0, 0.6, 0.9, 3.5, \qquad Y : 1.9, -0.3, 2.8, -0.7, 1.6, -2.4$$
+
+we obtained the following p-values setting $\texttt{L}$ to 1,000,000.
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+ & z Statistic & Wilcoxon Rank Sum & Paired z & Signed Rank  \\ \hline
+Normal Approximation & 0.4505772 & 0.5319069 & 0.4625569 & 0.5   \\
+Permutation & 0.454514 & 0.531657 & 0.455443 & 0.499427  \\ \hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+ The exact p-value for the sign test was $0.65625$.  Next, we use the dataset 
+$$X: 0.5, 2.4, -4.1, 5.9, 3.7, 3.6, \qquad Y : 2.7, 0.8, 1.6, 5.7, 4.3, 0.3$$
+
+We obtained the following p-values setting $\texttt{L}$ to 1,000,000.
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+ & z Statistic & Wilcoxon Rank Sum & Paired z & Signed Rank  \\ \hline
+Normal Approximation & 0.6393479 & 0.5319069 & 0.6826982 & 0.6625066   \\
+Permutation & 0.626417 &  0.531804 & 0.626229 & 0.655774  \\ \hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+
+The p-value for the sign test was $ 0.65625$.
+
+\end{document}
