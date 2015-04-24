@@ -99,11 +99,39 @@ sign_test = function(x, y)
   return(pval)
 }
 
+
 wilcoxon_signed_rank_test = function(x, y, normal_approx=FALSE, L=100000)
 {
-  # Insert code here
-  # One sided test; Alternative hypothesis is positive treatment effect    
-  # Use continuity correction for normal approximation
+  n = length(x)
+  pair_ranks = rank(abs(x-y))  # Do not worry about ties in this assignment
+  xranks <- rep(0, n)
+  yranks <- rep(0, n)
+  for(i in 1:n){
+    if(x[i] > y[i]){
+      xranks[i] <- pair_ranks[i]
+    }else{ yranks[i] <- pair_ranks[i]}
+  }
+  
+  if (normal_approx)
+  {
+    test_statistic <- mean(xranks)
+    mu <- (n+1)/4
+    sigma2 <- (n+1)*(2*n + 1)/(24*n)
+    z <- (test_statistic - (0.5/n) - mu)/sqrt(sigma2) # Use continuity correction.
+    pval = 1-pnorm(z) # One sided test.
+  }
+  else 
+  {
+    test_statistic <- mean(xranks)
+    test_statistic_stars = rep(0,L)
+    for (l in 1:L)
+    {
+      xranks_star = sapply(1:n, function(i) sample(c(xranks[i], yranks[i]), 1))
+      test_statistic_stars[l] <- mean(xranks_star)
+    }
+    pval = sum(test_statistic_stars >= test_statistic)/L    # One sided test; Alternative hypothesis is positive treatment effect    
+  }
+  return(pval)
 }
 
 

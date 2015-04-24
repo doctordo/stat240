@@ -22,18 +22,24 @@ source("hw4_functions.R")
 ############# Problem 1: test the functions
 X <- c(-1.0, 1.7, -2.0, 0.6, 0.9, 3.5)
 Y <- c(1.9, -0.3, 2.8, -0.7, 1.6, -2.4)
+
 permutation_test(X, Y, normal_approx=TRUE)
 # [1] 0.4528333 -- doesn't match
 permutation_test(X, Y, normal_approx=FALSE, L=1000000)
 
 wilcoxon_rank_sum_test(X, Y, normal_approx=TRUE)
 # [1] 0.5319069 -- matches
-wilcoxon_rank_sum_test(X, Y, normal_approx=FALSE)
+wilcoxon_rank_sum_test(X, Y, normal_approx=FALSE, L=1000000)
+# [1] 0.531657
 
 paired_permutation_test(X, Y, normal_approx = TRUE)
 # [1] 0.4625569 -- matches
-paired_permutation_test(X, Y, normal_approx = FALSE)
-
+paired_permutation_test(X, Y, normal_approx = FALSE, L=1000000)
+# [1] 0.455443
 sign_test(X,Y)
 # [1] 0.65625 -- matches
 
+wilcoxon_signed_rank_test(X, Y, normal_approx = TRUE)
+# [1] 0.5
+wilcoxon_signed_rank_test(X, Y, normal_approx = FALSE, L=1000000)
+# [1] 0.499427
