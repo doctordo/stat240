@@ -1,3 +1,4 @@
+
 ################################################################################
 
 # Stat 240 - Non-parametric Statistics
@@ -19,7 +20,12 @@ set.seed(1337)
 
 source("hw4_functions.R")
 
-############# Problem 1: test the functions #################
+#------------------------------------------------------------------------------#
+#
+# @Problem 1
+#
+#------------------------------------------------------------------------------#
+
 ### Test set 1
 X <- c(-1.0, 1.7, -2.0, 0.6, 0.9, 3.5)
 Y <- c(1.9, -0.3, 2.8, -0.7, 1.6, -2.4)
@@ -56,27 +62,32 @@ permutation_test(X, Y, normal_approx=TRUE)
 permutation_test(X, Y, normal_approx=FALSE, L=1000000)
 # [1] 0.626417
 
-  wilcoxon_rank_sum_test(X, Y, normal_approx=TRUE)
+wilcoxon_rank_sum_test(X, Y, normal_approx=TRUE)
 # [1] 0.5319069
 wilcoxon_rank_sum_test(X, Y, normal_approx=FALSE, L=1000000)
 # [1] 0.531804
 
-  paired_permutation_test(X, Y, normal_approx = TRUE)
+paired_permutation_test(X, Y, normal_approx = TRUE)
 # [1] 0.6826982
 paired_permutation_test(X, Y, normal_approx = FALSE, L=1000000)
 # [1] 0.626229
 
-  sign_test(X,Y)
+sign_test(X,Y)
 # [1] 0.65625
 
-  wilcoxon_signed_rank_test(X, Y, normal_approx = TRUE)
+wilcoxon_signed_rank_test(X, Y, normal_approx = TRUE)
 # [1] 0.6625066
 wilcoxon_signed_rank_test(X, Y, normal_approx = FALSE, L=1000000)
 # [1] 0.655774
 
 
 
-################## Problem 2 ######################
+#------------------------------------------------------------------------------#
+#
+# @Problem 2
+#
+#------------------------------------------------------------------------------#
+
 set.seed(2804)
 # Y standard normal, X has the same distribution as Y, except shifted up by 0.3
 L <- 100000
@@ -382,3 +393,158 @@ ggplot(results.df) + geom_line(aes(x = test, y =  power, col = distribution, gro
 
 # put results in table
 results.table <- dcast(results.df, test ~ distribution, mean, value.var = "power")
+
+#------------------------------------------------------------------------------#
+#
+# @Problem 3
+#
+#------------------------------------------------------------------------------#
+set.seed(0416)
+### With Normal Approximation
+# Y Cauchy, X1 has the same distribution as Y, except shifted up by 0.5
+L <- 100000
+n <- 50
+# define Y
+Y <- rcauchy(n*L)
+Y <- matrix(Y, ncol = L)
+Y <- split(Y, col(Y)) # each list entry is a dataset
+
+# define X1 with a shift
+X1 <- rcauchy(n*L) + 0.5
+X1 <- matrix(X1, ncol = L)
+X1 <- split(X1, col(X1)) # each list entry is a dataset
+
+# define X2 without a shift
+X2 <- rcauchy(n*L)
+X2 <- matrix(X2, ncol = L)
+X2 <- split(X2, col(X2)) # each list entry is a dataset
+
+# With shift
+p3a1.z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X1, Y)
+p3a1.power.z.cauchy <- sum(p3a1.z.test.cauchy<=0.05)/L
+# [1] 0.07326
+
+p3a1.rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X1, Y)
+p3a1.power.rank.sum.cauchy <- sum(p3a1.rank.sum.test.cauchy<=0.05)/L
+# [1] 0.00132
+
+p3a1.paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X1, Y)
+p3a1.power.paired.cauchy <- sum(p3a1.paired.test.cauchy<=0.05)/L
+# [1] 0.07278
+
+p3a1.signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X1, Y)
+p3a1.power.signed.rank.cauchy <- sum(p3a1.signed.rank.test.cauchy<=0.05)/L
+# [1] 0.24735
+
+# Without Shift
+p3a2.z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X2, Y)
+p3a2.power.z.cauchy <- sum(p3a2.z.test.cauchy<=0.05)/L
+# [1] 0.033107
+
+p3a2.rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X2, Y)
+p3a2.power.rank.sum.cauchy <- sum(p3a2.rank.sum.test.cauchy<=0.05)/L
+# [1] 0.04859
+
+p3a2.paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X2, Y)
+p3a2.power.paired.cauchy <- sum(p3a2.paired.test.cauchy<=0.05)/L
+# [1] 0.03036
+
+p3a2.signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X2, Y)
+p3a2.power.signed.rank.cauchy <- sum(p3a2.signed.rank.test.cauchy<=0.05)/L
+# [1] 0.05018
+
+### Without Normal Approximation
+# Y Cauchy, X has the same distribution as Y, except shifted up by 0.3
+L <- 10000
+n <- 50
+# define Y
+Y <- rcauchy(n*L)
+Y <- matrix(Y, ncol = L)
+Y <- split(Y, col(Y)) # each list entry is a dataset
+
+# define X1
+X1 <- rcauchy(n*L) + 0.5
+X1 <- matrix(X1, ncol = L)
+X1 <- split(X1, col(X1)) # each list entry is a dataset
+
+# define X2
+X2 <- rcauchy(n*L) + 0.5
+X2 <- matrix(X2, ncol = L)
+X2 <- split(X2, col(X2)) # each list entry is a dataset
+
+# With shift
+p3b1.z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
+p3b1.power.z.cauchy <- sum(z.test.cauchy<=0.05)/L
+
+
+p3b1.rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
+p3b1.power.rank.sum.cauchy <- sum(rank.sum.test.cauchy<=0.05)/L
+
+
+p3b1.paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
+p3b1.power.paired.cauchy <- sum(paired.test.cauchy<=0.05)/L
+
+
+p3b1.sign.test.cauchy <- mapply(function(x,y) sign_test(x, y), X1, Y)
+p3b1.power.sign.cauchy <- sum(sign.test.cauchy<=0.05)/L
+
+
+p3b1.signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
+p3b1.power.signed.rank.cauchy <- sum(signed.rank.test.cauchy<=0.05)/L
+
+
+# Without shift
+p3b2.z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=FALSE, L=1000), X2, Y)
+p3b2.power.z.cauchy <- sum(p3b2.z.test.cauchy<=0.05)/L
+
+
+p3b2.rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=FALSE, L=1000), X2, Y)
+p3b2.power.rank.sum.cauchy <- sum(p3b2.rank.sum.test.cauchy<=0.05)/L
+
+
+p3b2.paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=FALSE, L=1000), X2, Y)
+p3b2.power.paired.cauchy <- sum(p3b2.paired.test.cauchy<=0.05)/L
+
+
+p3b2.sign.test.cauchy <- mapply(function(x,y) sign_test(x, y), X2, Y)
+p3b2.power.sign.cauchy <- sum(p3b2.sign.test.cauchy<=0.05)/L
+
+
+p3b2.signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=FALSE, L=1000), X2, Y)
+p3b2.power.signed.rank.cauchy <- sum(p3b2.signed.rank.test.cauchy<=0.05)/L
+
+# Put the results in a data frame
+p3.results.df <- data.frame(Method = c(rep(c('Z Test', 
+                                           'Wilcoxon Rank Sum Test',
+                                           'Paired Z Test',
+                                           'Wilcoxon Signed Rank Test'), 2),
+                                       rep(c('Z Test', 
+                                             'Wilcoxon Rank Sum Test',
+                                             'Paired Z Test',
+                                             'Sign Test',
+                                             'Wilcoxon Signed Rank Test'), 2)),
+                            Calculation = c(rep('Normal', 8), rep('Exact', 10)),
+                            Shift = c(rep(.5, 4), rep(0, 4),
+                                      rep(.5, 5), rep(0, 5)),
+                            Power = c(p3a1.power.z.cauchy,
+                                      p3a1.power.rank.sum.cauchy,
+                                      p3a1.power.paired.cauchy,
+                                      p3a1.power.signed.rank.cauchy,
+                                      p3a2.power.z.cauchy,
+                                      p3a2.power.rank.sum.cauchy,
+                                      p3a2.power.paired.cauchy,
+                                      p3a2.power.signed.rank.cauchy,
+                                      p3b1.power.z.cauchy,
+                                      p3b1.power.rank.sum.cauchy,
+                                      p3b1.power.paired.cauchy,
+                                      p3b1.power.sign.cauchy,
+                                      p3b1.power.signed.rank.cauchy,
+                                      p3b2.power.z.cauchy,
+                                      p3b2.power.rank.sum.cauchy,
+                                      p3b2.power.paired.cauchy,
+                                      p3b2.power.sign.cauchy,
+                                      p3b2.power.signed.rank.cauchy))
+                                      
+                                      
+                                      
+                                      
