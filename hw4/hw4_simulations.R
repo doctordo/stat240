@@ -88,7 +88,7 @@ wilcoxon_signed_rank_test(X, Y, normal_approx = FALSE, L=1000000)
 #
 #------------------------------------------------------------------------------#
 
-set.seed(2804)
+#set.seed(2804)
 # Y standard normal, X has the same distribution as Y, except shifted up by 0.3
 L <- 100000
 n <- 50
@@ -104,23 +104,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.norm <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.norm <- sum(z.test.norm<=0.05)/L
-# [1] 0.43708
+# [1] 0.43992
 
-rank.sum.test.norm <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.norm <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.norm <- sum(rank.sum.test.norm<=0.05)/L
-# [1] 0.00102
+# [1] 0.427
 
 paired.test.norm <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.norm <- sum(paired.test.norm<=0.05)/L
-# [1] 0.43409
+# [1] 0.43591
 
-sign.test.norm <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.norm <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.norm <- sum(sign.test.norm<=0.05)/L
-# [1] 0.00116
+# [1] 0.35847
 
 signed.rank.test.norm <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.norm <- sum(signed.rank.test.norm<=0.05)/L
-# [1] 0.41798
+# [1] 0.42039
 
 
 
@@ -145,23 +145,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.exp <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.exp <- sum(z.test.exp<=0.05)/L
-# [1] 0.45305
+# [1] 0.45279
 
-rank.sum.test.exp <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.exp <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.exp <- sum(rank.sum.test.exp<=0.05)/L
-# [1] 4e-05
+# [1] 0.73091
 
 paired.test.exp <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.exp <- sum(paired.test.exp<=0.05)/L
-# [1] 0.45029
+# [1] 0.44992
 
-sign.test.exp <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.exp <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.exp <- sum(sign.test.exp<=0.05)/L
-# [1] 9e-05
+# [1] 0.61785
 
 signed.rank.test.exp <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.exp <- sum(signed.rank.test.exp<=0.05)/L
-# [1] 0.54909
+# [1] 0.55044
 
 
 
@@ -186,23 +186,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.lognorm <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.lognorm <- sum(z.test.lognorm<=0.05)/L
-# [1] 0.20736
+# [1] 0.20708
 
-rank.sum.test.lognorm <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.lognorm <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.lognorm <- sum(rank.sum.test.lognorm<=0.05)/L
-# [1] 0.00025
+# [1] 0.55199
 
 paired.test.lognorm <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.lognorm <- sum(paired.test.lognorm<=0.05)/L
-# [1] 0.20605
+# [1] 0.20579
 
-sign.test.lognorm <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.lognorm <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.lognorm <- sum(sign.test.lognorm<=0.05)/L
-# [1] 0.00043
+# [1] 0.45735
 
 signed.rank.test.lognorm <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.lognorm <- sum(signed.rank.test.lognorm<=0.05)/L
-# [1] 0.3546
+# [1] 0.35292
 
 
 
@@ -227,23 +227,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.unif <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.unif <- sum(z.test.unif<=0.05)/L
-# [1] 0.52784
+# [1] 0.52829
 
-rank.sum.test.unif <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.unif <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.unif <- sum(rank.sum.test.unif<=0.05)/L
-# [1] 0.00037
+# [1] 0.50395
 
 paired.test.unif <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.unif <- sum(paired.test.unif<=0.05)/L
-# [1] 0.52329
+# [1] 0.52455
 
-sign.test.unif <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.unif <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.unif <- sum(sign.test.unif<=0.05)/L
-# [1] 0.00055
+# [1] 0.41725
 
 signed.rank.test.unif <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.unif <- sum(signed.rank.test.unif<=0.05)/L
-# [1] 0.48456
+# [1] 0.48594
 
 
 
@@ -271,23 +271,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.cauchy <- sum(z.test.cauchy<=0.05)/L
-# [1] 0.05407
+# [1] 0.05261
 
-rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.cauchy <- sum(rank.sum.test.cauchy<=0.05)/L
-# [1] 0.00679
+# [1] 0.20469
 
 paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.cauchy <- sum(paired.test.cauchy<=0.05)/L
-# [1] 0.05351
+# [1] 0.05182
 
-sign.test.cauchy <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.cauchy <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.cauchy <- sum(sign.test.cauchy<=0.05)/L
-# [1] 0.00637
+# [1] 0.18585
 
 signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.cauchy <- sum(signed.rank.test.cauchy<=0.05)/L
-# [1] 0.14396
+# [1] 0.14219
 
 
 
@@ -315,23 +315,23 @@ X <- split(X, col(X)) # each list entry is a dataset
 
 z.test.mix <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.z.mix <- sum(z.test.mix<=0.05)/L
-# [1] 0.1364
+# [1] 0.13511
 
-rank.sum.test.mix <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.mix <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.mix <- sum(rank.sum.test.mix<=0.05)/L
-# [1] 0.00198
+# [1] 0.33475
 
 paired.test.mix <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=TRUE), X, Y)
 power.paired.mix <- sum(paired.test.mix<=0.05)/L
-# [1] 0.13501
+# [1] 0.13398
 
-sign.test.mix <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.mix <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.mix <- sum(sign.test.mix<=0.05)/L
-# [1] 0.00216
+# [1] 0.28751
 
 signed.rank.test.mix <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.mix <- sum(signed.rank.test.mix<=0.05)/L
-# [1] 0.27262
+# [1] 0.27213
 
 
 
@@ -359,7 +359,7 @@ z.test.normcor <- mapply(function(x,y) permutation_test(x, y, normal_approx=TRUE
 power.z.normcor <- sum(z.test.normcor<=0.05)/L
 # [1] 0
 
-rank.sum.test.normcor <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), Y, X)
+rank.sum.test.normcor <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=TRUE), X, Y)
 power.rank.sum.normcor <- sum(rank.sum.test.normcor<=0.05)/L
 # [1] 0
 
@@ -367,9 +367,9 @@ paired.test.normcor <- mapply(function(x,y) paired_permutation_test(x, y, normal
 power.paired.normcor <- sum(paired.test.normcor<=0.05)/L
 # [1] 1
 
-sign.test.normcor <- mapply(function(x,y) sign_test(x, y), Y, X)
+sign.test.normcor <- mapply(function(x,y) sign_test(x, y), X, Y)
 power.sign.normcor <- sum(sign.test.normcor<=0.05)/L
-# [1] 0
+# [1] 1
 
 signed.rank.test.normcor <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=TRUE), X, Y)
 power.signed.rank.normcor <- sum(signed.rank.test.normcor<=0.05)/L
@@ -387,12 +387,15 @@ results.df <- data.frame(power = c(power.z.norm, power.rank.sum.norm, power.pair
                                    power.z.mix, power.rank.sum.mix, power.paired.mix, power.sign.mix, power.signed.rank.mix,
                                    power.z.normcor, power.rank.sum.normcor, power.paired.normcor, power.sign.normcor, power.signed.rank.normcor),
                          test = factor(rep(c("Z", "Wilcoxon Rank Sum", "Paired Z", "Sign", "Wilcoxon Signed Rank"), times = 7), levels = c("Z", "Wilcoxon Rank Sum", "Paired Z", "Sign", "Wilcoxon Signed Rank")),
-                         distribution = factor(rep(c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated")), levels = c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated")))
+                         distribution = factor(rep(c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated"), each = 5), levels = c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated")))
 # plot results
-ggplot(results.df) + geom_line(aes(x = test, y =  power, col = distribution, group = distribution, linetype = distribution), size = 2)
+ggplot(results.df) + geom_bar(aes(x = test, y =  power, fill = distribution), size = 2, position = "dodge", stat = "identity")
 
 # put results in table
 results.table <- dcast(results.df, test ~ distribution, mean, value.var = "power")
+
+
+
 
 #------------------------------------------------------------------------------#
 #

@@ -63,7 +63,7 @@ The p-value for the sign test was $ 0.65625$.
 
 \newpage
 \section*{Problem (2)}
-We estimated the power for each of the five tests from part (1) by generating 100,000 datasets (where $X$ and $Y$ each have sample size 50) according to the specified distribution, and identifying the fraction of null hypotheses rejected at the 0.05 significance level using the normal approximation (except for the sign test). The results are presented in Figure \ref{fig:part2} and Table \ref{tab:part2}.
+We estimated the power (where the alternative hypothesis is $H_1: X > Y$) for each of the five tests from part (1) by generating 100,000 datasets (where $X$ and $Y$ each have sample size 50) according to the specified distribution, and identifying the fraction of null hypotheses rejected at the 0.05 significance level using the normal approximation (except for the sign test). The results are presented in Figure \ref{fig:part2} and Table \ref{tab:part2}.
 
 
 \begin{figure}[H]
@@ -78,22 +78,24 @@ We estimated the power for each of the five tests from part (1) by generating 10
 \centering
 \begin{tabular}{lrrrrrrr}
   \hline
- test & std normal & exp & lognormal & uniform & cauchy & normal mix. & normal corr. \\ 
+test & std normal & exp & log-normal & uniform & cauchy & normal mix & normal corr \\ 
   \hline
-Z & 0.44 & 0.53 & 0.00 & 0.21 & 0.14 & 0.45 & 0.05 \\ 
- Wilcoxon Rank Sum & 0.01 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
- Paired Z & 0.45 & 0.05 & 0.43 & 0.52 & 1.00 & 0.21 & 0.13 \\ 
-  Sign & 0.00 & 0.00 & 0.01 & 0.00 & 0.00 & 0.00 & 0.00 \\ 
- Wilcoxon Signed Rank & 0.35 & 0.27 & 0.55 & 0.14 & 0.42 & 0.48 & 1.00 \\ 
+Z & 0.44 & 0.45 & 0.21 & 0.53 & 0.05 & 0.14 & 0.00 \\ 
+ Wilcoxon Rank Sum & 0.43 & 0.73 & 0.55 & 0.50 & 0.20 & 0.33 & 0.00 \\ 
+ Paired Z & 0.44 & 0.45 & 0.21 & 0.52 & 0.05 & 0.13 & 1.00 \\ 
+  Sign & 0.36 & 0.62 & 0.46 & 0.42 & 0.19 & 0.29 & 1.00 \\ 
+  Wilcoxon Signed Rank & 0.42 & 0.55 & 0.35 & 0.49 & 0.14 & 0.27 & 1.00 \\ 
    \hline
 \end{tabular}
 \caption{The power of each test where $Y$ has each of the stated distributions and $X$ has the same distribution as $Y$, but is shifted up by 0.3.}
 \label{tab:part2}
 \end{table}
 
-\noindent We see that in each of these scenarios, the $Z$-test has highest power (approximately 0.5) when our data comes from an exponential distribution, the standard normal distribution or a normal mixture distribution. The Wilcoxon rank-sum test and the sign test both seem to have very low power for all distributions considered, the paired $Z$-test has extremely high power when the data comes from a Cauchy distribution, and  has power of approximately 0.5 when the data comes from a standard normal, lognormal or uniform distribution. The Wilcoxon signed rank test has extremely high power when the data comes from a normal distribution but $X$ and $Y$ are correlated, and has power of approximately 0.5 for the lognormal and normal mixture distributions.\\
-Thus, overall, it appears as though the Wilcoxon signed rank test is more powerful than the paired $Z$ test for the exponential distribution, lognormal distribution, normal mixture distribution and normal distribution where $X$ and $Y$ are correlated. However, paired $Z$ test is more powerful for the standard normal, uniform and Cauchy distributions.\\
-On the other hand, the $Z$ test is more powerful than the Wilcoxon Rank Sum test in all cases except when the data comes from a lognormal distribution.
-
+\noindent We find that when the data has a standard normal distribution, the tests all have similar power (and surprisingly low power, with the highest power attained being 0.44), with the exception of the sign test which has lower power.\\
+ When the data has an exponential distribution, the $Z$ and paired $Z$ tests have the lowest power, but perform similarly to one another. Interestingly, the sign test is a bit more powerful than the Wilcoxon signed rank test, but the Wilcoxon rank sum test is by far superior to the others in terms of power. \\
+ When the data follows a log-normal distribution, we find the same results as we did for exponentially distributed data, but the tests are overall less powerful for log-normal data.\\
+  When the data has a uniform distribution, the highest power achieved is 0.53, but all tests have similar power except for the sign test which has lower power (0.42).\\ 
+  For the Cauchy distribution, the $Z$ and paired $Z$ tests have almost no power (0.05), and the remaining tests have power between 0.14 and 0.20, which is also very low. \\
+  For the normal mixture data, the non-parametric methods have much higher power than the parametric methods, but the highest power is still fairly low at 0.33. Finally, for the example where $X$ and $Y$ are correlated and normal, the unpaired tests (the $Z$ and Wilcoxon rank sum tests) have 0 power, whereas the paired tests (the paired $Z$, sign and Wilcoxon signed rank tests) have power 1.
 
 \end{document}
