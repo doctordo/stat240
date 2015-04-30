@@ -88,7 +88,7 @@ wilcoxon_signed_rank_test(X, Y, normal_approx = FALSE, L=1000000)
 #
 #------------------------------------------------------------------------------#
 
-#set.seed(2804)
+set.seed(2804)
 # Y standard normal, X has the same distribution as Y, except shifted up by 0.3
 L <- 100000
 n <- 50
@@ -389,7 +389,7 @@ results.df <- data.frame(power = c(power.z.norm, power.rank.sum.norm, power.pair
                          test = factor(rep(c("Z", "Wilcoxon Rank Sum", "Paired Z", "Sign", "Wilcoxon Signed Rank"), times = 7), levels = c("Z", "Wilcoxon Rank Sum", "Paired Z", "Sign", "Wilcoxon Signed Rank")),
                          distribution = factor(rep(c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated"), each = 5), levels = c("standard normal", "exponential", "log-normal","uniform","cauchy","normal mixture","normal correlated")))
 # plot results
-ggplot(results.df) + geom_bar(aes(x = test, y =  power, fill = distribution), size = 2, position = "dodge", stat = "identity")
+ggplot(results.df) + geom_bar(aes(x = distribution, y =  power, fill = test), size = 2, position = "dodge", stat = "identity")
 
 # put results in table
 results.table <- dcast(results.df, test ~ distribution, mean, value.var = "power")
