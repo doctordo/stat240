@@ -136,57 +136,81 @@ for(i in 1:4){
   dat$quartile[keep] <- quartiles[i]
 }
 
-# rate of noncompliance - ie crossover between tracks
-tracked <- select(dat, lowstream, tracking, bottomhalf, tophalf, quartile) %>% filter(tracking == 1) 
-table(tracked$lowstream, tracked$quartile)
-#  bottomquarter secondquarter thirdquarter topquarter
-#0            13             8          857        927
-#1           857           911           37          3
-table(tracked$lowstream, tracked$bottomhalf)
-#    0    1     bottomhalf
-#0 1775   30
-#1   22 1785
-table(tracked$bottomhalf, tracked$quartile)
-#      bottomquarter secondquarter thirdquarter topquarter
-#0             0             0          868        929
-#1           870           919           26          0
+
+
+# get "real percentiles" based on baseline score. We don't want to use ones that are imputed based on FINAL score as that's what we're trying to compare with!
+school.quantiles.std.mark <- dat %>% group_by(schoolid) %>% summarize(bottomq = quantile(std_mark,0.25 ,na.rm=T), medq = quantile(std_mark,0.5 ,na.rm=T), upperq  = quantile(std_mark,0.75 ,na.rm=T))
+dat <- inner_join(school.quantiles.std.mark, dat, by = "schoolid")
+dat <- dat %>% mutate(fake_quartile = quartile)
+dat$quartile = sapply(1:nrow(dat), function(x) {
+                                  if(is.na(dat$std_mark[x])){NA}
+                                  else if(dat$std_mark[x] <= dat$bottomq[x]){
+                                    quartiles[1]
+                                  }else if(dat$std_mark[x] > dat$bottomq[x] & dat$std_mark[x] <= dat$medq[x]){
+                                    quartiles[2]
+                                  }else if(dat$std_mark[x] > dat$medq[x] & dat$std_mark[x] <= dat$upperq[x]){
+                                    quartiles[3]
+                                  }else{
+                                    quartiles[4]
+                                  }})
+
+### Number of kids I'll remove
+with(dat, table(is.na(std_mark), tracking))
+# tracking
+#        0    1
+# FALSE 2653 3611
+# TRUE   756    2
+# I will remove 758 kids from subsequent analyses, most of whom are in the non-tracked schools.
+with(dat, table(is.na(std_mark), fake_quartile))
+# bottomquarter secondquarter thirdquarter topquarter
+# FALSE          1483          1580         1569       1632
+# TRUE             41            42           42        633
+# Most of the kids with missing baseline scores are marked as "top quartile" - why is that??
+
+# How bad is the misclassification?
+with(dat, table(quartile, fake_quartile))
+
+# Are baseline scores missing at random?
+with(dat, table(is.na(std_mark), schoolid))
+
 
 ######################################### Data analysis #########################################
 #################################################################################################
 
 
 #### Question 1a: does tracking affect follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
-res1 <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
-res1t <- stratified_permute_means(values = dat$totalscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+dat_complete <- dat %>% filter(!is.na(quartile))
+res1 <- stratified_permute_means(values = dat_complete$totalscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
+res1t <- stratified_permute_means(values = dat_complete$totalscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
 
-p1 <- filter(dat, !is.na(tracking)) %>% select(bottomquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity") + labs(x = "Total Score", y = "Density", title = "Bottom quarter")+ guides(fill = guide_legend(title = "Tracking"))
-p2 <- filter(dat, !is.na(tracking)) %>% select(secondquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity") + labs(x = "Total Score", y = "Density", title = "Second quarter")+ guides(fill = guide_legend(title = "Tracking"))
-p3 <- filter(dat, !is.na(tracking)) %>% select(thirdquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity")  + labs(x = "Total Score", y = "Density", title = "Third quarter")+ guides(fill = guide_legend(title = "Tracking"))
-p4 <- filter(dat, !is.na(tracking)) %>% select(topquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity")  + labs(x = "Total Score", y = "Density", title = "Upper quarter") + guides(fill = guide_legend(title = "Tracking"))
+p1 <- filter(dat_complete, !is.na(tracking)) %>% select(bottomquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity") + labs(x = "Total Score", y = "Density", title = "Bottom quarter")+ guides(fill = guide_legend(title = "Tracking"))
+p2 <- filter(dat_complete, !is.na(tracking)) %>% select(secondquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity") + labs(x = "Total Score", y = "Density", title = "Second quarter")+ guides(fill = guide_legend(title = "Tracking"))
+p3 <- filter(dat_complete, !is.na(tracking)) %>% select(thirdquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity")  + labs(x = "Total Score", y = "Density", title = "Third quarter")+ guides(fill = guide_legend(title = "Tracking"))
+p4 <- filter(dat_complete, !is.na(tracking)) %>% select(topquarter == 1) %>% ggplot(aes(totalscore, fill = as.factor(tracking))) + geom_bar(alpha = 0.6, position = "identity")  + labs(x = "Total Score", y = "Density", title = "Upper quarter") + guides(fill = guide_legend(title = "Tracking"))
 plist <- list(p1, p2, p3, p4)
 do.call(grid.arrange, plist)
-filter(dat, !is.na(tracking)) %>% ggplot(aes(factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores") + guides(fill = guide_legend(title = "Tracking"))
+filter(dat_complete, !is.na(tracking)) %>% ggplot(aes(factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores") + guides(fill = guide_legend(title = "Tracking"))
 
 
 mat1 <- rbind(res1[1,], res1t[c(1,4),])
 rownames(mat1) <- c("Difference in means", "t", "P-value")
 colnames(mat1) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
-xtable(mat1)
+xtable(mat1, digits = 3, caption = "Test for differences in final score, stratified by baseline quartile and overall.")
 
 
 #### Question 1b: does tracking affect different dimensions of the follow-up exam score, stratifying by baseline quartile? Look overall and w/in strata. Use difference in means as test statistic.
 
-res1t_wordscore <- stratified_permute_means(values = dat$wordscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
-res1t_sentscore <- stratified_permute_means(values = dat$sentscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
-res1t_letterscore <- stratified_permute_means(values = dat$letterscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
-res1t_spellscore <- stratified_permute_means(values = dat$spellscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
-res1t_litscore <- stratified_permute_means(values = dat$litscore, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
-res1t_mathscoreraw <- stratified_permute_means(values = dat$mathscoreraw, groups = dat$quartile, treatment = dat$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_wordscore <- stratified_permute_means(values = dat_complete$wordscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_sentscore <- stratified_permute_means(values = dat_complete$sentscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_letterscore <- stratified_permute_means(values = dat_complete$letterscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_spellscore <- stratified_permute_means(values = dat_complete$spellscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_litscore <- stratified_permute_means(values = dat_complete$litscore, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+res1t_mathscoreraw <- stratified_permute_means(values = dat_complete$mathscoreraw, groups = dat_complete$quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
 
 mat1_comp <- rbind(res1t_wordscore[c(1,4),], res1t_sentscore[c(1,4),], res1t_letterscore[c(1,4),], res1t_spellscore[c(1,4),],res1t_litscore[c(1,4),], res1t_mathscoreraw[c(1,4),])
 rownames(mat1_comp) <- c("Word Score t", "P-value","Sentence Score t", "P-value","Letter Score t", "P-value","Spelling Score t", "P-value","Literacy Score t", "P-value","Math Score t", "P-value")
 colnames(mat1_comp) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
-xtable(mat1_comp)
+xtable(mat1_comp, digits = 3, caption = "Test for differences in subject-level final score, stratified by baseline quartile and overall.")
 
 
 
@@ -232,25 +256,26 @@ xtable(mat4, caption = "Difference in mean follow-up exam score between students
 
 
 #### Question 5: is there an interaction between ETP and tracking?
-res5_etp <- stratified_permute_means(values = dat$totalscore[dat$etpteacher == 1], groups = dat$quartile[dat$etpteacher == 1], treatment = dat$tracking[dat$etpteacher == 1], ts_function = testStatistic_diffmeans, nsims = 100)
-res5t_etp <- stratified_permute_means(values = dat$totalscore[dat$etpteacher == 1], groups = dat$quartile[dat$etpteacher == 1], treatment = dat$tracking[dat$etpteacher == 1], ts_function = testStatistic_t, nsims = 100)
-res5_noetp <- stratified_permute_means(values = dat$totalscore[dat$etpteacher == 0], groups = dat$quartile[dat$etpteacher == 0], treatment = dat$tracking[dat$etpteacher == 0], ts_function = testStatistic_diffmeans, nsims = 100)
-res5t_noetp <- stratified_permute_means(values = dat$totalscore[dat$etpteacher == 0], groups = dat$quartile[dat$etpteacher == 0], treatment = dat$tracking[dat$etpteacher == 0], ts_function = testStatistic_t, nsims = 100)
+res5_etp <- stratified_permute_means(values = dat_complete$totalscore[dat_complete$etpteacher == 1], groups = dat_complete$quartile[dat_complete$etpteacher == 1], treatment = dat_complete$tracking[dat_complete$etpteacher == 1], ts_function = testStatistic_diffmeans, nsims = 10000)
+res5t_etp <- stratified_permute_means(values = dat_complete$totalscore[dat_complete$etpteacher == 1], groups = dat_complete$quartile[dat_complete$etpteacher == 1], treatment = dat_complete$tracking[dat_complete$etpteacher == 1], ts_function = testStatistic_t, nsims = 10000)
+res5_noetp <- stratified_permute_means(values = dat_complete$totalscore[dat_complete$etpteacher == 0], groups = dat_complete$quartile[dat_complete$etpteacher == 0], treatment = dat_complete$tracking[dat_complete$etpteacher == 0], ts_function = testStatistic_diffmeans, nsims = 10000)
+res5t_noetp <- stratified_permute_means(values = dat_complete$totalscore[dat_complete$etpteacher == 0], groups = dat_complete$quartile[dat_complete$etpteacher == 0], treatment = dat_complete$tracking[dat_complete$etpteacher == 0], ts_function = testStatistic_t, nsims = 10000)
 
 
 
 
-p15 <- filter(dat, etpteacher==1) %>% ggplot(aes(as.factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, ETP Schools") + guides(fill = guide_legend(title = "Tracking"))
-p25 <- filter(dat, etpteacher==0) %>% ggplot(aes(as.factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, Non-ETP Schools") + guides(fill = guide_legend(title = "Tracking"))
+p15 <- filter(dat_complete, etpteacher==1) %>% ggplot(aes(as.factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, ETP Schools") + guides(fill = guide_legend(title = "Tracking"))
+p25 <- filter(dat_complete, etpteacher==0) %>% ggplot(aes(as.factor(quartile), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, Non-ETP Schools") + guides(fill = guide_legend(title = "Tracking"))
 plist5 <- list(p15, p25)
 do.call(grid.arrange, plist5)
 
-mutate(dat, etp = ifelse(etpteacher == 1, "ETP", "Non-ETP"), tracking2 = ifelse(tracking == 1, "Tracking", "Non-tracking")) %>% ggplot(aes(quartile, totalscore, color = etp, linetype = tracking2)) + geom_boxplot() + labs(x = "Quartile", y= "Score", title = "18 month follow-up scores, ETP Schools") + guides(color = guide_legend(title = "Teacher"),linetype = guide_legend(title = "Tracking"))
 
-mat5 <- rbind(res5[1,], res5t[c(1,4),])
-rownames(mat5) <- c("Difference in means", "t", "P-value")
+mutate(dat_complete, etp = ifelse(etpteacher == 1, "ETP", "Non-ETP"), tracking2 = ifelse(tracking == 1, "Tracking", "Non-tracking")) %>% ggplot(aes(quartile, totalscore, linetype = etp, fill = tracking2)) + geom_boxplot() + labs(x = "Baseline Quartile", y= "Score", title = "18 month follow-up scores") + guides(linetype = guide_legend(title = "Teacher"),fill = guide_legend(title = "Tracking"))
+
+mat5 <- rbind(res5_etp[1,], res5t_etp[c(1,4),], res5_noetp[1,], res5t_noetp[c(1,4),])
+rownames(mat5) <- c("ETP: Difference in means", "t", "P-value", "Non-ETP: Difference in means", "t", "P-value")
 colnames(mat5) <- c("Bottom quarter", "Second quarter", "Third quarter", "Top quarter", "Overall")
-xtable(mat5, caption = "Difference in mean follow-up exam score between students in tracking vs non-tracking schools, stratified by ETP vs civil servant teachers.")
+xtable(mat5, digits = 3, caption = "Difference in mean follow-up exam score between students in tracking vs non-tracking schools, stratified by ETP vs civil servant teachers.")
 
 
 
