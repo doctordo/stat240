@@ -68,7 +68,7 @@ We estimated the power (where the alternative hypothesis is $H_1: X > Y$) for ea
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{part2.pdf}
+\includegraphics[scale = 0.6]{part2.pdf}
 \caption{The power of each test where $Y$ has each of the stated distributions and $X$ has the same distribution as $Y$, but is shifted up by 0.3.}
 \label{fig:part2}
 \end{figure}
@@ -94,8 +94,9 @@ Z & 0.44 & 0.45 & 0.21 & 0.53 & 0.05 & 0.14 & 0.00 \\
 \noindent We find that when the data has a standard normal distribution, the tests all have similar power (and surprisingly low power, with the highest power attained being 0.44), with the exception of the sign test which has lower power.\\
  When the data has an exponential distribution, the $Z$ and paired $Z$ tests have the lowest power, but perform similarly to one another. Interestingly, the sign test is a bit more powerful than the Wilcoxon signed rank test, but the Wilcoxon rank sum test is by far superior to the others in terms of power. \\
  When the data follows a log-normal distribution, we find the same results as we did for exponentially distributed data, but the tests are overall less powerful for log-normal data.\\
-  When the data has a uniform distribution, the highest power achieved is 0.53, but all tests have similar power except for the sign test which has lower power (0.42).\\ 
+  When the data has a uniform distribution, the highest power achieved is 0.53, but all tests have similar power except for the sign test which has slightly lower power (0.42).\\ 
   For the Cauchy distribution, the $Z$ and paired $Z$ tests have almost no power (0.05), and the remaining tests have power between 0.14 and 0.20, which is also very low. \\
-  For the normal mixture data, the non-parametric methods have much higher power than the parametric methods, but the highest power is still fairly low at 0.33. Finally, for the example where $X$ and $Y$ are correlated and normal, the unpaired tests (the $Z$ and Wilcoxon rank sum tests) have 0 power, whereas the paired tests (the paired $Z$, sign and Wilcoxon signed rank tests) have power 1.
+  For the normal mixture data, the non-parametric methods have much higher power than the parametric methods, but the highest power is still fairly low at 0.33.\\
+  Finally, for the example where $X$ and $Y$ are correlated and normal, the unpaired tests (the $Z$ and Wilcoxon rank sum tests) have 0 power, whereas the paired tests (the paired $Z$, sign and Wilcoxon signed rank tests) have power 1.
 
 \end{document}
