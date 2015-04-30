@@ -6,6 +6,9 @@
 \usepackage{swmacros}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{color}
+
+
 %\usepackage[top=1in, bottom=1in, left=.5in, right=.5in]{geometry}
 %\usepackage[font=small,labelfont=bf]{caption}
 
@@ -45,13 +48,83 @@ Through our analysis of the data provided by Duflo et al., we will provide data-
 Stream assignment in tracked schools was based on initial test scores (baseline test) which were administered locally within schools. Thus these baseline test scores are internally consistent within schools but not comparable across schools. The success of the program was assessed based on scores from a standardized mathematics and language test taken by 60 students from each school (approximately 7000 students all together) after 18 months (the end line test). Another test was also taken by the same students after 24 months (the long-term followup test). We note that the ETP funding ceased after the 18 month endline, so the tracking was no longer in place at the 24 month followup. These tests contained numeracy and literacy questions ranging from counting and identifying letters to subtracting two-digit numbers and writing words.
  
  \section{Exploratory Data Analysis}
- The original dataset contains
+ The original dataset contains observations for 7022 students over 106 variables, including individual question scores for each of the endline and follow-up tests, as well as information such as school ID, school district, whether or not the student came from a tracked or non-tracked school, gender, age, teacher-type and stream assignment (for students in the tracked schools). We note that the data contains data for first-grade students whose ages range hugely from 5 to 19, with the median age being 9 (Figure~\ref{fig:age}).
  
+  \begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.6]{age.pdf}
+ \caption{Age ranges of first-grade students}
+ \label{fig:age}
+ \end{figure} 
+ 
+ We compared the characteristics of students in tracking and in non tracking schools (Table~\ref{tab:char}), and we found that in terms of age, gender and endline attrition (the percentage of students that were not present for the endline test), the students in tracked and non-tracked schools are extremely comparable. We did, however, find that the tracking and non-tracking schools are not distributed equally in terms of location. The 210 schools come from a total of 9 school zones, but we see that for Butere East and Municipality, there are approximately twice as many tracked schools as non-tracked schools, whereas for Khwisero West, there are more than twice as many non-tracked schools as there are tracked schools (Figure~\ref{fig:zone}). If these regions have different education standards, then this imbalance has the potential to yield biased results if we do not block our analysis by zone. \textcolor{red}{Based on this finding, we should probably do a stratified/blocked analysis on zone}
+ 
+ 
+ \begin{table}[H]
+ \centering
+ \begin{tabular}{cccccccccc}
+ \hline
+ & Tracked School (n = 3613) & Non-tracked School (n = 3409)\\
+ \hline
+Female (\%) & 0.49 & 0.49\\
+Age (mean) & 9.36 (1.47) & 9.18 (1.46)\\
+Endline attrition (\%) & 0.17 & 0.17\\ \hline
+ \end{tabular}
+ \caption{A comparison of the characteristics of the students in tracked and non-tracked schools. The numbers in parentheses are standard deviations.}
+ \label{tab:char}
+ \end{table} 
+ 
+ \begin{figure}[H]
+ \centering
+ \includegraphics[scale = 0.5]{school_zones.pdf}
+ \caption{The number of tracked and non-tracked schools in each school zone}
+ \label{fig:zone}
+ \end{figure}
+ 
+ 
+ \noindent Next, for students in tracked schools, we compared the characteristics for students in the high and low stream (Table~\ref{tab:charstream}). We found that the students in the high stream were slightly older than those in the low stream and were more likely to be present at the endline test.
+  \begin{table}[H]
+ \centering
+ \begin{tabular}{cccccccccc}
+ \hline
+ & Low stream (n = 1808) & High stream (n = 1805)\\
+ \hline
+Female (\%) & 0.49 & 0.50\\
+Age (mean) & 9.14 (1.47) & 9.58 (1.44)\\
+Endline attrition (\%) & 0.19 & 0.16\\ \hline
+ \end{tabular}
+ \caption{A comparison of the characteristics of the students in high and low streams. The numbers in parentheses are standard deviations.}
+ \label{tab:charstream}
+ \end{table} 
+ 
+ 
+ \noindent In addition, we found concerning inconsistencies in the available data. For example the initial grade percentiles provided do not correspond to the percentiles when calculated manually (Figure~\ref{fig:percentile}). The codebook that accompanied the data stated that the provided percentiles had been imputed, although what data was used to conduct the imputation and the method of imputation is not described. We thus decided to use our own calculated percentiles for our subsequent analysis.\\
+ 
+Another issue we detected is that within tracking schools, some crossover between low and high streams occurred (Figure~\ref{fig:crossover}).
+
+ 
+ 
+  \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{Score_vs_Percentile.png}
+ \caption{A comparison of the percentiles reported in the data and the percentiles obtained when calculating manually.}
+ \label{fig:percentile}
+ \end{figure} 
+ 
+  
+  \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.3]{tmt_assignment.png}
+ \caption{The probability of assignment to high stream versus the baseline score. If no crossover occurred, the probability would be 0 until baseline score reached 0.5, after which the probability would be 1.}
+ \label{fig:crossover}
+ \end{figure} 
  
  
  \section{Analysis}
  \subsection{Value-added over time by tracking}
 Unfortunately since the baseline test scores were not comparable across different schools, we were unable to measure the value-added from tracking by comparing baseline with the 18 month endline scores. As a result, we thus chose to measure the long-term value-added by comparing 18 month endline scores with the 24 month follow-up scores. This comparison allows us to see if tracking yielded a lasting effect on students, even after the tracking was no longer in place.
+
+
 
  \subsection{Stratified permutation tests for comparing tracking with non tracking schools}
 In comparison to the previous analysis, which involved comparing scores over time for the students in tracking schools, we now turn to a comparison of scores achieved by students in tracking schools with students in non-tracking schools.
