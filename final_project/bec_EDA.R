@@ -31,7 +31,7 @@ dat %>% group_by(tracking) %>% summarize(n = sum(r2_attrition, na.rm = T))
 
 
 # comparing number of tracked and non tracked schools in each zone
-school.zones <- dat %>% group_by(tracking, zone) %>% summarize(n = n()) # imbalance in school zones!
+school.zones <- dat %>% group_by(tracking, zone) %>% summarize(n = length(unique(schoolid))) # imbalance in school zones!
 ggplot(school.zones) + 
   geom_bar(aes(x = zone, y = n, fill = factor(tracking)), stat = "identity", position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +

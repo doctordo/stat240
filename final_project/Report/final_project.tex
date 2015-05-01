@@ -204,7 +204,36 @@ Word Score & 0.048 & 0.542 & 1.017 & 1.084 & 0.661 \\
 
 
  \subsection{Regression discontinuity for comparing students in the high stream with those in the low stream}
-We now aim to analyze the effect of stream assignment on students in tracked schools who initially achieved near the cutoff point. This analysis is based on the idea that students who achieved near the cutoff point have approximately equivalent abilities and it was random noise that lead to their assignment into either the high or low stream. For example, if a student slept poorly the night before the baseline test, they may have scored a few points below the cutoff point, whereas they may otherwise have scored a few points above the cutoff point. As a result, we can consider the students whose initial scores fall within a small window of the cutoff point as being randomly assigned into either the high or low stream, and we can thus evaluate the treatment effect of assignment to the high stream (for example) as if it were a random assignment for the students within the cutoff window.
+We now aim to analyze the effect of stream assignment on students in tracked schools who initially achieved near the cutoff point. This analysis is based on the idea that students who achieved near the cutoff point have approximately equivalent abilities and it was random noise that lead to their assignment into either the high or low stream. For example, if a student slept poorly the night before the baseline test, they may have scored a few points below the cutoff point, whereas they may otherwise have scored a few points above the cutoff point. As a result, we can consider the students whose initial scores fall within a small window of the cutoff point as being randomly assigned into either the high or low stream, and we can thus evaluate the treatment effect of assignment to the high stream (for example) as if it were a random assignment for the students within the cutoff window.\\
+If we plot the baseline score versus endline score (Figure~\ref{fig:RD_big}), visually, there does not appear to be a jump at the cutoff point (which is what we would expect to see in the presence of a regression discontinuity)
+
+However, when zooming in on a small window around the cutoff point (Figure~\ref{fig:RD_scatter}), we see that there appears to be a minor discontinuity, with those students almost exactly at the cutoff point who are put into the high stream appear to perform worse than the students who are put into the low stream.
+
+  \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{RD_initial.png}
+ \caption{Aggregated scatterplot of baseline score versus 18 month endline score. Each point is the average score of all students who fall within the corresponding score bin, each of width 0.3. The high stream point to the left of the cutoff point is a reflection of the crossover.}
+ \label{fig:RD_big}
+ \end{figure}
+
+  \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{RD_scatter.pdf}
+ \caption{A scatterplot of baseline percentile versus 18-month score within a window of width 10 percentile points (5 percentile points in each direction around the cutoff point) with loess fitted curves for the high and low stream (calculated using the students who were placed into the high stream only)}
+ \label{fig:RD_scatter}
+ \end{figure}
+
+Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a permutation test testing the difference in means within each school zone, as well as the combined $p$-value from the stratified-by-zone permutation test (the rightmost cluster of bars). We see that for most school zones there is no difference between the students in the cutoff window assigned to the low stream and the upper stream, however, within a very small window of the cutoff point. The only zone for which we obtain a statistically significant result is for the South Wanga school zone for the students in the 20-percentile width window of the cutoff point (the window consists of students who scored from the 40th to the 60th percentile in the baseline scores). However, this window may be too large to still consider the students as randomly assigned to the high and low streams, and we may simply be detecting the fact that overall, the students in the high streams perform better than those in the low streams. 
+ 
+  \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{RD_pval.pdf}
+ \caption{Bar plot of permutation test $p$-values for differences in means between the low stream and high stream for windows of varying widths (5, 10, 15 and 20 percentile points) about the cutoff point of the 50th percentile. The 5-percentile width window contains a total of 137 students, the 10-percentile width window contains a total of 225 students, the 15-percentile width window contains a total of 405 students and the 20-percentile width window contains a total of 509 students.}
+ \label{fig:pval_window}
+ \end{figure}
+ 
+ 
+ 
  
  
  

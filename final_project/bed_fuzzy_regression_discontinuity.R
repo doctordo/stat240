@@ -310,27 +310,49 @@ rd  <- RDestimate(totalscore ~ std_mark + lowstream | girl + agetest, data = dat
 summary(rd) # estimates is the wald estimator (Lee and Lemieux 2010) -- discussion of parametric and non parametric approach
 
 
-# regression discontinuity where loess is ignoring crossover points -- 12 month endpoint
-ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) + 
-  geom_point(aes(x = std_std_mark, y= std_totalscore, col = factor(lowstream))) + 
-  stat_smooth(aes(x = std_std_mark, y= std_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 0) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
-  stat_smooth(aes(x = std_std_mark, y= std_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 1) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) 
+# regression discontinuity where loess is ignoring crossover points -- 18 month endpoint
+ggplot(filter(dat.tracking, (percentile < 55) & (percentile > 45))) + 
+  geom_point(aes(x = percentile, y= totalscore, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 55) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 45))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline score") +
+  scale_color_discrete(name="Stream",
+                      labels=c("High", "Low"))
+
 
 
 
 
 # regression discontinuity where loess is ignoring crossover points -- 18 month endpoint
-ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) + 
-  geom_point(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream))) + 
-  stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 0) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
-  stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 1) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
-  scale_x_continuous(name = "standardized initial score") + 
-  scale_y_continuous(name = "standardized 18 month endline score") +
-  theme(axis.text=element_text(size=16),
-        axis.title=element_text(size=18,face="bold"),
-        legend.text=element_text(size = 16),
-        legend.title=element_text(size = 18, face = "bold")) +
-  scale_color_discrete(name="Stream", labels = c("High","Low"))
+ggplot(filter(dat.tracking, (percentile < 55) & (percentile > 45))) + 
+  geom_point(aes(x = percentile, y= totalscore, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 55) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 45))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline score") +
+  scale_color_discrete(name="Stream",
+                       labels=c("High", "Low"))
+
+
+# 
+# 
+# # regression discontinuity where loess is ignoring crossover points -- 24 month endpoint
+# ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) + 
+#   geom_point(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream))) + 
+#   stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 0) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
+#   stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 1) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
+#   scale_x_continuous(name = "standardized initial score") + 
+#   scale_y_continuous(name = "standardized 18 month endline score") +
+#   theme(axis.text=element_text(size=16),
+#         axis.title=element_text(size=18,face="bold"),
+#         legend.text=element_text(size = 16),
+#         legend.title=element_text(size = 18, face = "bold")) +
+#   scale_color_discrete(name="Stream", labels = c("High","Low"))
+# 
+
+
+
 
 
 
@@ -340,15 +362,15 @@ ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) +
 ######################################### Difference in means in different windows ###############################
 
 # the different window widths
-window <- c(0.1, 0.2, 0.3, 0.4, 0.5)
+window <- c(5, 10, 15, 20)
 res1 <- list()
 k <- 1
 # compute difference in means for streams in 0.5 window
 for(width in window) {
   # restrict data to window
-  dat.window <- dat.tracking %>% filter((std_std_mark < width) & (std_std_mark > -width))
+  dat.window <- dat.tracking %>% filter((initial_percentile < 50 + width/2) & (initial_percentile > 50 - width/2))
   # conduct the permutation test when stratifying by zone 
-  res1.window <- stratified_permute_means(values = dat.window$std_totalscore, groups = dat.window$zone, treatment = dat.window$lowstream, ts_function = testStatistic_diffmeans, nsims = 10000)
+  res1.window <- stratified_permute_means(values = dat.window$totalscore, groups = dat.window$zone, treatment = dat.window$lowstream, ts_function = testStatistic_diffmeans, nsims = 10000)
   res1[[k]] <- res1.window
   k <- k + 1
 }
@@ -369,9 +391,4 @@ ggplot(p.val) +
 
 
 
-  ggplot(dat.window) + 
-  geom_boxplot(aes(x = factor(lowstream), y = std_totalscore, fill = factor(lowstream))) + 
-  scale_x_discrete(name = "stream assignment", labels = c("low", "high")) +
-  theme(legend.position="none") +
-  facet_wrap(~zone, ncol = 3) 
 
