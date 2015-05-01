@@ -6,6 +6,69 @@ library(gridExtra)
 library(binr)
 
 
+#################### Permutation test functions ####################
+permute_within_groups <- function(x, groups){
+  # Permutes values within each group
+  for(g in unique(groups)){
+    ind <- (groups == g)
+    x[ind] <- sample(x[ind])
+  }
+  return(x)
+}
+
+testStatistic_diffmeans <- function(x, treatment){
+  mean(x[treatment ==  1], na.rm=T) - mean(x[treatment == 0], na.rm=T)
+}
+
+testStatistic_t <- function(x, treatment){
+  numer <- testStatistic_diffmeans(x, treatment)
+  denom <- sqrt( (var(x[treatment == 1], na.rm=T)/sum(!is.na(x[treatment==1]))) + (var(x[treatment == 0], na.rm=T)/sum(!is.na(x[treatment==0]))))
+  return(numer/denom)
+}
+
+stratified_permute_means <- function(values, groups, treatment, ts_function, nsims){
+  # set up storage
+  sims <- matrix(rep(NA, nsims*(length(unique(groups))+1)), ncol = length(unique(groups))+1)
+  teststat <- c()
+  
+  # set up indexing for groups
+  ng <- table(groups)
+  group_names <- names(ng)
+  ng <- as.vector(ng)
+  ind <- lapply(group_names, function(x) groups == x)
+  
+  
+  # Compute the test statistic for the given data
+  for(g in seq_along(ind)){
+    gg <- ind[[g]]
+    teststat <- c(teststat, ts_function(values[gg], treatment[gg]))
+  }
+  teststat <- c(teststat, sum(teststat*ng)/length(groups))
+  
+  # Compute test stats for permuted data
+  for(i in 1:nsims){
+    treatment <- permute_within_groups(treatment, groups)
+    for(g in seq_along(ind)){
+      gg <- ind[[g]]
+      sims[i,g] <- ts_function(values[gg], treatment[gg])
+    }
+  }
+  sims[,ncol(sims)] <- apply(sims[,-ncol(sims)], 1, function(x) {sum(x*ng)/length(groups)})
+  
+  
+  # Compute p-values
+  groups_tested <- c(group_names, "Overall")
+  pval <- matrix(rep(NA, 4*(length(unique(groups))+1)), ncol = length(unique(groups))+1)
+  for(i in seq_along(groups_tested)){
+    pupper <- mean(sims[,i] >= teststat[i])
+    plower <- mean(sims[,i] <= teststat[i])
+    pboth  <- mean(abs(sims[,i]) >= abs(teststat[i]))
+    pval[,i] <- c(teststat[i], pupper, plower, pboth)
+  }
+  colnames(pval) <- groups_tested; rownames(pval) <- c("teststat", "pupper", "plower", "pboth")
+  return(pval)
+}
+
 ######################################### Data cleanup ###########################################
 
 dat <- read.table("student_test_data.tab.tsv", sep = "\t", header = T)
@@ -137,6 +200,17 @@ nobs <- nrow(dat.tracking)
 dat.tracking %>% summarize(prop = sum(!(right_stream))/nobs)
 
 
+
+
+n.correct.stream.zone <- dat.tracking %>% group_by(zone) %>% summarize(prop = sum(right_stream)/length(right_stream))
+
+
+# how many schools in each zone
+dat %>% group_by(zone) %>% summarize(schools = length(unique(schoolid)))
+
+
+
+
 ################################### Probability of being assigned to treatment plot ######################
 
 # identify prop of a student crossing into the lowstream
@@ -263,4 +337,41 @@ ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) +
 
 
 
+######################################### Difference in means in different windows ###############################
+
+# the different window widths
+window <- c(0.1, 0.2, 0.3, 0.4, 0.5)
+res1 <- list()
+k <- 1
+# compute difference in means for streams in 0.5 window
+for(width in window) {
+  # restrict data to window
+  dat.window <- dat.tracking %>% filter((std_std_mark < width) & (std_std_mark > -width))
+  # conduct the permutation test when stratifying by zone 
+  res1.window <- stratified_permute_means(values = dat.window$std_totalscore, groups = dat.window$zone, treatment = dat.window$lowstream, ts_function = testStatistic_diffmeans, nsims = 10000)
+  res1[[k]] <- res1.window
+  k <- k + 1
+}
+
+# combine two-sided p-values for each width into data frame
+p.val <- sapply(res1, function(x) x["pboth",])
+colnames(p.val) <- window
+p.val <- melt(p.val)
+names(p.val) <- c("Zone", "Width", "p")
+p.val$Width <- factor(p.val$Width)
+
+# plot p-values for each zone
+ggplot(p.val) + 
+  geom_bar(aes(x = Zone, y = p, fill = Width), stat = "identity", position = "dodge") +
+  geom_hline(aes(yintercept = 0.05), linetype = "dotted", col = "red") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  
+
+
+
+  ggplot(dat.window) + 
+  geom_boxplot(aes(x = factor(lowstream), y = std_totalscore, fill = factor(lowstream))) + 
+  scale_x_discrete(name = "stream assignment", labels = c("low", "high")) +
+  theme(legend.position="none") +
+  facet_wrap(~zone, ncol = 3) 
 

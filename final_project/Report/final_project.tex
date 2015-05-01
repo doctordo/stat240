@@ -100,7 +100,7 @@ Endline attrition (\%) & 0.19 & 0.16\\ \hline
  
  \noindent In addition, we found concerning inconsistencies in the available data. For example the initial grade percentiles provided do not correspond to the percentiles when calculated manually (Figure~\ref{fig:percentile}). The codebook that accompanied the data stated that the provided percentiles had been imputed, although what data was used to conduct the imputation and the method of imputation is not described. We thus decided to use our own calculated percentiles for our subsequent analysis.\\
  
-Another issue we detected is that within tracking schools, some crossover between low and high streams occurred (Figure~\ref{fig:crossover}).
+Another issue we detected is that within tracking schools, some crossover between low and high streams occurred (Figure~\ref{fig:crossover}), although we note that this crossover is minor (only about 5.3\%), it does pose minor issues in our subsequent analyses. Duflo et al., state that the crossover \textcolor{red}{is primarily due to ***?}
 
  
  
@@ -204,7 +204,7 @@ Word Score & 0.048 & 0.542 & 1.017 & 1.084 & 0.661 \\
 
 
  \subsection{Regression discontinuity for comparing students in the high stream with those in the low stream}
-We now aim to analyze the effect of stream assignment on students in tracked schools who initially achieved near the cutoff point. This analysis is based on the idea that students who achieved near the cutoff point have approximately equivalent abilities and it was random noise that lead to their assignment into either the high or low stream. For example, if a student slept poorly the night before the baseline test, they may have scored a few points below the cutoff point, whereas they may otherwise have scored a few points above the cutoff point. As a result, we can consider the students whose initial scores fall within a small window of the cutoff point as being randomly assigned into either the high or low stream.
+We now aim to analyze the effect of stream assignment on students in tracked schools who initially achieved near the cutoff point. This analysis is based on the idea that students who achieved near the cutoff point have approximately equivalent abilities and it was random noise that lead to their assignment into either the high or low stream. For example, if a student slept poorly the night before the baseline test, they may have scored a few points below the cutoff point, whereas they may otherwise have scored a few points above the cutoff point. As a result, we can consider the students whose initial scores fall within a small window of the cutoff point as being randomly assigned into either the high or low stream, and we can thus evaluate the treatment effect of assignment to the high stream (for example) as if it were a random assignment for the students within the cutoff window.
  
  
  

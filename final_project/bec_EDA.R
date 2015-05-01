@@ -42,8 +42,9 @@ ggplot(school.zones) +
 # compare final scores by region
 scores.zones <- dat %>% filter(tracking == 1) %>% group_by(zone)# %>% summarize(endline = mean(totalscore,na.rm = T)) # imbalance in school zones!
 ggplot(scores.zones) + 
-  geom_boxplot(aes(x = zone, y = totalscore, fill = zone))
+  geom_boxplot(aes(x = zone, y = r2_totalscore, fill = zone))
 
 ggplot(dat) + 
-  geom_boxplot(aes(x = zone, y = totalscore, fill = zone)) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+  geom_boxplot(aes(x = zone, y = std_mark, fill = zone)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  facet_grid(tracking~.)
