@@ -99,4 +99,45 @@ Z & 0.44 & 0.45 & 0.21 & 0.53 & 0.05 & 0.14 & 0.00 \\
   For the normal mixture data, the non-parametric methods have much higher power than the parametric methods, but the highest power is still fairly low at 0.33.\\
   Finally, for the example where $X$ and $Y$ are correlated and normal, the unpaired tests (the $Z$ and Wilcoxon rank sum tests) have 0 power, whereas the paired tests (the paired $Z$, sign and Wilcoxon signed rank tests) have power 1.
 
+\section*{Problem (3)}
+We estimated the power (where the alternative hypothesis is $H_1: X > Y$) for each of the five tests from part (2) by generating 100,000 datasets (where $X$ and $Y$ each have sample size 50) according to the Cauchy distribution once with a shift of 0.5 and once without, and identifying the fraction of null hypotheses rejected at the 0.05 significance level using the normal approximation (except for the sign test). We simulated the same distributions another 10,000 times to estimate the power of the tests but this time using 1,000 permutations of the data to obtain an estimate of the true null.  The results are presented in Figure \ref{fig:part3} and Table \ref{tab:part3}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale = 1]{part3.pdf}
+	\caption{The power of the tests when the true distribution is Cauchy.}
+	\label{fig:part3}
+\end{figure}
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{rllrr}
+		\hline
+		& Method & Calculation & Shift & Power \\ 
+		\hline
+		1 & Z Test & Normal & 0.50 & 0.07 \\ 
+		2 & Wilcoxon Rank Sum Test & Normal & 0.50 & 0.38 \\ 
+		3 & Paired Z Test & Normal & 0.50 & 0.07 \\ 
+		4 & Wilcoxon Signed Rank Test & Normal & 0.50 & 0.25 \\ 
+		5 & Z Test & Normal & 0.00 & 0.03 \\ 
+		6 & Wilcoxon Rank Sum Test & Normal & 0.00 & 0.05 \\ 
+		7 & Paired Z Test & Normal & 0.00 & 0.03 \\ 
+		8 & Wilcoxon Signed Rank Test & Normal & 0.00 & 0.05 \\ 
+		9 & Z Test & Exact & 0.50 & 0.10 \\ 
+		10 & Wilcoxon Rank Sum Test & Exact & 0.50 & 0.39 \\ 
+		11 & Paired Z Test & Exact & 0.50 & 0.11 \\ 
+		12 & Sign Test & Exact & 0.50 & 0.31 \\ 
+		13 & Wilcoxon Signed Rank Test & Exact & 0.50 & 0.23 \\ 
+		14 & Z Test & Exact & 0.00 & 0.05 \\ 
+		15 & Wilcoxon Rank Sum Test & Exact & 0.00 & 0.04 \\ 
+		16 & Paired Z Test & Exact & 0.00 & 0.04 \\ 
+		17 & Sign Test & Exact & 0.00 & 0.05 \\ 
+		18 & Wilcoxon Signed Rank Test & Exact & 0.00 & 0.04 \\ 
+		\hline
+	\end{tabular}
+	\caption{The power of the tests when the true distribution is Cauchy.}
+	\label{tab:part3}
+\end{table}
+
+Again we see for the normal approximation, the Z and paired Z tests fair worse in terms of power than their WRS, Sign, and WSR counterparts.  This makes sense because both the Z and paired Z-tests rely on a variance estimate of the true distribution.  The Cauchy distribution has an undefined variance (or "infinite variance"), which throws the Z-statistic off.  Perhaps more fundamental to why these tests fair more poorly on the Cauchy distribution is the fact that our hypotheses are statements about the means of the distribution, which is again, undefined.  The WRS, Sign, and WSR Tests in some sense circumvents this a little by checking for a "modal difference," but we think the fundamental problem remains.  Using a permutations to generate the null distribution gives these tests a little bit more power since the Cauchy distribution does not converge to a normal distribution.
 \end{document}

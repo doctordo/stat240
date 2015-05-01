@@ -457,7 +457,7 @@ p3a2.power.signed.rank.cauchy <- sum(p3a2.signed.rank.test.cauchy<=0.05)/L
 # [1] 0.05018
 
 ### Without Normal Approximation
-# Y Cauchy, X has the same distribution as Y, except shifted up by 0.3
+# Y Cauchy, X has the same distribution as Y, except shifted up by 0.5
 L <- 10000
 n <- 50
 # define Y
@@ -471,29 +471,29 @@ X1 <- matrix(X1, ncol = L)
 X1 <- split(X1, col(X1)) # each list entry is a dataset
 
 # define X2
-X2 <- rcauchy(n*L) + 0.5
+X2 <- rcauchy(n*L)
 X2 <- matrix(X2, ncol = L)
 X2 <- split(X2, col(X2)) # each list entry is a dataset
 
 # With shift
 p3b1.z.test.cauchy <- mapply(function(x,y) permutation_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
-p3b1.power.z.cauchy <- sum(z.test.cauchy<=0.05)/L
+p3b1.power.z.cauchy <- sum(p3b1.z.test.cauchy<=0.05)/L
 
 
 p3b1.rank.sum.test.cauchy <- mapply(function(x,y) wilcoxon_rank_sum_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
-p3b1.power.rank.sum.cauchy <- sum(rank.sum.test.cauchy<=0.05)/L
+p3b1.power.rank.sum.cauchy <- sum(p3b1.rank.sum.test.cauchy<=0.05)/L
 
 
 p3b1.paired.test.cauchy <- mapply(function(x,y) paired_permutation_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
-p3b1.power.paired.cauchy <- sum(paired.test.cauchy<=0.05)/L
+p3b1.power.paired.cauchy <- sum(p3b1.paired.test.cauchy<=0.05)/L
 
 
 p3b1.sign.test.cauchy <- mapply(function(x,y) sign_test(x, y), X1, Y)
-p3b1.power.sign.cauchy <- sum(sign.test.cauchy<=0.05)/L
+p3b1.power.sign.cauchy <- sum(p3b1.sign.test.cauchy<=0.05)/L
 
 
 p3b1.signed.rank.test.cauchy <- mapply(function(x,y) wilcoxon_signed_rank_test(x, y, normal_approx=FALSE, L=1000), X1, Y)
-p3b1.power.signed.rank.cauchy <- sum(signed.rank.test.cauchy<=0.05)/L
+p3b1.power.signed.rank.cauchy <- sum(p3b1.signed.rank.test.cauchy<=0.05)/L
 
 
 # Without shift
@@ -548,6 +548,14 @@ p3.results.df <- data.frame(Method = c(rep(c('Z Test',
                                       p3b2.power.sign.cauchy,
                                       p3b2.power.signed.rank.cauchy))
                                       
+ggplot(p3.results.df) + 
+  geom_bar(aes(x = Method, y =  Power, fill = Method), 
+           size = 2, 
+           position = "dodge", 
+           stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title.x = element_blank()) +
+  facet_grid(Shift ~ Calculation)
                                       
                                       
                                       
