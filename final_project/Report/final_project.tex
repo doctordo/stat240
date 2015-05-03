@@ -141,7 +141,7 @@ Next, we investigated the effect of tracking on the individual components of the
   \begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{tracking-stratif.pdf}
- \caption{}
+ \caption{Distribution of follow-up scores in tracking and non-tracking schools, stratified by students' quartile of baseline score}
  \label{fig:tracking-stratif}
  \end{figure} 
   % latex table generated in R 3.0.2 by xtable 1.7-4 package
@@ -182,26 +182,26 @@ Word Score & 0.048 & 0.542 & 1.017 & 1.084 & 0.661 \\
    & (0.005) & (0.000) & (0.086) & (0.011) & (0.000) \\ 
    \hline
 \end{tabular}
-\caption{t-statistics and p-values for the test of differences in subject-level final score between tracking and non-tracking schools, stratified by baseline quartile and overall.} \label{tab:stratif-topics}
+\caption{t-statistics and p-values for the test of differences in subject-level final score between tracking and non-tracking schools, stratified by baseline quartile and overall} \label{tab:stratif-topics}
 \end{table} % Q1b in Kellie's analysis file
 
-We investigated the potential bias in the estimated treatment effect due to differences in school zone.  Figure~\ref{fig:stratif-zone} shows the difference in mean 18 month follow-up scores between tracking and non-tracking schools, broken down by school zone.  The effect of tracking is heterogeneous across school zones.
 
 
  \begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{tracking_by_zone.pdf}
- \caption{}
+ \caption{Difference in mean 18 month follow-up scores between students at tracking and non-tracking schools}
  \label{fig:stratif-zone}
  \end{figure}
  
 
-\newpage
+We investigated the potential bias in the estimated treatment effect due to differences in school zone.  Figure~\ref{fig:stratif-zone} shows the difference in mean 18 month follow-up scores between tracking and non-tracking schools, broken down by school zone.  The effect of tracking is heterogeneous across school zones.  While most zone-quartile combinations show a positive effect,  there are several with a negative effect in the bottom quartile.  It appears that two zones in particular, Kabula and Butere West, are driving the positive effect of tracking that we see when all zones are combined. \textcolor{red}{Should we say more about this?}
+
  
  \begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{tracking-etp-stratif.pdf}
- \caption{}
+ \caption{Distribution of follow-up scores in tracking and non-tracking schools, stratified by students' quartile of baseline score and type of teacher}
  \label{fig:tracking-etp}
  \end{figure}
  
@@ -220,8 +220,10 @@ We investigated the potential bias in the estimated treatment effect due to diff
    & (0.421) & (0.611) & (0.061) & (0.017) & (0.004) \\ 
    \hline
 \end{tabular}
-\caption{t-statistics and p-values for the test of difference in mean follow-up exam score between students in tracking vs non-tracking schools, stratified by ETP vs civil servant teachers.} 
+\caption{t-statistics and p-values for the test of difference in mean follow-up exam score between students in tracking vs non-tracking schools, stratified by ETP vs civil servant teachers}  \label{tab:tracking-etp}
 \end{table} % Q5 in Kellie's analysis file
+
+Finally, we considered the possibility that the effect of tracking may be different depending on whether the teacher is a civil servant or an ETP teacher. Duflo et. al. raise the possibility that different types of teachers may teach differently; for example, ETP teachers may have a greater incentive to help the lowest quartile of students in order to secure a teaching position in the future. We did a separate stratified permutation test for each type of teacher to compare the effect of tracking on 18 month follow-up scores, for each baseline quartile and overall.  Figure~\ref{fig:tracking-etp} shows that for both types of teacher, tracking increases follow-up exam scores.  However, Table~\ref{tab:tracking-etp} presents an interesting trend.  Lower quartile students with an ETP teacher in tracking schools had a significantly higher follow-up score than those in non-tracking schools, but the effect was not as strong in the upper half of the distribution.  Conversely, students above the median with a civil service teacher had significantly higher follow-up scores in tracking schools compared to non-tracking schools, but the trend did not hold for the lower half of the distribution.  In tracking schools, the type of teacher assigned to the high and low stream has an impact on how effective tracking is.
 
 
  \subsection{Regression discontinuity for comparing students in the high stream with those in the low stream}
