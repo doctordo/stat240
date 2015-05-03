@@ -27,7 +27,7 @@
  \section{Introduction}
 Over the last two decades developing countries have seen an increase in the number of new primary school entrants, driven in part, by the elimination of school fees. For example, between 1999 and 2004 the number of new entrants to primary school in sub-Saharan Africa increased by more than 30 percent (\cite{unesco2007}). Although this influx of new students is undeniably a positive development, steps needs to be taken to ensure that the quality of education is not diminished. For example, by 2005, the average first grade class size in Kenya had swelled to 83, with 28 percent of first grade classes containing more than 100 students (\cite{duflo2007}). Moreover, many of the new students were significantly less prepared than those in the past.\\
 
-Unfortunately, little prior work had been undertaken to evaluate the most effective methods of handling such an influx of students. In a randomized experiment, Duflo et al. aim to answer several questions related to a number methods of resource allocation in primary education. In particualr, the investigators aim to assess the impact of reduction in pupil-teacher ratios, implementing tracking (separating classes into high and low streams based on prior test scores) and different institutional environments (type of teacher, and whether or not the school undertakes teacher monitoring and education).\\
+Unfortunately, little prior work had been undertaken to evaluate the most effective methods of handling such an influx of students. In a randomized experiment, Duflo et al. aim to answer several questions related to a number methods of resource allocation in primary education (\cite{duflo2011}). In particular, the investigators aim to assess the impact of reduction in pupil-teacher ratios, implementing tracking (separating classes into high and low streams based on prior test scores) and different institutional environments (type of teacher, and whether or not the school undertakes teacher monitoring and education).\\
 
 In this report, we investigate the data obtained from the study undertaken by Duflo et al, with a focus on evaluating the impact of tracking on student achievement. 
  
@@ -104,16 +104,16 @@ Endline attrition (\%) & 0.19 & 0.16\\ \hline
  
  \noindent In addition, we found concerning inconsistencies in the available data. For example the initial grade percentiles provided do not correspond to the percentiles when calculated manually (Figure~\ref{fig:percentile}). The codebook that accompanied the data stated that the provided percentiles had been imputed, although what data was used to conduct the imputation and the method of imputation is not described. We thus decided to use our own calculated percentiles for our subsequent analysis.\\
  
-Another issue we detected is that within tracking schools, some crossover between low and high streams occurred (Figure~\ref{fig:crossover}), although we note that this crossover is minor (only about 5.3\%), it does pose minor issues in our subsequent analyses. Duflo et al., state that the crossover \textcolor{red}{is primarily due to ***?}
+Another issue we detected is that within tracking schools, some crossover between low and high streams occurred (Figure~\ref{fig:crossover}), although we note that this crossover is minor (only about 5.3\%), it does pose minor issues in our subsequent analyses. Duflo et al. state that the crossover was primarily due to siblings who wanted to remain in the same class, and class assignment was only changed upon a parent's request.
 
  
  
-  \begin{figure}[H]
- \centering
- \includegraphics[scale=0.6]{Score_vs_Percentile.png}
- \caption{A comparison of the percentiles reported in the data and the percentiles obtained when calculating manually.}
- \label{fig:percentile}
- \end{figure} 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{Score_vs_Percentile.png}
+\caption{A comparison of the percentiles reported in the data and the percentiles obtained when calculating manually.}
+\label{fig:percentile}
+\end{figure} 
  
   
   \begin{figure}[H]
@@ -128,13 +128,13 @@ Another issue we detected is that within tracking schools, some crossover betwee
  \subsection{Value-added over time by tracking}
 Unfortunately since the baseline test scores were not comparable across different schools, we were unable to measure the value-added from tracking by comparing baseline with the 18 month endline scores. As a result, we thus chose to measure the long-term value-added by comparing 18 month endline scores with the 24 month follow-up scores. This comparison allows us to see if tracking yielded a lasting effect on students, even after the tracking was no longer in place.
 
+\textcolor{red}{Does it make sense to switch sections 5.1 and 5.2? stratified perm test section looks at the 18 month score, value added looks at 24month - 18month.}
 
-
- \subsection{Stratified permutation tests for comparing tracking with non tracking schools}
+ \subsection{Stratified permutation tests for comparing tracking with non-tracking schools}
 
 In comparison to the previous analysis, which involved comparing scores over time for the students in tracking schools, we now turn to a comparison of scores achieved by students in tracking schools with students in non-tracking schools. \\
  
-We began by testing whether tracking had an effect on the 18 month follow-up scores for students of different baseline abilities.  We carried out stratified permutation tests with a t-statistic to address this question. We split students into four strata based on their percentile on their school's baseline exam score.  For this, we used the percentiles that we calculated rather than the ones supplied, due to the inconsistencies we discussed previously.  Within each stratum, we calculated the test statistic and permuted treatment assignments.  This procedure allowed us to carry out tests both within individual strata and overall for all students.  Figure~\ref{fig:tracking-stratif} shows that in each stratum, tracking has a positive effect on follow-up test scores.  The effect was significant overall and for each quartile except for the third (Table~\ref{tab:tracking-stratif}, two-sided alternative). \\
+We began by testing whether tracking had an effect on the 18 month follow-up scores for students of different baseline abilities.  We carried out stratified permutation tests with a t-statistic to address this question. We split students into four strata based on their percentile on their school's baseline exam score.  For this, we used the percentiles that we calculated rather than the ones supplied, due to the inconsistencies we discussed previously.  Within each stratum, we calculated the test statistic and permuted treatment assignments.  This procedure allowed us to carry out tests first within individual strata, and then for all students by taking a weighted average of the stratum-specific statistics.  Figure~\ref{fig:tracking-stratif} shows that in each stratum, tracking has a positive effect on follow-up test scores.  The effect was significant overall and for each quartile except for the third (Table~\ref{tab:tracking-stratif}, two-sided alternative). \\
 
 Next, we investigated the effect of tracking on the individual components of the 18 month follow-up score.  Table~\ref{tab:stratif-topics} shows the effect of tracking on each topic, by baseline quartile and overall.  Tracking increased students' average letter score, spelling score, literacy score, and math score.  As with the total score, the positive effects of tracking seemed to be less pronounced in the third quartile of students. \\
 
@@ -260,10 +260,12 @@ Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a p
  
  
  
- \section{Conclusion}
- 
- 
- \bibliographystyle{apalike}
+\section{Conclusion}
+We conclude that overall tracking, has a beneficial effect on students' learning. \textcolor{red}{Conclusions about value added... + a sentence about how the 18-24mo value added results compare to the 18mo results}  For students in each quartile of baseline score, tracking improves the average 18 month follow-up score.  This positive relationship holds true for different types of teacher and for many of the school zones, though the magnitude of the effect varies. \textcolor{red}{conclusions about regression discontinuity} \\
+
+Our findings are consistent with \cite{duflo2011}. Moreover, we are able to reproduce their results using non-parametric permutation tests, which make no assumptions about the distribution of noise and no assumptions about the functional relationship between tracking and exam scores. In contrast, the p-values that the authors report come from ordinary least squares regression and require normality assumptions that are difficult to check.
+
+\bibliographystyle{apalike}
 \bibliography{references}
  
 \end{document}

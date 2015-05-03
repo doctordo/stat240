@@ -279,3 +279,37 @@ xtable(mat5, digits = 3, caption = "Difference in mean follow-up exam score betw
 
 
 
+
+
+
+
+#### Question 6: does tracking affect follow-up exam score, stratifying by shool zone? Look overall and w/in strata. Use difference in means as test statistic.
+dat_complete_zone <- dat %>% filter(!is.na(zone))
+res6 <- stratified_permute_means(values = dat_complete_zone$totalscore, groups = dat_complete_zone$zone, treatment = dat_complete_zone$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
+res6t <- stratified_permute_means(values = dat_complete_zone$totalscore, groups = dat_complete_zone$zone, treatment = dat_complete_zone$tracking, ts_function = testStatistic_t, nsims = 10000)
+
+filter(dat_complete_zone, !is.na(tracking)) %>% ggplot(aes(factor(zone), totalscore, fill = as.factor(tracking))) + geom_boxplot( ) + labs(x = "Zone", y= "Score", title = "18 month follow-up scores") + guides(fill = guide_legend(title = "Tracking"))
+
+
+mat6 <- rbind(res6[1,], res6t[c(1,4),])
+rownames(mat6) <- c("Difference in means", "t", "P-value")
+colnames(mat6) <- c(as.character(sort(unique(dat$zone))), "Overall")
+xtable(mat6, digits = 3, caption = "Test for differences in final score, stratified by school zone.")
+
+
+#### Question 7: does tracking affect follow-up exam score, stratifying by school zone AND quartile? Look overall and w/in strata. Use t as test statistic.
+dat_complete <- dat_complete %>% mutate("zone_quartile" = interaction(zone, quartile))
+res7 <- stratified_permute_means(values = dat_complete$totalscore, groups = dat_complete$zone_quartile, treatment = dat_complete$tracking, ts_function = testStatistic_diffmeans, nsims = 10000)
+#res7t <- stratified_permute_means(values = dat_complete$totalscore, groups = dat_complete$zone_quartile, treatment = dat_complete$tracking, ts_function = testStatistic_t, nsims = 10000)
+
+thecols <- strsplit(x = colnames(res7),split = "\\.")[-37]
+zone_quartile_grid <- as.data.frame(cbind(res7[1,-37], res7[4,-37], sapply(thecols, head, 1), sapply(thecols, tail, 1)), stringsAsFactors = FALSE)
+colnames(zone_quartile_grid) <- c("diff_means", "pvalue", "zone", "quartile")
+
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+cols <- gg_color_hue(2)
+zone_quartile_grid %>% ggplot(aes(x = quartile, y = zone, fill = as.numeric(diff_means))) + geom_tile( ) + labs(x = "Quartile", y= "Zone", title = "Effect of Tracking") + scale_fill_gradient2(high=cols[1], low=cols[2], mid = "white") + guides(fill = guide_colorbar(title = "Difference in mean\n follow-up score"))
+
