@@ -131,8 +131,13 @@ Unfortunately since the baseline test scores were not comparable across differen
 
 
  \subsection{Stratified permutation tests for comparing tracking with non tracking schools}
-In comparison to the previous analysis, which involved comparing scores over time for the students in tracking schools, we now turn to a comparison of scores achieved by students in tracking schools with students in non-tracking schools.
+
+In comparison to the previous analysis, which involved comparing scores over time for the students in tracking schools, we now turn to a comparison of scores achieved by students in tracking schools with students in non-tracking schools. \\
  
+We began by testing whether tracking had an effect on the 18 month follow-up scores for students of different baseline abilities.  We carried out stratified permutation tests with a t-statistic to address this question. We split students into four strata based on their percentile on their school's baseline exam score.  For this, we used the percentiles that we calculated rather than the ones supplied, due to the inconsistencies we discussed previously.  Within each stratum, we calculated the test statistic and permuted treatment assignments.  This procedure allowed us to carry out tests both within individual strata and overall for all students.  Figure~\ref{fig:tracking-stratif} shows that in each stratum, tracking has a positive effect on follow-up test scores.  The effect was significant overall and for each quartile except for the third (Table~\ref{tab:tracking-stratif}, two-sided alternative). \\
+
+Next, we investigated the effect of tracking on the individual components of the 18 month follow-up score.  Table~\ref{tab:stratif-topics} shows the effect of tracking on each topic, by baseline quartile and overall.  Tracking increased students' average letter score, spelling score, literacy score, and math score.  As with the total score, the positive effects of tracking seemed to be less pronounced in the third quartile of students. \\
+
   \begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{tracking-stratif.pdf}
@@ -152,7 +157,7 @@ Difference in means & 0.963 & 1.318 & 0.798 & 1.425 & 1.124 \\
   P-value & 0.013 & 0.003 & 0.091 & 0.005 & 0.000 \\ 
    \hline
 \end{tabular}
-\caption{Test for differences in final score, stratified by baseline quartile and overall.} 
+\caption{Test for differences in final score, stratified by baseline quartile and overall.} \label{tab:tracking-stratif}
 \end{table} % Q1a in Kellie's analysis file
 
 % latex table generated in R 3.0.2 by xtable 1.7-4 package
@@ -177,9 +182,21 @@ Word Score & 0.048 & 0.542 & 1.017 & 1.084 & 0.661 \\
    & (0.005) & (0.000) & (0.086) & (0.011) & (0.000) \\ 
    \hline
 \end{tabular}
-\caption{t-statistics and p-values for the test of differences in subject-level final score between tracking and non-tracking schools, stratified by baseline quartile and overall.} 
+\caption{t-statistics and p-values for the test of differences in subject-level final score between tracking and non-tracking schools, stratified by baseline quartile and overall.} \label{tab:stratif-topics}
 \end{table} % Q1b in Kellie's analysis file
 
+We investigated the potential bias in the estimated treatment effect due to differences in school zone.  Figure~\ref{fig:stratif-zone} shows the difference in mean 18 month follow-up scores between tracking and non-tracking schools, broken down by school zone.  The effect of tracking is heterogeneous across school zones.
+
+
+ \begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.5]{tracking_by_zone.pdf}
+ \caption{}
+ \label{fig:stratif-zone}
+ \end{figure}
+ 
+
+\newpage
  
  \begin{figure}[H]
  \centering
