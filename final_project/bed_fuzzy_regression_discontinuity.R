@@ -302,6 +302,23 @@ ggplot(dat) + geom_point(aes(x = initial_percentile, y = percentile), alpha = 0.
 # grid.arrange(gg.mark, gg.percentile, ncol = 2)
 
 
+
+
+################################# Aggregated scatterplot ###########################
+
+
+dat.tracking <- dat.tracking %>% 
+  mutate(interval = cut2(percentile, cuts = seq(0,100,5)))
+
+aggregate.points <- dat.tracking %>% 
+  group_by(interval) %>% 
+  mutate(totalscore.med = median(totalscore))
+
+
+
+
+
+
 ######################### Regression discontinuity for type II fuzzy (double crossover) designs ########################
 
 
@@ -317,41 +334,74 @@ ggplot(filter(dat.tracking, (percentile < 55) & (percentile > 45))) +
   stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 45))), method = "loess", size = 1, se = T) +
   scale_x_continuous(name = "Baseline percentile") +
   scale_y_continuous(name = "18 Month endline score") +
-  scale_color_discrete(name="Stream",
-                      labels=c("High", "Low"))
+  scale_color_discrete(name="Stream", labels=c("High", "Low"))
 
 
 
 
 
 # regression discontinuity where loess is ignoring crossover points -- 18 month endpoint
-ggplot(filter(dat.tracking, (percentile < 55) & (percentile > 45))) + 
+ggplot(filter(dat.tracking, (percentile < 60) & (percentile > 40))) + 
   geom_point(aes(x = percentile, y= totalscore, col = factor(lowstream))) + 
-  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 55) & (percentile >= 50))), method = "loess", size = 1, se = T) +
-  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 45))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 60) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= totalscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 40))), method = "loess", size = 1, se = T) +
   scale_x_continuous(name = "Baseline percentile") +
   scale_y_continuous(name = "18 Month endline score") +
-  scale_color_discrete(name="Stream",
-                       labels=c("High", "Low"))
+  scale_color_discrete(name="Stream", labels=c("High", "Low")) + 
+  facet_wrap(~zone, ncol = 3)
 
 
-# 
-# 
-# # regression discontinuity where loess is ignoring crossover points -- 24 month endpoint
-# ggplot(filter(dat.tracking, (std_std_mark < 0.5) & (std_std_mark > -0.5))) + 
-#   geom_point(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream))) + 
-#   stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 0) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
-#   stat_smooth(aes(x = std_std_mark, y= std_r2_totalscore, col = factor(lowstream)), data = filter(dat.tracking, (right_stream & (lowstream == 1) & (std_std_mark < 0.5) & (std_std_mark > -0.5))), method = "loess", size = 1, se = T) +
-#   scale_x_continuous(name = "standardized initial score") + 
-#   scale_y_continuous(name = "standardized 18 month endline score") +
-#   theme(axis.text=element_text(size=16),
-#         axis.title=element_text(size=18,face="bold"),
-#         legend.text=element_text(size = 16),
-#         legend.title=element_text(size = 18, face = "bold")) +
-#   scale_color_discrete(name="Stream", labels = c("High","Low"))
-# 
 
 
+# regression discontinuity where loess is ignoring crossover points -- 18 month math endpoint
+ggplot(filter(dat.tracking, (percentile < 60) & (percentile > 40))) + 
+  geom_point(aes(x = percentile, y= mathscoreraw, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= mathscoreraw, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 60) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= mathscoreraw, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 40))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline math score") +
+  scale_color_discrete(name="Stream", labels=c("High", "Low")) + 
+  facet_wrap(~zone, ncol = 3)
+
+
+
+
+
+# regression discontinuity where loess is ignoring crossover points -- 18 month literacy endpoint
+ggplot(filter(dat.tracking, (percentile < 60) & (percentile > 40))) + 
+  geom_point(aes(x = percentile, y= litscore, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= litscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 60) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= litscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 40))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline literacy score") +
+  scale_color_discrete(name="Stream", labels=c("High", "Low")) + 
+  facet_wrap(~zone, ncol = 3)
+
+
+
+
+# regression discontinuity where loess is ignoring crossover points -- 18 month spelling endpoint
+ggplot(filter(dat.tracking, (percentile < 60) & (percentile > 40))) + 
+  geom_point(aes(x = percentile, y= spellscore, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= spellscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 60) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= spellscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 40))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline spelling score") +
+  scale_color_discrete(name="Stream", labels=c("High", "Low")) + 
+  facet_wrap(~zone, ncol = 3)
+
+
+
+
+# regression discontinuity where loess is ignoring crossover points -- 18 month letters endpoint
+ggplot(filter(dat.tracking, (percentile < 60) & (percentile > 40))) + 
+  geom_point(aes(x = percentile, y= letterscore, col = factor(lowstream))) + 
+  stat_smooth(aes(x = percentile, y= letterscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 0) & (percentile < 60) & (percentile >= 50))), method = "loess", size = 1, se = T) +
+  stat_smooth(aes(x = percentile, y= letterscore, col = factor(lowstream)), data = filter(dat.tracking, ((lowstream == 1) & (percentile <= 50) & (percentile > 40))), method = "loess", size = 1, se = T) +
+  scale_x_continuous(name = "Baseline percentile") +
+  scale_y_continuous(name = "18 Month endline letters score") +
+  scale_color_discrete(name="Stream", labels=c("High", "Low")) + 
+  facet_wrap(~zone, ncol = 3)
 
 
 
@@ -389,6 +439,15 @@ ggplot(p.val) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
   
 
+
+
+
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+cols <- gg_color_hue(2)
+zone_quartile_grid %>% ggplot(aes(x = quartile, y = zone, fill = as.numeric(diff_means))) + geom_tile( ) + labs(x = "Quartile", y= "Zone", title = "Effect of Tracking") + scale_fill_gradient2(high=cols[1], low=cols[2], mid = "white") + guides(fill = guide_colorbar(title = "Difference in mean\n follow-up score"))
 
 
 
