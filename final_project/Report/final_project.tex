@@ -231,25 +231,41 @@ Unfortunately since the baseline test scores were not comparable across differen
 
  \subsection{Regression discontinuity for comparing students in the high stream with those in the low stream}
 We now aim to analyze the effect of stream assignment on students in tracked schools who initially achieved near the cutoff point. This analysis is based on the idea that students who achieved near the cutoff point have approximately equivalent abilities and it was random noise that lead to their assignment into either the high or low stream. For example, if a student slept poorly the night before the baseline test, they may have scored a few points below the cutoff point, whereas they may otherwise have scored a few points above the cutoff point. As a result, we can consider the students whose initial scores fall within a small window of the cutoff point as being randomly assigned into either the high or low stream, and we can thus evaluate the treatment effect of assignment to the high stream (for example) as if it were a random assignment for the students within some cutoff window.\\
-If we plot the baseline score versus endline score aggregated over all students (Figure~\ref{fig:RD_big}), visually, there does not appear to be a significant jump at the cutoff point (which is what we would expect to see in the presence of a regression discontinuity)
-
-However, when zooming in on a small window around the cutoff point (Figure~\ref{fig:RD_scatter}), we see that there appears to be a minor discontinuity, with those students almost exactly at the cutoff point who are put into the high stream appear to perform worse than the students who are put into the low stream.
-
+If we plot the baseline score versus endline score aggregated over all students in small initial percentile bins (Figure~\ref{fig:RD_big}), visually, there does not appear to be a significant jump at the cutoff point (which is what we would expect to see in the presence of a regression discontinuity). In fact, it seems as though the slope becomes less steep, implying that being assigned to the upper stream for students near the cutoff point is actually detrimental to their endline achievements.
   \begin{figure}[H]
  \centering
- \includegraphics[scale=0.5]{RD_initial.png}
- \caption{Aggregated scatterplot of baseline score versus 18 month endline score. Each point is the average score of all students who fall within the corresponding score bin, each of width 0.3. The high stream point to the left of the cutoff point is a reflection of the crossover.}
+ \includegraphics[scale=0.7]{RD_initial.pdf}
+ \caption{Aggregated scatterplot of baseline score versus 18 month endline score. Each point is the median score of all students who fall within the corresponding score bin, each having a width of 10 percentile points. Each point is colored by the majority stream of the students in each bin.}
  \label{fig:RD_big}
  \end{figure}
+ 
+Moreover, when zooming in on a small window around the cutoff point (Figure~\ref{fig:RD_scatter}), we see that there appears to be a discontinuity jump in the negative direction, with those students almost close to the cutoff point who were put into the high stream appearing to perform worse than the students who were put into the low stream. Thus overall, it appears as though the students near the cutoff who are put in the low stream will be better of than those put in the high stream.
+
+
 
   \begin{figure}[H]
  \centering
  \includegraphics[scale=0.6]{RD_scatter.pdf}
- \caption{A scatterplot of baseline percentile versus 18-month score within a window of width 10 percentile points (5 percentile points in each direction around the cutoff point) with loess fitted curves for the high and low stream (calculated using the students who were placed into the high stream only)}
+ \caption{A scatterplot of baseline percentile versus 18-month score within a window of width 10 percentile points (5 percentile points in each direction around the cutoff point) with loess fitted curves for the high and low stream.}
  \label{fig:RD_scatter}
  \end{figure}
+ 
+ Not only do we see this trend in the overall score, but when we restrict to individual subject areas, we see the same trend reflected in Literacy, Math, Spelling and Words. However, in contrast, there is a slight positive jump for Sentences and there appears to be no difference for Letters (Figure~\ref{fig:RD_scatter_subject}). \\
+ 
 
-Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a permutation test testing the difference in means within each school zone, as well as the combined $p$-value from the stratified-by-zone permutation test (the rightmost cluster of bars). We see that for most school zones there is no difference between the students in the cutoff window assigned to the low stream and the upper stream, however, within a very small window of the cutoff point. The only zone for which we obtain a statistically significant result is for the South Wanga school zone for the students in the 20-percentile width window of the cutoff point (the window consists of students who scored from the 40th to the 60th percentile in the baseline scores). However, this window may be too large to still consider the students as randomly assigned to the high and low streams, and we may simply be detecting the fact that overall, the students in the high streams perform better than those in the low streams. 
+
+
+
+  \begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.65]{RD_scatter_subject.pdf}
+ \caption{Scatterplot of baseline percentile versus the standardized18-month score for each subject within a window of width 10 percentile points (5 percentile points in each direction around the cutoff point) with loess fitted curves for the high and low stream.}
+ \label{fig:RD_scatter_subject}
+ \end{figure}
+
+
+
+Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a permutation test testing the difference in means for the overall score within each school zone, as well as the combined $p$-value from the stratified-by-zone permutation test (the rightmost cluster of bars). We see that for most school zones there is no significant difference between the students in the cutoff window who were assigned to the low stream and those who were assigned the upper stream. Further, for most school zones, the difference between high and low streams appears to increase (the p-value decreases) as we widen the window, however, we note that this is the expected result, since as we consider wider windows around the cutoff point, the difference in ability between the high and low stream students being considered increases. Thus it is surprising that for some zones, we see a decrease in difference (an increase in p-value) for example in Kabula and Matungu. The only zones for which we obtain a statistically significant difference is for the South Wanga and Sangalo school zone for the students in the 20-percentile width window about the cutoff point (the window consists of students who scored from the 40th to the 60th percentile in the baseline scores). However, this may simply be a reflection of the window being too large to still consider the students as randomly assigned to the high and low streams, and we may simply be detecting the fact that overall, the students in the high streams perform better than those in the low streams. 
  
   \begin{figure}[H]
  \centering
