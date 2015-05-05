@@ -547,15 +547,17 @@ p3.results.df <- data.frame(Method = c(rep(c('Z Test',
                                       p3b2.power.paired.cauchy,
                                       p3b2.power.sign.cauchy,
                                       p3b2.power.signed.rank.cauchy))
-                                      
+                                   s   
 ggplot(p3.results.df) + 
   geom_bar(aes(x = Method, y =  Power, fill = Method), 
            size = 2, 
            position = "dodge", 
            stat = "identity") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_blank(),
         axis.title.x = element_blank()) +
   facet_grid(Shift ~ Calculation)
+
+print(xtable(p3.results.df))
                                       
                                       
                                       

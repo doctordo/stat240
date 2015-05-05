@@ -7,6 +7,7 @@
 library("dplyr")
 library("reshape2")
 library("ggplot2")
+library("xtable")
 
 #------------------------------------------------------------------------------#
 #
@@ -51,11 +52,11 @@ ComputeTStat <- function(x, y, var.x, var.y) {
   vary <- sum(var.y)
   
   tstat <- dmeans/sqrt(varx/nx + vary/ny)
-  return(tstat)
+  return(list(dmeans = dmeans, tstat = tstat))
 } 
 
 PermTTest <- function(data, groups, obs, var.obs, method = "right.tailed",
-                      output.null = FALSE, iters = 10000){
+                      output.null = FALSE, strata = NULL, iters = 10000){
   # Performs permutation test on t-statistic
   # Input:
   #   data - a data frame
@@ -63,34 +64,51 @@ PermTTest <- function(data, groups, obs, var.obs, method = "right.tailed",
   #   obs - a string naming the column with the observed values
   #   var.obs - a string naming the column with the variance of observations
   #   output.null - a logical argument. If true, empirical null will be returned
+  #   strata - a string naming the column with a covariate for stratification.
+  #     Performs analysis without grouped shuffling if left NULL
   #   iters - number of permutations
   
   # Output:
   #   t.stat - the t-value of the observed data
   #   p.value - p.value for one-sided test
-  
-  x <- filter_(data, .dots = list(~ get(groups, data) == 1)) %>%
-    select_(.dots = obs) %>% unlist()
-  y <- filter_(data, .dots = list(~ get(groups, data) == 0)) %>%
-    select_(.dots = obs) %>% unlist()
-  var.x <- filter_(data, .dots = list(~ get(groups, data) == 1)) %>%
-    select_(.dots = var.obs) %>% unlist()
-  var.y <- filter_(data, .dots = list(~ get(groups, data) == 0)) %>%
-    select_(.dots = var.obs) %>% unlist()
+  x <- data[(data[,groups] == 1), obs] %>% unlist()
+  y <- data[(data[,groups] == 0), obs] %>% unlist()
+  var.x <- data[(data[,groups] == 1), var.obs] %>% unlist()
+  var.y <- data[(data[,groups] == 0), var.obs] %>% unlist()
   n <- length(x)
   values <- c(x,y)
   var.values <- c(var.x, var.y)
   
-  t.stat <- ComputeTStat(x, y, var.x, var.y)
+  dmeans <- ComputeTStat(x, y, var.x, var.y)
+  t.stat <- dmeans$tstat
+  dmeans <- dmeans$dmeans
   
   null.distr <- replicate(iters, {
-    shuffle <- sample(values)
-    shuffle.var <- sample(var.values)
+    
+    # No grouping 
+    if (is.null(strata)) {
+      shuffle <- sample(values)
+      shuffle.var <- sample(var.values)
+      
+    # Grouped shuffling
+    } else {
+      strata.names <- unique(data[,strata])
+      for (stratum in strata.names) {
+        shuffle <- values
+        shuffle.var <- var.values
+        indices <- (data[,strata] == stratum)
+        shuffle[indices] <- sample(shuffle[indices])
+        shuffle.var[indices] <- sample(shuffle.var[indices])  
+      }
+    }
+    
     xnew <- shuffle[1:n]
     ynew <- shuffle[-(1:n)]
     var.xnew <- shuffle.var[1:n]
     var.ynew <- shuffle.var[-(1:n)]  
-    t <- ComputeTStat(xnew, ynew, var.xnew, var.ynew)
+    
+    t <- ComputeTStat(xnew, ynew, var.xnew, var.ynew)$tstat
+    
     return(t)
   })
   
@@ -105,11 +123,13 @@ PermTTest <- function(data, groups, obs, var.obs, method = "right.tailed",
   }
   
   if (output.null == TRUE) {
-    return(list(t.stat = t.stat, 
-                null.distr = null.distr, 
+    return(list(dmeans = dmeans,
+                t.stat = t.stat, 
+                null.distr = null.distr,
                 p.value = p.value))
   } else {
-    return(list(t.stat = t.stat, 
+    return(list(dmeans = dmeans,
+                t.stat = t.stat, 
                 p.value = p.value))
   }
 }
@@ -209,9 +229,8 @@ data <- data %>%
 
 # School-level data
 data.sl <- data %>%
-  group_by(schoolid) %>%
-  summarise(tracking = mean(tracking), 
-            r1.overall.avg = mean(r1_totalscore, na.rm = T),
+  group_by(schoolid, tracking, sbm, zone) %>%
+  summarise(r1.overall.avg = mean(r1_totalscore, na.rm = T),
             r1.word.avg = mean(r1_wordscore, na.rm = T),
             r1.sent.avg = mean(r1_sentscore, na.rm = T),
             r1.letter.avg = mean(r1_letterscore, na.rm = T),
@@ -262,97 +281,75 @@ data.sl <- data %>%
          va.lit.var = r2.lit.var + r1.lit.var - 2*r1r2.lit.var,
          va.math.var = r2.math.var + r1.math.var - 2*r1r2.math.var)
 
-PermTTest(data.sl, 'tracking', 'va.overall', 'va.overall.var')
-PermTTest(data.sl, 'tracking', 'va.word', 'va.word.var')
-PermTTest(data.sl, 'tracking', 'va.sent', 'va.sent.var')
-PermTTest(data.sl, 'tracking', 'va.letter', 'va.letter.var')
-PermTTest(data.sl, 'tracking', 'va.spell', 'va.spell.var')
-PermTTest(data.sl, 'tracking', 'va.lit', 'va.lit.var')
-PermTTest(data.sl, 'tracking', 'va.math', 'va.math.var')
+# Value added by tracking
+tracking.va <- mapply(function(obs, var.obs) {
+  PermTTest(data = data.sl,
+            groups = 'tracking',
+            obs = obs,
+            var.obs = var.obs,
+            method = 'right.tailed',
+            strata = 'zone')
+  },
+  obs = c('va.overall', 'va.word', 'va.sent', 'va.letter',
+          'va.spell', 'va.lit', 'va.math'),
+  var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
+              'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
+)
 
-diff.va <- data.sl %>% 
-  group_by(tracking) %>% 
-  summarise(mean(va.overall), 
-            mean(va.word), 
-            mean(va.sent), 
-            mean(va.letter), 
-            mean(va.spell), 
-            mean(va.lit), 
-            mean(va.math))
-diff.va[3,] <- diff.va[2,] - diff.va[1,]
-diff.va[3,1] <- 'Difference'
+rownames(tracking.va) <- c('Value Added', 't-statistic', 'p-value')
+colnames(tracking.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
+                      'Literacy', 'Math')
+xtable(tracking.va, digits = 3, 
+       caption = "Test for differences between 18-month and 24-month test scores.  
+       Shuffling was done within school-zone groups")
 
-data.sbm.sl <- data %>%
-  group_by(schoolid, sbm) %>%
-  summarise(tracking = mean(tracking), 
-            r1.overall.avg = mean(r1_totalscore, na.rm = T),
-            r1.word.avg = mean(r1_wordscore, na.rm = T),
-            r1.sent.avg = mean(r1_sentscore, na.rm = T),
-            r1.letter.avg = mean(r1_letterscore, na.rm = T),
-            r1.spell.avg = mean(r1_spellscore, na.rm = T),
-            r1.lit.avg = mean(r1_litscore, na.rm = T),
-            r1.math.avg = mean(r1_mathscoreraw, na.rm = T),
-            r2.overall.avg = mean(r2_totalscore, na.rm = T),
-            r2.word.avg = mean(r2_wordscore, na.rm = T),
-            r2.sent.avg = mean(r2_sentscore, na.rm = T),
-            r2.letter.avg = mean(r2_letterscore, na.rm = T),
-            r2.spell.avg = mean(r2_spellscore, na.rm = T),
-            r2.lit.avg = mean(r2_litscore, na.rm = T),
-            r2.math.avg = mean(r2_mathscoreraw, na.rm = T),
-            r1.overall.var = var(r1_totalscore, na.rm = T),
-            r1.word.var = var(r1_wordscore, na.rm = T),
-            r1.sent.var = var(r1_sentscore, na.rm = T),
-            r1.letter.var = var(r1_letterscore, na.rm = T),
-            r1.spell.var = var(r1_spellscore, na.rm = T),
-            r1.lit.var = var(r1_litscore, na.rm = T),
-            r1.math.var = var(r1_mathscoreraw, na.rm = T),
-            r2.overall.var = var(r2_totalscore, na.rm = T),
-            r2.word.var = var(r2_wordscore, na.rm = T),
-            r2.sent.var = var(r2_sentscore, na.rm = T),
-            r2.letter.var = var(r2_letterscore, na.rm = T),
-            r2.spell.var = var(r2_spellscore, na.rm = T),
-            r2.lit.var = var(r2_litscore, na.rm = T),
-            r2.math.var = var(r2_mathscoreraw, na.rm = T),
-            r1r2.overall.cov = cov(r1_totalscore, r2_totalscore, use = "complete"),
-            r1r2.word.var = cov(r1_wordscore, r2_wordscore, use = "complete"),
-            r1r2.sent.var = cov(r1_sentscore, r2_sentscore, use = "complete"),
-            r1r2.letter.var = cov(r1_letterscore, r2_letterscore, use = "complete"),
-            r1r2.spell.var = cov(r1_spellscore, r2_spellscore, use = "complete"),
-            r1r2.lit.var = cov(r1_litscore, r2_litscore, use = "complete"),
-            r1r2.math.var = cov(r1_mathscoreraw, r2_mathscoreraw, use = "complete")
-  ) %>%
-  mutate(va.overall = r2.overall.avg - r1.overall.avg,
-         va.word = r2.word.avg - r1.word.avg,
-         va.sent = r2.sent.avg - r1.sent.avg,
-         va.letter = r2.letter.avg - r1.letter.avg,
-         va.spell = r2.spell.avg - r1.spell.avg,
-         va.lit = r2.lit.avg - r1.lit.avg,
-         va.math = r2.math.avg - r1.math.avg,
-         va.overall.var = r2.overall.var + r1.overall.var - 2*r1r2.overall.cov,
-         va.word.var = r2.word.var + r1.word.var - 2*r1r2.word.var,
-         va.sent.var = r2.sent.var + r1.sent.var - 2*r1r2.sent.var,
-         va.letter.var = r2.letter.var + r1.letter.var - 2*r1r2.letter.var,
-         va.spell.var = r2.spell.var + r1.spell.var - 2*r1r2.spell.var,
-         va.lit.var = r2.lit.var + r1.lit.var - 2*r1r2.lit.var,
-         va.math.var = r2.math.var + r1.math.var - 2*r1r2.math.var) %>%
-  ungroup()
+# Value added by SBM
+sbm.va <- mapply(function(obs, var.obs) {
+  PermTTest(data = data.sl,
+            groups = 'sbm',
+            obs = obs,
+            var.obs = var.obs,
+            method = 'right.tailed',
+            strata = 'zone')
+},
+obs = c('va.overall', 'va.word', 'va.sent', 'va.letter',
+        'va.spell', 'va.lit', 'va.math'),
+var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
+            'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
+)
+rownames(sbm.va) <- c('Value Added', 't-statistic', 'p-value')
+colnames(sbm.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
+                      'Literacy', 'Math')
+xtable(sbm.va, digits = 3, 
+       caption = "Test for differences in differences between 18-month and 24-month test scores in SBM and non-SBM schools.  
+       Shuffling was done within school-zone groups")
 
-PermTTest(data.sbm.sl, 'sbm', 'va.overall', 'va.overall.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.word', 'va.word.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.sent', 'va.sent.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.letter', 'va.letter.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.spell', 'va.spell.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.lit', 'va.lit.var', method='right.tailed')
-PermTTest(data.sbm.sl, 'sbm', 'va.math', 'va.math.var', method='right.tailed')
+# Value added Tracking Histogram
+ggplot(data) +
+  geom_histogram(aes(x = r2_totalscore - r1_totalscore, 
+                     fill = factor(tracking)),
+                 binwidth = .75,
+                 alpha = 0.5,
+                 position="identity") +
+  xlab("Value-added Overall") +
+  ylab("Count") +
+  guides(fill = guide_legend(title = "Tracking"))
 
-ggplot(data.sbm.sl) +
-  geom_boxplot(aes(x = factor(sb), 
+# Value added Tracking + SBM Plot
+data.sl %>% ungroup() %>%
+  mutate(tracking = ifelse(tracking == 1, 
+                           'Tracking Schools',
+                           'Non-Tracking Schools'),
+         sbm = ifelse(sbm == 1, 
+                      'SBM Funding',
+                      'No SBM Funding')) %>%
+ggplot() +
+  geom_boxplot(aes(x = factor(tracking), 
                    y = va.overall,
                    fill = factor(sbm))) +
   guides(fill = guide_legend(title = "School-Based Management")) +
   xlab("Tracking") +
-  ylab("Value Added") +
-  ggtitle("Value Added with Tracking and SBM")
+  ylab("Value Added")
 
 #------------------------------------------------------------------------------#
 #
@@ -382,5 +379,29 @@ data %>%
   filter(!is.na(std_mark) & !is.na(totalscore)) %>%
   ggplot() +
     geom_point(aes(x=my.percentile, y=percentile, color = schoolid))
+
+# Tracking and SBM counts
+data.sl %>% group_by(tracking, sbm) %>%
+  summarise(n = n())
+
+data.sl %>% group_by(zone, sbm, tracking) %>%
+  summarise(n = n())
+
+trk.sbm.va <- mapply(function(obs, var.obs) {
+  PermTTest(data = data.sl,
+            groups = 'tracking',
+            obs = obs,
+            var.obs = var.obs,
+            method = 'right.tailed',
+            strata = 'sbm')
+},
+obs = c('va.overall', 'va.word', 'va.sent', 'va.letter',
+        'va.spell', 'va.lit', 'va.math'),
+var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
+            'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
+)
+rownames(trk.sbm.va) <- c('Value Added', 't-statistic', 'p-value')
+colnames(trk.sbm.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
+                      'Literacy', 'Math')
 
 }
