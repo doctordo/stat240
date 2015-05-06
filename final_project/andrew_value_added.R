@@ -221,7 +221,7 @@ data <- data %>%
          r0.median.mark = median(std_mark),
          
          # Median-centered initial score
-         r0.scale.mark = std_mark - r0.median.mark,
+         r0.scale.mark = std_mark - r0.median.mark
          ) %>%
 
   ungroup() %>%
@@ -282,6 +282,9 @@ data.sl <- data %>%
          va.math.var = r2.math.var + r1.math.var - 2*r1r2.math.var)
 
 # Value added by tracking
+nonsense <- FALSE
+
+if (nonsense) { # Analyzing the wrong thing!
 tracking.va <- mapply(function(obs, var.obs) {
   PermTTest(data = data.sl,
             groups = 'tracking',
@@ -295,38 +298,53 @@ tracking.va <- mapply(function(obs, var.obs) {
   var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
               'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
 )
+}
 
-rownames(tracking.va) <- c('Value Added', 't-statistic', 'p-value')
-colnames(tracking.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
-                      'Literacy', 'Math')
-xtable(tracking.va, digits = 3, 
-       caption = "Test for differences between 18-month and 24-month test scores.  
-       Shuffling was done within school-zone groups")
-
-# Value added by SBM
-sbm.va <- mapply(function(obs, var.obs) {
+tracking.va <- mapply(function(obs, var.obs) {
   PermTTest(data = data.sl,
-            groups = 'sbm',
+            groups = 'tracking',
             obs = obs,
             var.obs = var.obs,
             method = 'right.tailed',
             strata = 'zone')
 },
-obs = c('va.overall', 'va.word', 'va.sent', 'va.letter',
-        'va.spell', 'va.lit', 'va.math'),
-var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
-            'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
+obs = c('r2.overall.avg', 'r2.word.avg', 'r2.sent.avg', 'r2.letter.avg',
+        'r2.spell.avg', 'r2.lit.avg', 'r2.math.avg'),
+var.obs = c('r2.overall.var', 'r2.word.var', 'r2.sent.var', 'r2.letter.var',
+            'r2.spell.var', 'r2.lit.var', 'r2.math.var')
+)
+
+rownames(tracking.va) <- c('Value Added', 't-statistic', 'p-value')
+colnames(tracking.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
+                      'Literacy', 'Math')
+xtable(tracking.va, digits = 3, 
+       caption = "Test for differences between 24-month test scores.  
+       Shuffling was done within school-zone groups")
+
+# Value added by SBM
+sbm.va <- mapply(function(obs, var.obs) {
+  PermTTest(data = data.sl,
+            groups = 'tracking',
+            obs = obs,
+            var.obs = var.obs,
+            method = 'right.tailed',
+            strata = 'sbm')
+},
+obs = c('r2.overall.avg', 'r2.word.avg', 'r2.sent.avg', 'r2.letter.avg',
+        'r2.spell.avg', 'r2.lit.avg', 'r2.math.avg'),
+var.obs = c('r2.overall.var', 'r2.word.var', 'r2.sent.var', 'r2.letter.var',
+            'r2.spell.var', 'r2.lit.var', 'r2.math.var')
 )
 rownames(sbm.va) <- c('Value Added', 't-statistic', 'p-value')
 colnames(sbm.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
                       'Literacy', 'Math')
 xtable(sbm.va, digits = 3, 
-       caption = "Test for differences in differences between 18-month and 24-month test scores in SBM and non-SBM schools.  
+       caption = "Test for differences 24-month test scores in SBM and non-SBM schools.  
        Shuffling was done within school-zone groups")
 
 # Value added Tracking Histogram
 ggplot(data) +
-  geom_histogram(aes(x = r2_totalscore - r1_totalscore, 
+  geom_histogram(aes(x = r2_totalscore, 
                      fill = factor(tracking)),
                  binwidth = .75,
                  alpha = 0.5,
@@ -336,7 +354,7 @@ ggplot(data) +
   guides(fill = guide_legend(title = "Tracking"))
 
 # Value added Tracking + SBM Plot
-data.sl %>% ungroup() %>%
+data %>% ungroup() %>%
   mutate(tracking = ifelse(tracking == 1, 
                            'Tracking Schools',
                            'Non-Tracking Schools'),
@@ -345,7 +363,7 @@ data.sl %>% ungroup() %>%
                       'No SBM Funding')) %>%
 ggplot() +
   geom_boxplot(aes(x = factor(tracking), 
-                   y = va.overall,
+                   y = r2_totalscore,
                    fill = factor(sbm))) +
   guides(fill = guide_legend(title = "School-Based Management")) +
   xlab("Tracking") +
@@ -376,9 +394,14 @@ ggplot(data, aes(schoolid, r0.scale.mark)) +
   geom_boxplot()
 
 data %>%
-  filter(!is.na(std_mark) & !is.na(totalscore)) %>%
+  filter(!is.na(std_mark) & !is.na(r1_totalscore)) %>%
   ggplot() +
     geom_point(aes(x=my.percentile, y=percentile, color = schoolid))
+
+# Dropout
+data %>% filter(is.na(std_mark)) %>%
+  ggplot() +
+    geom_histogram(aes(x = r1_totalscore))
 
 # Tracking and SBM counts
 data.sl %>% group_by(tracking, sbm) %>%

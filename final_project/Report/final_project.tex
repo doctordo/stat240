@@ -128,16 +128,16 @@ Another issue we detected is that within tracking schools, some crossover betwee
  
  \section{Analysis}
  \subsection{Value-added over time by tracking}
-Ideally the data collected would have included standardized baseline scores so we could measure the value-added from tracking by comparing baseline with the 18 month endline scores. Unfortunately, this was not how the study was designed as the baseline test scores are only consistent within schools and not across.  As a result, we chose to measure the long-term value-added by comparing 18 month endline scores with the 24 month follow-up scores. We can interpret this comparison as a measure of a lasting effect on students, even after the tracking was no longer in place.  As seen in figure \ref{fig:va-hist}, if there is indeed value-added by tracking, its effect could be rather small.
+Ideally the data collected would have included standardized baseline scores so we could measure the value-added from tracking by comparing baseline with the 18 month endline scores. Unfortunately, this was not how the study was designed as the baseline test scores are only consistent within schools and not across.  As a result, we chose to measure the long-term value-added by comparing the 24 month follow-up scores. We can interpret this comparison as a measure of a lasting effect on students, even after the tracking was no longer in place.  However, by using the long-term follow-up data, we are relying purely on randomization to average out baseline abilities.  As seen in figure \ref{fig:va-hist}, there seems to be a positive effect on the tracked students.
 
   \begin{figure}[H]
   	\centering
-  	\includegraphics[scale=0.8]{../Figures/Value-AddedHist.pdf}
-  	\caption{Histogram of value-added at the student level, separated by attendance at tracking and non-tracking schools.  If there is a difference, it is very slight.}
+  	\includegraphics[scale=0.8]{../Figures/va-hist.pdf}
+  	\caption{Histogram of value-added at the student level, separated by attendance at tracking and non-tracking schools.  There seems to be a slight right-shift in value-added.}
   	\label{fig:va-hist}
   \end{figure} 
 
-We tested the significance of any observed differences in average value-added between tracking and nontracking schools using permutation t-tests.  To address the fact that randomization was done at the school-level, we first had to aggregate the student-level data by school, which gave us variance estimates for each of the school-level data points.  The t-statistic for the difference in means was calculated using unpooled variance and the null-distribution was approximated using 10000 random shufflings of the data within school zones (to account for the aforementioned imbalances).  The observed value-added is significant at $ \alpha = 0.1 $ level for the overall, sentence, letter recognition, and literacy scores. The results of the tests can be seen in table \ref{tab:tracking_va}.
+We tested the significance of any observed differences in average value-added between tracking and nontracking schools using permutation t-tests.  To address the fact that randomization was done at the school-level, we first had to aggregate the student-level data by school, which gave us variance estimates for each of the school-level data points.  The t-statistic for the difference in means was calculated using unpooled variance and the null-distribution was approximated using 10000 random shufflings of the data within school zones (to account for the aforementioned imbalances).  The observed value-added is significant at $ \alpha = 0.1 $ level for the overall, word recognition, sentence comprehension, letter recognition, spelling, and literacy scores. Math showed no significant differences, but the design of the endline test may have made it hard to discern any value added as there were only nine items in the arithmetic section compared to the 128 in the literacy sections.  The results of the tests can be seen in table \ref{tab:tracking_va}.
 
 \begin{table}[ht]
 	\centering
@@ -145,17 +145,17 @@ We tested the significance of any observed differences in average value-added be
 		\hline
 		& Overall & Word & Sent & Letter & Spell & Literacy & Math \\ 
 		\hline
-		Value Added & 0.553 & 0.774 & 0.982 & 0.466 & 0.119 & 0.458 & 0.089 \\ 
-		t-statistic & 0.066 & 0.073 & 0.072 & 0.021 & 0.037 & 0.078 & 0.018 \\ 
-		p-value & 0.067 & 0.248 & 0.028 & 0.074 & 0.321 & 0.070 & 0.220 \\ 
+		Value Added & 1.933 & 1.566 & 1.231 & 4.357 & 0.509 & 1.263 & 0.665 \\ 
+		t-statistic & 0.130 & 0.128 & 0.080 & 0.141 & 0.108 & 0.133 & 0.095 \\ 
+		p-value & 0.056 & 0.069 & 0.041 & 0.027 & 0.061 & 0.041 & 0.168 \\ 
 		\hline
 	\end{tabular}
-	\caption{Test for differences in value added between tracking and non-tracking schools.  
-		Shuffling was done within school-zone groups}
 	\label{tab:tracking_va}
+	\caption{Test for differences between 24-month test scores.  
+		Shuffling was done within school-zone groups} 
 \end{table}
 
-One could argue that the extra funding for school-based management could be a driving force behind the increase in student performance.  However, when we tested the claim, we found significance only for value-added to letter recognition and literacy.  The results can be seen in table \ref{tab:sbm}.  In figure \ref{fig:ValueAddedTrackSBM}, we see that when comparing SBM-tracking to SBM-non-tracking schools, we still see a small but visible increase in the tracking schools.
+One could argue that the extra funding for school-based management could be a driving force behind the increase in student performance.  However, when we tested the claim, we found no significance in any of the areas.  The results can be seen in table \ref{tab:sbm}.  In figure \ref{fig:ValueAddedTrackSBM}, we see that when comparing SBM-tracking to SBM-non-tracking schools, we still see a small but visible increase in the tracking schools.
 
 \begin{table}[ht]
 	\centering
@@ -163,12 +163,12 @@ One could argue that the extra funding for school-based management could be a dr
 		\hline
 		& Overall & Word & Sent & Letter & Spell & Literacy & Math \\ 
 		\hline
-		Value Added & 0.429 & 0.117 & 0.605 & 1.500 & 0.114 & 0.324 & 0.106 \\ 
-		t-statistic & 0.051 & 0.011 & 0.044 & 0.067 & 0.036 & 0.055 & 0.021 \\ 
-		p-value & 0.132 & 0.344 & 0.167 & 0.023 & 0.224 & 0.062 & 0.496 \\ 
+		Value Added & 1.022 & 0.559 & 0.563 & 2.709 & 0.226 & 0.600 & 0.421 \\ 
+		t-statistic & 0.069 & 0.046 & 0.037 & 0.088 & 0.048 & 0.063 & 0.060 \\ 
+		p-value & 0.160 & 0.400 & 0.213 & 0.124 & 0.413 & 0.236 & 0.106 \\ 
 		\hline
 	\end{tabular}
-	\caption{Test for differences in value added between SBM and non-SBM schools.  
+	\caption{Test for differences 24-month test scores in SBM and non-SBM schools.  
 		Shuffling was done within school-zone groups} 
 	\label{tab:sbm}
 \end{table}
@@ -176,11 +176,11 @@ One could argue that the extra funding for school-based management could be a dr
   \begin{figure}[H]
   	\centering
   	\includegraphics[scale=0.8]{../Figures/ValueAddedTrackSBM.pdf}
-  	\caption{Histogram of value-added at the student level, separated by attendance at tracking and non-tracking schools.  If there is a difference, it is very slight.}
+  	\caption{Spread of value added by tracking and participation in SBM. The small difference seen between SBM and non-SBM schools was deemed insignificant by a permutation test.  Note that even after accounting for the additional SBM funding, there is still a visible difference between tracking and non-tracking schools.}
   	\label{fig:ValueAddedTrackSBM}
   \end{figure} 
 
-To assess the practical difference between tracking and non-tracking schools, we focus on the Value Added row of table \ref{tab:tracking_va}.  Let us suspend the discussion outside the context of p-values.  The difference scores means that on average the students in tracking schools were able to recognize one more word, understand one more sentence, and recognize two more letters than their non-tracked counterparts.  Certainly the effect is not huge, but all the value-added scores are positive, suggesting that tracking, at the very least, does not have a deleterious effect in the classroom on average.
+To assess the practical difference between tracking and non-tracking schools, we focus on the Value Added row of table \ref{tab:tracking_va}.  Let us suspend the discussion outside the context of p-values.  The difference scores means that on average the students in tracking schools were able to identify 10\% more words, understand 5\% more sentences, and recognize 10\% letters than their non-tracked counterparts.  Certainly the effect is not huge, but all the value-added scores are positive, suggesting that tracking, at the very least, does not have a deleterious effect in the classroom on average.
 
  \subsection{Stratified permutation tests for comparing tracking with non-tracking schools}
 
@@ -332,7 +332,7 @@ Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a p
  
  
 \section{Conclusion}
-We conclude that overall tracking, has a small but beneficial effect on students' learning.  After a year in a tracking classroom, we see that the students tend to fare better than their non-tracked counterparts in most content-areas regardless of their placement into lower and upper streams.  This positive relationship holds true for different types of teacher and for many of the school zones, though the magnitude of the effect varies.  However it would seem that the beneficial effects of tracking quickly wear off if the program is discontinued as when students were tested again 6 months after the funding ended, only a small value-added in literacy was still observable. \textcolor{red}{conclusions about regression discontinuity} \\
+We conclude that overall tracking, has a small but beneficial effect on students' learning.  After a year in a tracking classroom, we see that the students tend to fare better than their non-tracked counterparts in most content-areas regardless of their placement into lower and upper streams.  This positive relationship holds true for different types of teacher and for many of the school zones, though the magnitude of the effect varies.  However it would seem that the beneficial effects of tracking for math quickly wears off if the program is discontinued as when students were tested again 6 months after the funding ended, only the value-added in literacy was still observable. \textcolor{red}{conclusions about regression discontinuity} \\
 
 Our findings are consistent with \cite{duflo2011}. Moreover, we are able to reproduce their results using non-parametric permutation tests, which make no assumptions about the distribution of noise and no assumptions about the functional relationship between tracking and exam scores. In contrast, the p-values that the authors report come from ordinary least squares regression and require normality assumptions that are difficult to check.
 
