@@ -48,8 +48,10 @@ ComputeTStat <- function(x, y, var.x, var.y) {
   nx <- length(x)
   ny <- length(y)
   dmeans <- mean(x) - mean(y)
-  varx <- sum(var.x)
-  vary <- sum(var.y)
+  #varx <- sum(var.x)/nx
+  #vary <- sum(var.y)/ny
+  varx <- var(x)
+  vary <- var(y)
   
   tstat <- dmeans/sqrt(varx/nx + vary/ny)
   return(list(dmeans = dmeans, tstat = tstat))
@@ -96,9 +98,10 @@ PermTTest <- function(data, groups, obs, var.obs, method = "right.tailed",
       for (stratum in strata.names) {
         shuffle <- values
         shuffle.var <- var.values
-        indices <- (data[,strata] == stratum)
-        shuffle[indices] <- sample(shuffle[indices])
-        shuffle.var[indices] <- sample(shuffle.var[indices])  
+        indices <- which(data[,strata] == stratum)
+        r.indices <- sample(indices)
+        shuffle[indices] <- shuffle[r.indices]
+        shuffle.var[indices] <- shuffle.var[r.indices]  
       }
     }
     
@@ -282,9 +285,7 @@ data.sl <- data %>%
          va.math.var = r2.math.var + r1.math.var - 2*r1r2.math.var)
 
 # Value added by tracking
-nonsense <- FALSE
 
-if (nonsense) { # Analyzing the wrong thing!
 tracking.va <- mapply(function(obs, var.obs) {
   PermTTest(data = data.sl,
             groups = 'tracking',
@@ -293,26 +294,10 @@ tracking.va <- mapply(function(obs, var.obs) {
             method = 'right.tailed',
             strata = 'zone')
   },
-  obs = c('va.overall', 'va.word', 'va.sent', 'va.letter',
-          'va.spell', 'va.lit', 'va.math'),
-  var.obs = c('va.overall.var', 'va.word.var', 'va.sent.var', 
-              'va.letter.var', 'va.spell.var', 'va.lit.var', 'va.math.var')
-)
-}
-
-tracking.va <- mapply(function(obs, var.obs) {
-  PermTTest(data = data.sl,
-            groups = 'tracking',
-            obs = obs,
-            var.obs = var.obs,
-            method = 'right.tailed',
-            strata = 'zone')
-},
-obs = c('r2.overall.avg', 'r2.word.avg', 'r2.sent.avg', 'r2.letter.avg',
-        'r2.spell.avg', 'r2.lit.avg', 'r2.math.avg'),
-var.obs = c('r2.overall.var', 'r2.word.var', 'r2.sent.var', 'r2.letter.var',
-            'r2.spell.var', 'r2.lit.var', 'r2.math.var')
-)
+  obs = c('r2.overall.avg', 'r2.word.avg', 'r2.sent.avg', 'r2.letter.avg',
+          'r2.spell.avg', 'r2.lit.avg', 'r2.math.avg'),
+  var.obs = c('r2.overall.var', 'r2.word.var', 'r2.sent.var', 'r2.letter.var',
+              'r2.spell.var', 'r2.lit.var', 'r2.math.var'))
 
 rownames(tracking.va) <- c('Value Added', 't-statistic', 'p-value')
 colnames(tracking.va) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
@@ -321,6 +306,25 @@ xtable(tracking.va, digits = 3,
        caption = "Test for differences between 24-month test scores.  
        Shuffling was done within school-zone groups")
 
+tracking.va.nozone <- mapply(function(obs, var.obs) {
+  PermTTest(data = data.sl,
+            groups = 'tracking',
+            obs = obs,
+            var.obs = var.obs,
+            method = 'right.tailed')
+},
+obs = c('r2.overall.avg', 'r2.word.avg', 'r2.sent.avg', 'r2.letter.avg',
+        'r2.spell.avg', 'r2.lit.avg', 'r2.math.avg'),
+var.obs = c('r2.overall.var', 'r2.word.var', 'r2.sent.var', 'r2.letter.var',
+            'r2.spell.var', 'r2.lit.var', 'r2.math.var')
+)
+
+rownames(tracking.va.nozone) <- c('Value Added', 't-statistic', 'p-value')
+colnames(tracking.va.nozone) <- c('Overall', 'Word', 'Sent', 'Letter', 'Spell',
+                           'Literacy', 'Math')
+xtable(tracking.va.nozone, digits = 3, 
+       caption = "Test for differences between 24-month test scores.  
+       Shuffling was done globally")
 # Value added by SBM
 sbm.va <- mapply(function(obs, var.obs) {
   PermTTest(data = data.sl,
@@ -398,10 +402,21 @@ data %>%
   ggplot() +
     geom_point(aes(x=my.percentile, y=percentile, color = schoolid))
 
-# Dropout
-data %>% filter(is.na(std_mark)) %>%
+# No Baseline Score
+test %>% group_by(tracking) %>%
+  summarise(n = sum(is.na(std_mark)))
+test %>% group_by(schoolid) %>% 
+  mutate(perc = 100*CalcPercentiles(totalscore)) %>%
+  filter(is.na(std_mark)) %>%
   ggplot() +
-    geom_histogram(aes(x = r1_totalscore))
+    geom_point(aes(x = perc, y = stream_meanpercentile)) +
+  xlab("18 Month Endline Percentile") +
+  ylim(0, 100) +
+  ylab("Stream Mean Percentile")
+
+test %>% filter(is.na(std_mark)) %>%
+  ggplot() +
+    geom_histogram(aes(x = rMEANstream_std_total))
 
 # Tracking and SBM counts
 data.sl %>% group_by(tracking, sbm) %>%
@@ -409,6 +424,17 @@ data.sl %>% group_by(tracking, sbm) %>%
 
 data.sl %>% group_by(zone, sbm, tracking) %>%
   summarise(n = n())
+
+difference <- data %>% group_by(tracking) %>%
+  summarise(r2.word.avg = mean(r2_wordscore, na.rm = T),
+            r2.sent.avg = mean(r2_sentscore, na.rm = T),
+            r2.letter.avg = mean(r2_letterscore, na.rm = T),
+            r2.spell.avg = mean(r2_spellscore, na.rm = T),
+            r2.math.avg = mean(r2_mathscoreraw, na.rm = T))
+colnames(difference) <- c('Tracked', 'Word', 'Sent',
+                          'Letter', 'Spelling', 'Math')
+xtable(difference, digits = 3, 
+       caption = "Test for differences 24-month test scores in tracked and non-tracked schools")
 
 trk.sbm.va <- mapply(function(obs, var.obs) {
   PermTTest(data = data.sl,
