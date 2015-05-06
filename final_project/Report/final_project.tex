@@ -52,7 +52,7 @@ Through our analysis of the data provided by Duflo et al., we will provide data-
 Stream assignment in tracked schools was based on initial test scores (baseline test) which were administered locally within schools. Thus these baseline test scores are internally consistent within schools but not comparable across schools. The success of the program was assessed based on scores from a standardized mathematics and language test taken by 60 students from each school (approximately 7000 students all together) after 18 months (the end line test). Another test was also taken by the same students after 24 months (the long-term followup test). We note that the ETP funding ceased after the 18 month endline, so the tracking was no longer in place at the 24 month followup. These tests contained numeracy and literacy questions ranging from counting and identifying letters to subtracting two-digit numbers and writing words.
  
  \section{Exploratory Data Analysis}
- The original dataset contains observations for 7022 students over 100 variables, including individual question scores for each of the endline and follow-up tests, as well as information such as school ID, school district, whether or not the student came from a tracked or non-tracked school, gender, age, teacher-type and stream assignment (for students in the tracked schools). Although all students int he study were in the first-grade, their ages range hugely from 5 to 19, with the median age being 9 (Figure~\ref{fig:age}).
+ The original dataset contains observations for 7022 students over 100 variables, including individual question scores for each of the endline and follow-up tests, as well as information such as school ID, school district, whether or not the student came from a tracked or non-tracked school, gender, age, teacher-type and stream assignment (for students in the tracked schools). Although all of the students in the study were in the first-grade, their ages range hugely from 5 to 19, with the median age being 9 (Figure~\ref{fig:age}).
  
   \begin{figure}[h]
  \centering
@@ -116,7 +116,7 @@ We further note that of the 758 students without baseline scores, 756 attended n
   \begin{figure}[H]
   	\centering
   	\includegraphics[scale=0.8]{../Figures/NoBaselinePercentile.pdf}
-  	\caption{A comparison of endline percentiles and stream mean percentiles for all students without baseline scores.  Not having a baseline score has no correlation with classroom placement.  This turns out to be a nonissue almost all the students with no baseline score attended non-tracking schools.  The two deviate points seen in the figure belong to students in tracking schools who were placed in low streams.}
+  	\caption{A comparison of endline percentiles and stream mean percentiles for all students without baseline scores.  Not having a baseline score has no correlation with classroom placement.  This turns out to be a non-issue almost all the students with no baseline score attended non-tracking schools.  The two deviate points seen in the figure belong to students in tracking schools who were placed in low streams.}
   	\label{fig:NoBaselinePercentile}
   \end{figure} 
 
@@ -248,7 +248,7 @@ We next measure the long-term value-added by comparing the 24 month follow-up sc
   	\label{fig:va-hist}
   \end{figure} 
 
-We tested the significance of any observed follow-up differences between tracking and nontracking schools using permutation t-tests. To address the fact that randomization was done at the school-level, we first had to aggregate the student-level data by school, which gave us variance estimates for each of the school-level data points.  The t-statistic for the difference in means was calculated using unpooled variance and the null-distribution was approximated using 10000 random shufflings of the data within school zones (to account for the aforementioned imbalances).  The observed value-added is significant at $ \alpha = .05 $ level for all topics aside from sentence recognition and spelling. These results imply that many of the improvements yielded by tracking remain even after the tracking is no longer in place. The results of the tests can be seen in Table \ref{tab:tracking_va}.
+We tested the significance of any observed follow-up differences between tracking and non-tracking schools using permutation t-tests. To address the fact that randomization was done at the school-level, we first had to aggregate the student-level data by school, which gave us variance estimates for each of the school-level data points.  The t-statistic for the difference in means was calculated using unpooled variance and the null-distribution was approximated using 10000 random shufflings of the data within school zones (to account for the aforementioned imbalances).  The observed value-added is significant at $ \alpha = .05 $ level for all topics aside from sentence recognition and spelling. These results imply that many of the improvements yielded by tracking remain even after the tracking is no longer in place. The results of the tests can be seen in Table \ref{tab:tracking_va}.
 
 \begin{table}[ht]
 	\centering
