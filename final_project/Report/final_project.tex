@@ -49,7 +49,7 @@ Through our analysis of the data provided by Duflo et al., we will provide data-
  \label{fig:randomization}
  \end{figure}
  
-Stream assignment in tracked schools was based on initial test scores (baseline test) which were administered locally within schools. Thus these baseline test scores are internally consistent within schools but not comparable across schools. The success of the program was assessed based on scores from a standardized mathematics and language test taken by 60 students from each school (approximately 7000 students all together) after 18 months (the end line test). Another test was also taken by the same students after 24 months (the long-term followup test). We note that the ETP funding ceased after the 18 month endline, so the tracking was no longer in place at the 24 month followup. These tests contained numeracy and literacy questions ranging from counting and identifying letters to subtracting two-digit numbers and writing words.
+Stream assignment in tracked schools was based on initial test scores (baseline test) which were administered locally within schools. Thus these baseline test scores are internally consistent within schools but not comparable across schools. The success of the program was assessed based on scores from a standardized mathematics and language test taken by 60 students from each school (approximately 7000 students all together) after 18 months (the end line test). Another test was also taken by the same students after 24 months (the long-term follow-up test). We note that the ETP funding ceased after the 18 month endline, so the tracking was no longer in place at the 24 month follow-up. These tests contained numeracy and literacy questions ranging from counting and identifying letters to subtracting two-digit numbers and writing words.
  
  \section{Exploratory Data Analysis}
  The original dataset contains observations for 7022 students over 100 variables, including individual question scores for each of the endline and follow-up tests, as well as information such as school ID, school district, whether or not the student came from a tracked or non-tracked school, gender, age, teacher-type and stream assignment (for students in the tracked schools). Although all students int he study were in the first-grade, their ages range hugely from 5 to 19, with the median age being 9 (Figure~\ref{fig:age}).
@@ -116,7 +116,7 @@ We further note that of the 758 students without baseline scores, 756 attended n
   \begin{figure}[H]
   	\centering
   	\includegraphics[scale=0.8]{../Figures/NoBaselinePercentile.pdf}
-  	\caption{A comparison of endline percentiles and stream mean percentiles for all students without baseline scores.  Not having a baseline score has no correlation with classroom placement.  This turns out to be a nonissue almost all the students with no baseline score attended non-tracking schools.  The two deviate points seen in the figure belong to students in tracking schools who were placed in low streams.}
+  	\caption{A comparison of endline percentiles and stream mean percentiles for all students without baseline scores.  Not having a baseline score has no correlation with classroom placement.  This turns out not to be an issue: almost all the students with no baseline score attended non-tracking schools.  The two deviate points seen in the figure belong to students in tracking schools who were placed in low streams.}
   	\label{fig:NoBaselinePercentile}
   \end{figure} 
 
@@ -261,11 +261,11 @@ We tested the significance of any observed follow-up differences between trackin
 		p-value & {\bf 0.030} & {\bf 0.046} & 0.143 & {\bf 0.024} & 0.081 & {\bf 0.044} & {\bf 0.035 }\\ 
 		\hline
 	\end{tabular}
-	\caption{Test for differences between 24-month test scores} 
+	\caption{Test for differences between 24-month test scores in tracking and non-tracking schools} 
 		\label{tab:tracking_va}
 \end{table}
 
-One could argue that the extra funding for school-based management (SBM) could be a driving force behind the increase in student performance.  However, when we tested the claim, we found no significance difference between SBM and non-SBM schools.  The results can be seen in Table \ref{tab:sbm}.  In Figure \ref{fig:ValueAddedTrackSBM}, we see that when comparing SBM-tracking to SBM-non-tracking schools, we still see a small but visible increase in the tracking schools.
+One might argue that the extra funding for school-based management (SBM) could be a driving force behind the increase in student performance.  However, when we tested the claim, we found no significance difference between SBM and non-SBM schools.  The results can be seen in Table \ref{tab:sbm}.  In Figure \ref{fig:ValueAddedTrackSBM}, we see that when comparing SBM-tracking to SBM-non-tracking schools, there is a small but visible increase of value added in the tracking schools.
 
 \begin{table}[ht]
 	\centering
@@ -290,7 +290,7 @@ One could argue that the extra funding for school-based management (SBM) could b
   	\label{fig:ValueAddedTrackSBM}
   \end{figure} 
 
-To assess the extent of improvement observed at the 24-month followup in tracked schools, we turn Table \ref{tab:practical}. The difference scores means that on average the students in tracking schools were able to identify 10\% more words, recognize 11\% more letters and be able to spell 9\% of words better than their non-tracked counterparts. Certainly the effect is not huge, but all the value-added scores are positive, suggesting that tracking, at the very least, does not have a deleterious effect in the classroom on average.
+To assess the extent of improvement observed at the 24-month follow-up in tracked schools, we turn to Table \ref{tab:practical}. The difference in scores means that on average, the students in tracking schools were able to identify 10\% more words, recognize 11\% more letters, and spell 9\% of words better than their non-tracked counterparts. Certainly the effect is not huge, but all the value-added scores are positive, suggesting that tracking, at the very least, does not have a deleterious effect in the classroom on average.
 
 
 \begin{table}[ht]
@@ -364,7 +364,7 @@ Figure~\ref{fig:pval_window} presents the (intention to treat) $p$-values of a p
  
  
 \section{Conclusion}
-We conclude that overall, tracking has a small but beneficial effect on students' learning.  After 18 months in a tracked classroom, we see that the students tend to fare better than their non-tracked counterparts in most content-areas regardless of their placement into lower and upper streams.  This positive relationship holds true for different types of teacher and for many of the school zones, although the magnitude of the effect varies. The effects of tracking seem to last even after the tracking has ceased, as we found that the differences in ability remained even six months after the program ended. We did however find that for students in tracked schools who performed near the baseline cutoff and who were assignment to the high stream did not perform as well as those assigned to the low stream. \\
+We conclude that overall, tracking has a small but beneficial effect on students' learning.  After 18 months in a tracked classroom, we see that the students tend to fare better than their non-tracked counterparts in most content-areas regardless of their placement into lower and upper streams.  This positive relationship holds true for different types of teacher and for many of the school zones, although the magnitude of the effect varies. The effects of tracking seem to last even after the tracking has ceased, as we found that the differences in ability remained even six months after the program ended. We did however find that for students in tracked schools who performed near the baseline cutoff and were assigned to the high stream did not perform as well as those near the baseline cutoff who were assigned to the low stream. \\
 
 Our findings are consistent with \cite{duflo2011}. Moreover, we are able to reproduce their results using non-parametric permutation tests, which make no assumptions about the distribution of noise and no assumptions about the functional relationship between tracking and exam scores. In contrast, the p-values that the authors report come from ordinary least squares regression and require normality assumptions that are difficult to check.
 
